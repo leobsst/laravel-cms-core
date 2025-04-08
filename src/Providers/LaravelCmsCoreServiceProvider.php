@@ -23,13 +23,19 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         // Load migrations
+        $this->loadMigrationsFrom(paths: [__DIR__.'/../../database/migrations']);
         $this->publishesMigrations(paths: [__DIR__.'/../../database/migrations' => database_path(path: 'migrations')], groups: 'laravel-cms-core-migrations');
+
+        $this->publishes(paths: [
+            __DIR__.'/../../database/seeders' => database_path(path: 'seeders'),
+            __DIR__.'/../../database/factories' => database_path(path: 'factories'),
+        ], groups: 'laravel-cms-core-database');
 
         // Load views
         $this->loadViewsFrom(path: __DIR__.'/../../resources/views', namespace: 'laravel-cms-core');
         $this->publishes(paths: [
             __DIR__.'/../../resources/views' => resource_path(path: 'views/vendor/courier'),
-        ]);
+        ], groups: 'laravel-cms-core-views');
 
         // Load Informations
         AboutCommand::add('Laravel CMS Core', fn (): array => ['Version' => '0.1.4', 'Author' => 'LEOBSST']);
@@ -46,13 +52,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
                 Translate::class,
                 FakerLog::class,
             ]);
-        }
-
-        if ($this->app->runningInConsole()) {
-            $this->optimizes(
-                optimize: 'laravel-cms-core:optimize',
-                clear: 'laravel-cms-core:clear-optimizations',
-            );
         }
     }
 
