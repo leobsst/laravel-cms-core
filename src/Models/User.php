@@ -175,7 +175,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function getExtraDataAttribute(): ?array
     {
-        return !is_null(value: $this->extra_data) ? unserialize(data: $this->extra_data) : null;
+        return !is_null(value: $this->attributes['extra_data']) ? unserialize(data: $this->attributes['extra_data']) : null;
     }
 
     /**
