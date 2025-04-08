@@ -38,7 +38,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         ], groups: 'laravel-cms-core-views');
 
         // Load Informations
-        AboutCommand::add('Laravel CMS Core', fn (): array => ['Version' => '0.1.4', 'Author' => 'LEOBSST']);
+        AboutCommand::add('Laravel CMS Core', fn (): array => ['Author' => 'LEOBSST']);
 
         // Load commands
         if ($this->app->runningInConsole()) {
