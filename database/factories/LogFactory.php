@@ -1,6 +1,6 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Database\Factories;
+namespace Database\Factories;
 
 use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Enums\LogStatus;

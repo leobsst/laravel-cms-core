@@ -16,6 +16,16 @@ You can install the package via composer:
 composer require leobsst/laravel-cms-core
 ```
 
+(optional) You can publish migrations via:
+``` bash
+php artisan vendor:publish --tag=laravel-cms-core-migrations
+```
+
+(optional) You can publish seeders and factories via:
+``` bash
+php artisan vendor:publish --tag=laravel-cms-core-database
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
