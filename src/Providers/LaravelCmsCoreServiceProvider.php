@@ -13,7 +13,7 @@ use Leobsst\LaravelCmsCore\Console\Commands\Translation\AddTranslationToFile;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\NewTranslation;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\Translate;
 
-class LaravelCmsCoreProvider extends ServiceProvider
+class LaravelCmsCoreServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
