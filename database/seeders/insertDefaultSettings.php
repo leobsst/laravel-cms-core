@@ -1,6 +1,6 @@
 <?php
 
-namespace Seeders\Core;
+namespace Database\Seeders;
 
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
