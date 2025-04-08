@@ -13,13 +13,31 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->longText('uuid')->nullable()->unique();
             $table->string('name');
+            $table->string( 'first_name')->nullable();
+            $table->string( 'username')->nullable();
+            $table->boolean('username_visible')->default(false);
             $table->string('email')->unique();
             $table->dateTime('email_verified_at')->nullable();
+            $table->string('phone')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->longText('two_fa_secret')->nullable();
+            $table->boolean('two_fa_enabled')->default(false);
             $table->string('avatar')->nullable();
-            $table->string('bio')->nullable();
+            $table->boolean('avatar_gravatar')->default(false);
+            $table->longText('bio')->nullable();
+            $table->longText('facebok')->nullable();
+            $table->longText('twitter')->nullable();
+            $table->longText('instagram')->nullable();
+            $table->longText('tiktok')->nullable();
+            $table->longText('youtube')->nullable();
+            $table->longText('pinterest')->nullable();
+            $table->longText('linkedin')->nullable();
+            $table->longText('github')->nullable();
+            $table->longText('website')->nullable();
+            $table->longText('extra_data')->nullable()->comment('serialized array');
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

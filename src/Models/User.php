@@ -21,14 +21,32 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * Class Page
  *
  * @property int $id
+ * @property ?string $uuid
  * @property string $name
+ * @property ?string $first_name
+ * @property ?string $username
+ * @property bool $username_visible
  * @property string $email
- * @property string $password
- * @property string $avatar
- * @property string $bio
- * @property string $remember_token
- * @property bool $enabled
  * @property \Illuminate\Support\Carbon $email_verified_at
+ * @property ?string $phone
+ * @property string $password
+ * @property ?string $remember_token
+ * @property ?string $two_fa_secret
+ * @property bool $two_fa_enabled
+ * @property ?string $avatar
+ * @property bool $avatar_gravatar
+ * @property string $bio
+ * @property ?string $facebook
+ * @property ?string $twitter
+ * @property ?string $instagram
+ * @property ?string $tiktok
+ * @property ?string $youtube
+ * @property ?string $pinterest
+ * @property ?string $linkedin
+ * @property ?string $github
+ * @property ?string $website
+ * @property ?string $extra_data
+ * @property bool $enabled
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|UserEmail[] $emails
@@ -44,12 +62,31 @@ class User extends Authenticatable implements FilamentUser
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'name',
+        'first_name',
+        'username',
+        'username_visible',
         'email',
         'email_verified_at',
+        'phone',
         'password',
+        'remember_token',
+        'two_fa_secret',
+        'two_fa_enabled',
         'avatar',
+        'avatar_gravatar',
         'bio',
+        'facebook',
+        'twitter',
+        'instagram',
+        'tiktok',
+        'youtube',
+        'pinterest',
+        'linkedin',
+        'github',
+        'website',
+        'extra_data',
         'enabled',
     ];
 
@@ -61,6 +98,8 @@ class User extends Authenticatable implements FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
+        'two_fa_secret',
+        'two_fa_enabled',
     ];
 
     /**
@@ -69,8 +108,11 @@ class User extends Authenticatable implements FilamentUser
      * @var array<string, string>
      */
     protected $casts = [
+        'username_visible' => 'boolean',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'two_fa_enabled' => 'boolean',
+        'avatar_gravatar' => 'boolean',
         'enabled' => 'boolean',
     ];
 
@@ -124,6 +166,16 @@ class User extends Authenticatable implements FilamentUser
     public function getRoleAttribute(): ?string
     {
         return $this->roles->count() > 0 ? $this->roles->sortBy('id')->first()->name : null;
+    }
+
+    /**
+     * Retrieve extra data as an array.
+     *
+     * @return array|null
+     */
+    public function getExtraDataAttribute(): ?array
+    {
+        return !is_null(value: $this->extra_data) ? unserialize(data: $this->extra_data) : null;
     }
 
     /**
