@@ -26,6 +26,11 @@ php artisan vendor:publish --tag=laravel-cms-core-migrations
 php artisan vendor:publish --tag=laravel-cms-core-database
 ```
 
+(optional) You can publish routes via:
+``` bash
+php artisan vendor:publish --tag=laravel-cms-core-routes
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
