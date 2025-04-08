@@ -98,7 +98,7 @@ class UserResource extends Resource
                         'user' => 'gray',
                         'editor' => 'info',
                         'manager' => 'success',
-                        'owner' => 'yellow',
+                        'owner' => 'warning',
                         'admin' => 'danger',
                     })
                     ->toggleable(),

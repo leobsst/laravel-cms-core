@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Traits\Api;
+namespace Leobsst\LaravelCmsCore\Traits\Api;
 
 use Illuminate\Http\JsonResponse;
 

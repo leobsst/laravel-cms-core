@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Traits\Request;
+namespace Leobsst\LaravelCmsCore\Traits\Request;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
