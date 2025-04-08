@@ -23,12 +23,12 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         // Load migrations
-        $this->publishesMigrations(paths: [__DIR__.'/../database/migrations' => database_path(path: 'migrations')], groups: 'laravel-cms-core-migrations');
+        $this->publishesMigrations(paths: [__DIR__.'/../../database/migrations' => database_path(path: 'migrations')], groups: 'laravel-cms-core-migrations');
 
         // Load views
-        $this->loadViewsFrom(path: __DIR__.'/../resources/views', namespace: 'laravel-cms-core');
+        $this->loadViewsFrom(path: __DIR__.'/../../resources/views', namespace: 'laravel-cms-core');
         $this->publishes(paths: [
-            __DIR__.'/../resources/views' => resource_path(path: 'views/vendor/courier'),
+            __DIR__.'/../../resources/views' => resource_path(path: 'views/vendor/courier'),
         ]);
 
         // Load Informations
