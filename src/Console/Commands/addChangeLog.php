@@ -28,7 +28,7 @@ class addChangeLog extends Command
     {
         $this->components->info(string: 'Ajout d\'une nouvelle entrée dans le journal des modifications');
 
-        $date = $this->components->ask(question: 'Date de la modification (YYYY-MM-DD)', now()->format('Y-m-d'));
+        $date = $this->components->ask(question: 'Date de la modification (YYYY-MM-DD)', default: now()->format(format: 'Y-m-d'));
 
         $description = textarea(
             label: 'Description',
