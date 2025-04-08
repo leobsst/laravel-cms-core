@@ -4,19 +4,19 @@
     <url>
         @switch($route)
             @case('/')
-                <loc>{{route('page.show', ['slug' => $route])}}</loc>
+                <loc>{{route('core.page.show', ['slug' => $route])}}</loc>
                 <lastmod>{{now()->format('Y-m-d')}}</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>1.0</priority>
                 @break
             @case('contact')
-                <loc>{{route('page.show', ['slug' => $route])}}</loc>
+                <loc>{{route('core.page.show', ['slug' => $route])}}</loc>
                 <lastmod>{{now()->subDays(rand(0, 10))->format('Y-m-d')}}</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>0.8</priority>
                 @break
             @default
-                <loc>{{route('page.show', ['slug' => $route])}}</loc>
+                <loc>{{route('core.page.show', ['slug' => $route])}}</loc>
                 <lastmod>{{now()->subDays(rand(0, 3))->format('Y-m-d')}}</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.7</priority>

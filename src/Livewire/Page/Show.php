@@ -98,7 +98,7 @@ class Show extends Component
             } else {
                 session()->flash('error', 'Google thinks you are a bot, please refresh and try again');
             }
-            return redirect()->route('page.show', ['slug' => 'contact']);
+            return redirect()->route('core.page.show', ['slug' => 'contact']);
         }
     }
 
