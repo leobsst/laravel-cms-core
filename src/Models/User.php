@@ -113,6 +113,7 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
         'two_fa_enabled' => 'boolean',
         'avatar_gravatar' => 'boolean',
+        'extra_data' => 'array',
         'enabled' => 'boolean',
     ];
 
@@ -166,16 +167,6 @@ class User extends Authenticatable implements FilamentUser
     public function getRoleAttribute(): ?string
     {
         return $this->roles->count() > 0 ? $this->roles->sortBy('id')->first()->name : null;
-    }
-
-    /**
-     * Retrieve extra data as an array.
-     *
-     * @return array|null
-     */
-    public function getExtraDataAttribute(): ?array
-    {
-        return !is_null(value: $this->attributes['extra_data']) ? unserialize(data: $this->attributes['extra_data']) : null;
     }
 
     /**
