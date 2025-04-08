@@ -26,9 +26,9 @@ class LaravelCmsCorePlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->discoverResources(in: 'Filament/Resources', for: 'Leobsst\\LaravelCmsCore\\Filament\\Resources')
-            ->discoverPages(in: 'Filament/Pages', for: 'Leobsst\\LaravelCmsCore\\Filament\\Pages')
-            ->discoverWidgets(in: 'Filament/Widgets', for: 'Leobsst\\LaravelCmsCore\\Filament\\Widgets');
+            ->discoverResources(in: __DIR__.'/Filament/Resources', for: 'Leobsst\\LaravelCmsCore\\Filament\\Resources')
+            ->discoverPages(in: __DIR__.'/Filament/Pages', for: 'Leobsst\\LaravelCmsCore\\Filament\\Pages')
+            ->discoverWidgets(in: __DIR__.'/Filament/Widgets', for: 'Leobsst\\LaravelCmsCore\\Filament\\Widgets');
     }
 
     /**
