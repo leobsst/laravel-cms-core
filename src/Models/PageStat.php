@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
+use Illuminate\Support\Carbon;
 use Leobsst\LaravelCmsCore\Models\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,8 +15,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $ip
  * @property string $country
  * @property string $city
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property Page $page
  */
 class PageStat extends Model

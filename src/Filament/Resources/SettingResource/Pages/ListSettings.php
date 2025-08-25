@@ -2,8 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\SettingResource\Pages;
 
+use Filament\Schemas\Components\Tabs\Tab;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Leobsst\LaravelCmsCore\Filament\Resources\SettingResource;
 

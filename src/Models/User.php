@@ -2,6 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Leobsst\LaravelCmsCore\Models\Log;
 use Filament\Panel;
 use Leobsst\LaravelCmsCore\Enums\LogType;
@@ -27,7 +30,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property ?string $username
  * @property bool $username_visible
  * @property string $email
- * @property \Illuminate\Support\Carbon $email_verified_at
+ * @property Carbon $email_verified_at
  * @property ?string $phone
  * @property string $password
  * @property ?string $remember_token
@@ -47,9 +50,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property ?string $website
  * @property ?string $extra_data
  * @property bool $enabled
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
- * @property \Illuminate\Database\Eloquent\Collection|UserEmail[] $emails
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Collection|UserEmail[] $emails
  */
 #[ObservedBy(classes: [UserObserver::class])]
 class User extends Authenticatable implements FilamentUser
@@ -117,12 +120,12 @@ class User extends Authenticatable implements FilamentUser
         'enabled' => 'boolean',
     ];
 
-    public function emails(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function emails(): HasMany
     {
         return $this->hasMany(UserEmail::class);
     }
 
-    public function logs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function logs(): HasMany
     {
         return $this->hasMany(Log::class, 'creator_id');
     }

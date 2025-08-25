@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +27,7 @@ class UserEmail extends Model
         'email_verified_at' => 'datetime',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

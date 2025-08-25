@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Services;
 
+use Exception;
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Filament\Support\Colors\Color;
 use Filament\Notifications\Notification;
@@ -10,7 +11,7 @@ class FilamentService
 {
     public static function sendNotification(string $title, bool $success = true, ?string $icon = null, ?string $iconColor = null, ?string $color = null, ?string $body = null): Notification|bool
     {
-        if (!is_null(filament()->getCurrentPanel())) {
+        if (!is_null(filament()->getCurrentOrDefaultPanel())) {
             $notification = Notification::make()->title($title);
 
             if ($success) {
@@ -40,8 +41,8 @@ class FilamentService
     public static function getPrimaryColor(): array
     {
         try {
-            return Color::hex(Setting::get('primary_color'));
-        } catch (\Exception $e) {
+            return Color::generateV3Palette(Setting::get('primary_color'));
+        } catch (Exception $e) {
             return Color::Blue;
         }
     }

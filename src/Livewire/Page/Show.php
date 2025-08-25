@@ -2,6 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Livewire\Page;
 
+use Leobsst\LaravelCmsCore\Mail\ContactCustomer;
+use Leobsst\LaravelCmsCore\Mail\ContactClient;
+use Exception;
 use Leobsst\LaravelCmsCore\Models\HistoryMail;
 use Carbon\Carbon;
 use Leobsst\LaravelCmsCore\Models\Page;
@@ -68,7 +71,7 @@ class Show extends Component
             if (isset($result['score']) && $result['score'] > .3) {
                 try {
                     Mail::to([Setting::get('email_address')])
-                        ->send(new \Leobsst\LaravelCmsCore\Mail\ContactCustomer(
+                        ->send(new ContactCustomer(
                             $this->name,
                             $this->email,
                             $this->phone,
@@ -77,7 +80,7 @@ class Show extends Component
                         ));
 
                     Mail::to([$this->email])
-                        ->send(new \Leobsst\LaravelCmsCore\Mail\ContactClient(
+                        ->send(new ContactClient(
                             $this->name,
                             $this->subject,
                             $this->message
@@ -91,7 +94,7 @@ class Show extends Component
                         'content' => $this->message,
                         'ip' => ClientService::getIp(),
                     ]);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     session()->flash('error', 'Une erreur est survenue lors de l\'envoi de votre message.');
                 }
                 session()->flash('success', 'Votre message a bien été envoyé.');

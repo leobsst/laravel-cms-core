@@ -2,13 +2,13 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources;
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Models\HistoryMail;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -18,15 +18,15 @@ use Leobsst\LaravelCmsCore\Filament\Resources\HistoryMailResource\Pages\ListHist
 class HistoryMailResource extends Resource
 {
     protected static ?string $model = HistoryMail::class;
-    protected static ?string $navigationGroup = 'Historique';
-    protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
+    protected static string | \UnitEnum | null $navigationGroup = 'Historique';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-inbox-arrow-down';
     protected static ?string $label = 'Historique des mails';
     protected static ?string $navigationLabel = 'Mails';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('name')
                     ->label('Nom'),
                 TextInput::make('email')->email(),
@@ -67,12 +67,12 @@ class HistoryMailResource extends Resource
                     ->sortable()
                     ->date('d/m/Y'),
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make()->modalHeading(fn (HistoryMail $record) => $record->name . ' - ' . $record->created_at->format('d/m/Y')),
             ])
             ->filters([
                 Filter::make('created_at')
-                ->form([
+                ->schema([
                     DatePicker::make('created_from')
                         ->label('Créé entre le'),
                     DatePicker::make('created_until')

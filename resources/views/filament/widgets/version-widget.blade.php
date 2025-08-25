@@ -1,14 +1,14 @@
-<x-filament-widgets::widget>
+<x-filament-widgets::widget class="fi-account-widget">
     <x-filament::section>
-        <div class="flex items-center gap-x-3">
-            <div class="flex-1">
-                <h2 class="grid flex-1 text-base font-semibold leading-6 text-gray-950 dark:text-white">
-                    {{ Setting::get('website_name') }}
-                </h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                    v{{ config('app.version') }}
-                </p>
-            </div>
+        <div class="fi-account-widget-main">
+            <h2 class="fi-account-widget-heading">
+                {{ Setting::get('website_name') }}
+            </h2>
+            <p class="fi-account-widget-user-name">
+                v{{ config('app.version') }}
+            </p>
+        </div>
+        <form class="fi-account-widget-logout-form">
             <a
                 href="mailto:support@leobsst.fr?subject=Signalement de bug sur {{ Setting::get('website_name') }}&body=Utilisateur : {{ Auth::user()->name }}%0D%0AVersion : {{ config('app.version') }}%0D%0A%0D%0A%0D%0ADescription du bug : "
                 title="Signaler un bug"
@@ -19,11 +19,11 @@
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="fi-btn-icon transition duration-75 h-5 w-5 text-gray-400 dark:text-gray-500">
+                    class="fi-icon fi-size-md">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                 </svg>
                 Signaler un bug
             </a>
-        </div>
+        </form>
     </x-filament::section>
 </x-filament-widgets::widget>

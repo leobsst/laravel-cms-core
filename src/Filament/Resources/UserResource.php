@@ -2,8 +2,14 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages\ListUsers;
 use Leobsst\LaravelCmsCore\Models\User;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Services\RolesService;
 use Filament\Resources\Resource;
@@ -11,32 +17,27 @@ use Leobsst\LaravelCmsCore\Services\FilamentService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Repeater;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Htmlable;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static ?string $navigationGroup = 'Personnalisation';
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static string | \UnitEnum | null $navigationGroup = 'Personnalisation';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $label = 'Utilisateurs';
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema(components: [
+        return $schema
+            ->components(components: [
                 TextInput::make(name: 'name')
                     ->label(label: 'Nom')
                     ->required(),
@@ -115,7 +116,7 @@ class UserResource extends Resource
                     })
                     ->toggleable(),
             ])
-            ->actions(actions: [
+            ->recordActions(actions: [
                 ActionGroup::make(actions: [
                     EditAction::make()
                         ->modalHeading(heading: 'Modification de l\'utilisateur')
@@ -137,7 +138,7 @@ class UserResource extends Resource
                         }),
                 ])->button()->color(color: 'gray')
             ])
-            ->bulkActions(actions: [
+            ->toolbarActions(actions: [
                 BulkActionGroup::make(actions: [
                     DeleteBulkAction::make()
                         ->action(action: function ($records): bool|Notification {
@@ -173,7 +174,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
+            'index' => ListUsers::route('/'),
         ];
     }
 

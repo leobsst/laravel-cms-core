@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages;
 
+use Filament\Actions\CreateAction;
 use Filament\Actions;
 use Illuminate\Support\Str;
 use Leobsst\LaravelCmsCore\Filament\Resources\UserResource;
@@ -14,7 +15,7 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            CreateAction::make()
                 ->label(mb_strtoupper('Créer'))
                 ->modalWidth('md')
                 ->using(fn (array $data): Model => self::getModel()::create(array_merge($data, ['password' => bcrypt(Str::random(16))])))

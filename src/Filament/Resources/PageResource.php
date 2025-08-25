@@ -2,25 +2,31 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\SpatieTagsInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\FileUpload;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
 use Leobsst\LaravelCmsCore\Models\Page;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs\Tab;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Contracts\Support\Htmlable;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Leobsst\LaravelCmsCore\Filament\Tables\Columns\PageStatColumn;
 use Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages\EditPage;
@@ -31,14 +37,14 @@ use Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages\CreatePage;
 class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
-    protected static ?string $navigationGroup = 'Publications';
+    protected static string | \UnitEnum | null $navigationGroup = 'Publications';
     protected static ?string $label = 'Mes pages';
     protected static ?string $navigationLabel = 'Pages';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make()
                     ->tabs([
                         Tab::make('Informations générales')
@@ -46,13 +52,13 @@ class PageResource extends Resource
                             ->schema([
                                 Section::make()
                                     ->schema([
-                                        Forms\Components\TextInput::make('title')
+                                        TextInput::make('title')
                                             ->label('Nom')
                                             ->required(fn($record) => !$record?->is_default)
                                             ->placeholder('Nom de la page')
                                             ->maxLength(45)
                                             ->disabled(fn($record) => $record->is_default ?? false),
-                                        Forms\Components\TextInput::make('slug')
+                                        TextInput::make('slug')
                                             ->label('Slug')
                                             ->required(fn($record) => !$record?->is_default)
                                             ->placeholder(fn($record) => filled($record) && $record->is_default ? '' : 'Slug de la page')
@@ -65,18 +71,18 @@ class PageResource extends Resource
                                 Section::make('SEO')
                                     ->relationship('seo')
                                     ->schema([
-                                        Forms\Components\SpatieTagsInput::make('tags')
+                                        SpatieTagsInput::make('tags')
                                             ->label('Mot-clés')
                                             ->placeholder('Ajouter des mots-clés')
                                             ->splitKeys([' '])
                                             ->required(),
-                                        Forms\Components\Textarea::make('description')
+                                        Textarea::make('description')
                                             ->label('Description')
                                             ->placeholder('Description de la page')
                                             ->rows(3)
                                             ->required(),
                                     ])->Columns(2),
-                                Forms\Components\Toggle::make('is_published')
+                                Toggle::make('is_published')
                                     ->label('Publiée ?')
                                     ->default(true)
                                     ->columnSpanFull()
@@ -86,9 +92,9 @@ class PageResource extends Resource
                             ->hidden(fn ($record) => filled($record) && $record->is_home)
                             ->icon('heroicon-o-photo')
                             ->schema([
-                                Forms\Components\Grid::make()
+                                Grid::make()
                                     ->schema([
-                                        Forms\Components\FileUpload::make('banner')
+                                        FileUpload::make('banner')
                                             ->label('Bannière')
                                             ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
                                             ->maxSize('5120')
@@ -153,13 +159,13 @@ class PageResource extends Resource
                     ->sortable()
                     ->toggleable(),
             ])
-            ->actions(ActionGroup::make([
+            ->recordActions(ActionGroup::make([
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make()
                     ->hidden(fn($record) => $record->is_default),
             ])->button()->color('gray'))
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

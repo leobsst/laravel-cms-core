@@ -2,14 +2,14 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Actions\EditAction;
 use Leobsst\LaravelCmsCore\Models\Menu;
-use Filament\Forms\Get;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Leobsst\LaravelCmsCore\Filament\Resources\MenuResource\Pages\EditMenu;
@@ -18,15 +18,15 @@ use Leobsst\LaravelCmsCore\Filament\Resources\MenuResource\Pages\ListMenus;
 class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
-    protected static ?string $navigationGroup = 'Personnalisation';
-    protected static ?string $navigationIcon = 'heroicon-o-bars-3';
+    protected static string | \UnitEnum | null $navigationGroup = 'Personnalisation';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bars-3';
     protected static ?string $title = 'Menus';
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Repeater::make('childrens')
                     ->hiddenLabel()
                     ->collapsible()
@@ -70,9 +70,9 @@ class MenuResource extends Resource
                             ->relationship(modifyQueryUsing: fn($query) => $query->orderBy('order'))
                             ->orderColumn('order')
                             ->addActionLabel('Ajout un lien au sous-menu')
-                            ->hidden(fn($record) => filled($record) && (filled($record->page_id) || filled($record->url)) || $form->getRecord()->name === 'footer')
-                            ->mutateRelationshipDataBeforeCreateUsing(function (array $data) use ($form): array {
-                                $data['menu_id'] = $form->getRecord()->id;
+                            ->hidden(fn($record) => filled($record) && (filled($record->page_id) || filled($record->url)) || $schema->getRecord()->name === 'footer')
+                            ->mutateRelationshipDataBeforeCreateUsing(function (array $data) use ($schema): array {
+                                $data['menu_id'] = $schema->getRecord()->id;
                                 return $data;
                             })
                             ->schema([
@@ -106,7 +106,7 @@ class MenuResource extends Resource
                     ->searchable()
                     ->sortable(),
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
             ]);
     }

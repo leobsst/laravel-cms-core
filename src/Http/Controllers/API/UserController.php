@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Http\Controllers\API;
 
+use Exception;
 use Leobsst\LaravelCmsCore\Models\User;
 use Leobsst\LaravelCmsCore\Models\UserEmail;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class UserController extends CoreController
             }
             
             return $this->generateError(cause: 'You are not authorized to view this user data.', code: 403);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->generateError(cause: $e->getMessage());
         }
     }
@@ -80,7 +81,7 @@ class UserController extends CoreController
             }
             
             return $this->generateError(cause: 'You are not authorized to view this user data.', code: 403);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->generateError(cause: $e->getMessage());
         }
     }

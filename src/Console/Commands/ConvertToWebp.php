@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Console\Commands;
 
+use Exception;
 use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Enums\LogStatus;
 use Leobsst\LaravelCmsCore\Models\Log as LogModel;
@@ -97,8 +98,8 @@ class ConvertToWebp extends Command
                 dump(vars: $formatedArray);
                 Log::info($message.' '.$formatedArray['converted_images'].' images converted.');
                 $this->components->success(string: $message);
-            } catch (\Exception $e){
-                throw new \Exception(message: 'Error while converting images to webp');
+            } catch (Exception $e){
+                throw new Exception(message: 'Error while converting images to webp');
             }
         }
     }

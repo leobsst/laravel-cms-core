@@ -2,6 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages;
 
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
 use Leobsst\LaravelCmsCore\Models\Page;
 use Filament\Actions;
 use Leobsst\LaravelCmsCore\Filament\Resources\PageResource;
@@ -15,9 +17,9 @@ class EditPage extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make()
+            ViewAction::make()
                 ->label(mb_strtoupper('Voir')),
-            Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->hidden(fn () => $this->record->is_default),
         ];
     }

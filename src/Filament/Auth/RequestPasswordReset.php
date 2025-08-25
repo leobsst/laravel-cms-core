@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Leobsst\LaravelCmsCore\Notifications\ResetPasswordNotification;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Filament\Pages\Auth\PasswordReset\RequestPasswordReset as BaseRequestPasswordReset;
 
-class RequestPasswordReset extends BaseRequestPasswordReset
+class RequestPasswordReset extends \Filament\Auth\Pages\PasswordReset\RequestPasswordReset
 {
     public function request(): void
     {

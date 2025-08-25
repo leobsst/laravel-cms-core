@@ -10,7 +10,7 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 class Last30DaysVisit extends BaseWidget
 {
     protected static ?int $sort = -4;
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
     public ?Model $record = null;
 
     protected function getStats(): array

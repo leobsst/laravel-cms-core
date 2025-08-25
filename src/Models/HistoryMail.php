@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,9 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $content
  * @property bool $is_read
  * @property string|null $ip
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon|null $deleted_at
  */
 class HistoryMail extends Model
 {

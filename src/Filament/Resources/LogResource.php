@@ -2,41 +2,41 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\ViewAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Leobsst\LaravelCmsCore\Models\Log;
 use Leobsst\LaravelCmsCore\Models\User;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Leobsst\LaravelCmsCore\Services\FilamentService;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Leobsst\LaravelCmsCore\Filament\Resources\LogResource\Pages\ListLogs;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
 class LogResource extends Resource
 {
     protected static ?string $model = Log::class;
-    protected static ?string $navigationGroup = 'Historique';
-    protected static ?string $navigationIcon = 'heroicon-o-command-line';
+    protected static string | \UnitEnum | null $navigationGroup = 'Historique';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-command-line';
     protected static ?string $title = 'Logs';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema(components: [
+        return $schema
+            ->components(components: [
                 DateTimePicker::make(name: 'created_at')
                     ->format(format: 'DD/MM/YYYY HH:mm:ss')
                     ->label(label: 'Créé le'),
@@ -118,7 +118,7 @@ class LogResource extends Resource
             ])
             ->filters(filters: [
                 Filter::make(name: 'created_at')
-                    ->form(schema: [
+                    ->schema(schema: [
                         DatePicker::make(name: 'created_from')
                             ->label(label: 'Créé entre le'),
                         DatePicker::make(name: 'created_until')
@@ -154,7 +154,7 @@ class LogResource extends Resource
                         'error' => 'Erreur',
                     ]),
             ])
-            ->actions(actions: [
+            ->recordActions(actions: [
                 ViewAction::make()
                     ->modalHeading(heading: ''),
             ])
@@ -168,7 +168,7 @@ class LogResource extends Resource
                         }),
                 ])->button(),
             ])
-            ->bulkActions(actions: [
+            ->toolbarActions(actions: [
                 BulkActionGroup::make(actions: [
                     DeleteBulkAction::make(),
                 ]),
