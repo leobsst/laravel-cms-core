@@ -27,7 +27,7 @@
         "php": "^8.2",
         "althinect/filament-spatie-roles-permissions": "3.x-dev",
         "amidesfahani/filament-tinyeditor": "^2.0",
-        "laravel/framework": "^10.0|^11.0",
+        "laravel/framework": "^11.0",
         "nesbot/carbon": "^2.63|^3.0",
         "filament/filament": "^4.0",
         "filament/spatie-laravel-tags-plugin": "^4.0",
