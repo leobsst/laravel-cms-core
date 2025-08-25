@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Route;
+use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 use Leobsst\LaravelCmsCore\Http\Controllers\Logout;
 use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
-use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 */
 
 // Session
-Route::get('/login', fn() => redirect(Filament::getPanel('dashboard')->getLoginUrl()))->name('core.login');
+Route::get('/login', fn () => redirect(Filament::getPanel('dashboard')->getLoginUrl()))->name('core.login');
 Route::get('/logout', [Logout::class, 'logout'])->name('core.logout');
 
 // Sitemap

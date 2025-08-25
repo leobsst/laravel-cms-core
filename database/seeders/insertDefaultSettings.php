@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Leobsst\LaravelCmsCore\Models\Setting;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
-use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
 use Illuminate\Database\Seeder;
+use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
+use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class insertDefaultSettings extends Seeder
 {
@@ -160,13 +160,13 @@ class insertDefaultSettings extends Seeder
                 'value' => 0,
                 'type' => SettingTypeEnum::BOOLEAN,
                 'category' => SettingCategoryEnum::SECURITY,
-            ]
+            ],
         ];
 
         foreach ($defaultConfigurations as $configuration) {
             if ($configuration['name'] === 'website_keywords') {
                 Setting::firstOrCreate([
-                    'name' => $configuration['name']
+                    'name' => $configuration['name'],
                 ], [
                     'type' => SettingTypeEnum::TAGS,
                     'category' => SettingCategoryEnum::GENERAL,
@@ -177,7 +177,7 @@ class insertDefaultSettings extends Seeder
                 ]);
             } else {
                 Setting::firstOrCreate([
-                    'name' => $configuration['name']
+                    'name' => $configuration['name'],
                 ], [
                     'value' => $configuration['value'],
                     'type' => $configuration['type'] ?? SettingTypeEnum::STRING,

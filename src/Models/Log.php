@@ -2,13 +2,12 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Leobsst\LaravelCmsCore\Enums\LogType;
-use Leobsst\LaravelCmsCore\Enums\LogStatus;
-use Leobsst\LaravelCmsCore\Mail\ExportLogs;
-use Leobsst\LaravelCmsCore\Models\User;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
+use Leobsst\LaravelCmsCore\Mail\ExportLogs;
 
 /**
  * Log model

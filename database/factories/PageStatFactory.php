@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Leobsst\LaravelCmsCore\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Leobsst\LaravelCmsCore\Models\Page;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Leobsst\LaravelCmsCore\Models\PageStat>

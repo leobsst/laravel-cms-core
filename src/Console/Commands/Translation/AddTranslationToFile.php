@@ -22,8 +22,8 @@ class AddTranslationToFile extends Command
 
     /**
      * Execute the console command.
-     * 
-     * @param string $path
+     *
+     * @param  string  $path
      */
     public function handle()
     {
@@ -40,11 +40,11 @@ class AddTranslationToFile extends Command
         );
         $path = base_path('lang');
 
-        while(substr($name, 0, 1) === '/') {
+        while (substr($name, 0, 1) === '/') {
             $name = substr($name, 1);
         }
 
-        while(substr($name, -1) === '/') {
+        while (substr($name, -1) === '/') {
             $name = substr($name, 0, -1);
         }
 
@@ -59,31 +59,31 @@ class AddTranslationToFile extends Command
         $translations = [];
         $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
 
-        while(trim(strlen($newKey)) === 0 || is_null($newKey)) {
+        while (trim(strlen($newKey)) === 0 || is_null($newKey)) {
             $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
         }
 
-        while($this->confirm('Confirmer la clé de traduction ' . $newKey . ' ?', true) === false) {
+        while ($this->confirm('Confirmer la clé de traduction '.$newKey.' ?', true) === false) {
             $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
         }
 
         foreach ($languages as $language) {
-            $newPath = $path . '/' . $language . '/' . implode('/', $fileName);
+            $newPath = $path.'/'.$language.'/'.implode('/', $fileName);
 
-            if (!is_dir($newPath)) {
-                return $this->error('Le dossier ' . $newPath . ' n\'existe pas.');
+            if (! is_dir($newPath)) {
+                return $this->error('Le dossier '.$newPath.' n\'existe pas.');
             }
-            
-            $file = $newPath . '/' . $name . '.php';
-            if (!file_exists($file)) {
-                return $this->error('Le fichier ' . $file . ' n\'existe pas.');
+
+            $file = $newPath.'/'.$name.'.php';
+            if (! file_exists($file)) {
+                return $this->error('Le fichier '.$file.' n\'existe pas.');
             } else {
                 $translations[$language] = require $file;
-                $translations[$language][$newKey] = str_replace("\'", "'", $this->ask('Entrer la traduction pour ' . $language));
+                $translations[$language][$newKey] = str_replace("\'", "'", $this->ask('Entrer la traduction pour '.$language));
                 ksort($translations[$language]);
                 $content = "<?php\nreturn [\n";
                 foreach ($translations[$language] as $key => $value) {
-                    $content .= "    '" . str_replace("'", "\'", $key) . "' => '" . str_replace("'", "\'", $value) . "',\n";
+                    $content .= "    '".str_replace("'", "\'", $key)."' => '".str_replace("'", "\'", $value)."',\n";
                 }
                 $content .= "];\n";
                 file_put_contents($file, $content);
@@ -91,6 +91,7 @@ class AddTranslationToFile extends Command
         }
 
         $this->info('Files generated successfully.');
+
         return Command::SUCCESS;
     }
 }

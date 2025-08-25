@@ -22,9 +22,9 @@ class NewTranslation extends Command
 
     /**
      * Execute the console command.
-     * 
-     * @param string $name
-     * @param string $languages (default: fr,es)
+     *
+     * @param  string  $name
+     * @param  string  $languages  (default: fr,es)
      */
     public function handle()
     {
@@ -32,11 +32,11 @@ class NewTranslation extends Command
         $path = base_path('lang');
         $name = $this->argument('name');
 
-        while(substr($name, 0, 1) === '/') {
+        while (substr($name, 0, 1) === '/') {
             $name = substr($name, 1);
         }
 
-        while(substr($name, -1) === '/') {
+        while (substr($name, -1) === '/') {
             $name = substr($name, 0, -1);
         }
 
@@ -51,25 +51,26 @@ class NewTranslation extends Command
         $originPath = $path;
 
         foreach ($languages as $language) {
-            if (!is_dir($originPath . '/' . $language)) {
-                #mkdir($originPath . '/' . $language);
-                $path = $originPath . '/' . $language;
+            if (! is_dir($originPath.'/'.$language)) {
+                // mkdir($originPath . '/' . $language);
+                $path = $originPath.'/'.$language;
             }
 
-            $newPath = $path . '/' . implode('/', $fileName);
+            $newPath = $path.'/'.implode('/', $fileName);
 
-            if (!is_dir($newPath)) {
+            if (! is_dir($newPath)) {
                 mkdir(directory: $newPath, recursive: true);
             }
-            
-            $file = $newPath . '/' . $name . '.php';
-            if (!file_exists($file)) {
+
+            $file = $newPath.'/'.$name.'.php';
+            if (! file_exists($file)) {
                 $content = "<?php\nreturn [\n    // 'key' => 'value',\n];";
                 file_put_contents($file, $content);
             }
         }
 
-        Command::info('Files generated successfully. ['. implode(', ', $languages) .']');
+        Command::info('Files generated successfully. ['.implode(', ', $languages).']');
+
         return Command::SUCCESS;
     }
 }

@@ -28,6 +28,6 @@ class PageStat extends Command
      */
     public function handle()
     {
-        Model::all()->each(fn($stat) => $stat->delete());
+        Model::all()->each(fn ($stat) => $stat->delete());
     }
 }

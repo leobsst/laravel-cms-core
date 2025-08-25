@@ -1,11 +1,10 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages\Pages;
 
 use Filament\Actions\CreateAction;
-use Leobsst\LaravelCmsCore\Filament\Resources\PageResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Leobsst\LaravelCmsCore\Filament\Resources\Pages\PageResource;
 
 class ListPages extends ListRecords
 {

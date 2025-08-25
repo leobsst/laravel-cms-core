@@ -1,11 +1,10 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Users\Pages;
 
 use Filament\Actions\DeleteAction;
-use Filament\Actions;
-use Leobsst\LaravelCmsCore\Filament\Resources\UserResource;
 use Filament\Resources\Pages\EditRecord;
+use Leobsst\LaravelCmsCore\Filament\Resources\Users\UserResource;
 
 class EditUser extends EditRecord
 {

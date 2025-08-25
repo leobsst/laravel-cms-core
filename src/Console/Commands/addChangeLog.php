@@ -3,6 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Console\Commands;
 
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\textarea;
 
 class addChangeLog extends Command
@@ -37,7 +38,7 @@ class addChangeLog extends Command
         );
 
         $changelogFileMd = base_path(path: 'changelog.md');
-        
+
         $contentMd = file_exists(filename: $changelogFileMd) ? file_get_contents(filename: $changelogFileMd) : '';
         $contentMd = str_replace(search: "# CHANGELOG\n", replace: '', subject: $contentMd);
         $contentMd = "# CHANGELOG\n\n## $date\n\n$description\n$contentMd";

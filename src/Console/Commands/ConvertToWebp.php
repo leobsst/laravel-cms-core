@@ -3,20 +3,20 @@
 namespace Leobsst\LaravelCmsCore\Console\Commands;
 
 use Exception;
-use Leobsst\LaravelCmsCore\Enums\LogType;
-use Leobsst\LaravelCmsCore\Enums\LogStatus;
-use Leobsst\LaravelCmsCore\Models\Log as LogModel;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
+use Leobsst\LaravelCmsCore\Models\Log as LogModel;
 
 class ConvertToWebp extends Command
 {
     private array $extensionsGranted = [
         'jpg',
         'jpeg',
-        'png'
+        'png',
     ];
 
     /**
@@ -62,17 +62,17 @@ class ConvertToWebp extends Command
                     $webpFile = str_replace(search: ".{$extension}", replace: '.webp', subject: $file);
 
                     // If the file doesn't exist, we convert it
-                    if (!file_exists(filename: $webpFile)) {
+                    if (! file_exists(filename: $webpFile)) {
                         // Get parent directory
                         $directory = dirname($webpFile);
-                    
+
                         // Create the directory if it doesn't exist
-                        if(!is_dir(filename: $directory)){
+                        if (! is_dir(filename: $directory)) {
                             mkdir(directory: $directory, permissions: 0777, recursive: true);
                         }
 
                         // Convert the image to webp
-                        $imgManager = new ImageManager(driver: new Driver());
+                        $imgManager = new ImageManager(driver: new Driver);
                         $img = $imgManager->read(input: $file);
                         $img->toWebp()->save(filepath: $webpFile);
 
@@ -84,7 +84,7 @@ class ConvertToWebp extends Command
 
                 $formatedArray = [
                     'converted_images' => $count,
-                    'converted_files' => $converted
+                    'converted_files' => $converted,
                 ];
 
                 $message = 'Images converted to webp successfully.';
@@ -98,7 +98,7 @@ class ConvertToWebp extends Command
                 dump(vars: $formatedArray);
                 Log::info($message.' '.$formatedArray['converted_images'].' images converted.');
                 $this->components->success(string: $message);
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 throw new Exception(message: 'Error while converting images to webp');
             }
         }
@@ -112,9 +112,11 @@ class ConvertToWebp extends Command
         $paths = scandir(directory: $folder);
         foreach ($paths as $path) {
             // Skip the dots or files/folders starting with a dot
-            if (substr(string: $path, offset: 0, length: 1) === '.') continue;
+            if (substr(string: $path, offset: 0, length: 1) === '.') {
+                continue;
+            }
             // Define the path to check
-            $checkPath = $folder . DIRECTORY_SEPARATOR . $path;
+            $checkPath = $folder.DIRECTORY_SEPARATOR.$path;
             if (is_dir(filename: $checkPath)) {
                 // If the path is a folder, we scan it
                 $files = $this->getFilesFromFolder(folder: $checkPath, files: $files);

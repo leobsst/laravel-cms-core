@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Leobsst\LaravelCmsCore\Enums\LogType;
-use Leobsst\LaravelCmsCore\Enums\LogStatus;
-use Leobsst\LaravelCmsCore\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
+use Leobsst\LaravelCmsCore\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory

@@ -2,8 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Observers;
 
-use Leobsst\LaravelCmsCore\Traits\LogModelTransactionsTrait;
 use Illuminate\Database\Eloquent\Model;
+use Leobsst\LaravelCmsCore\Traits\LogModelTransactionsTrait;
 
 class ModelObserver
 {

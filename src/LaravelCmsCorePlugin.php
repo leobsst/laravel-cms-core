@@ -9,8 +9,6 @@ class LaravelCmsCorePlugin implements Plugin
 {
     /**
      * The name of the plugin.
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -19,9 +17,6 @@ class LaravelCmsCorePlugin implements Plugin
 
     /**
      * Register discoverable resources, pages, and widgets.
-     *
-     * @param Panel $panel
-     * @return void
      */
     public function register(Panel $panel): void
     {
@@ -33,9 +28,6 @@ class LaravelCmsCorePlugin implements Plugin
 
     /**
      * Boot the plugin.
-     *
-     * @param Panel $panel
-     * @return void
      */
     public function boot(Panel $panel): void
     {
@@ -44,8 +36,6 @@ class LaravelCmsCorePlugin implements Plugin
 
     /**
      * Get the plugin.
-     *
-     * @return static
      */
     public static function make(): static
     {

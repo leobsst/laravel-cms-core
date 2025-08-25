@@ -1,36 +1,38 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Logs;
 
-use Filament\Schemas\Schema;
-use Filament\Actions\ViewAction;
-use Filament\Actions\ActionGroup;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Leobsst\LaravelCmsCore\Models\Log;
-use Leobsst\LaravelCmsCore\Models\User;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Leobsst\LaravelCmsCore\Services\FilamentService;
-use Filament\Tables\Filters\Filter;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Forms\Components\DatePicker;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\DateTimePicker;
-use Leobsst\LaravelCmsCore\Filament\Resources\LogResource\Pages\ListLogs;
+use Leobsst\LaravelCmsCore\Models\Log;
+use Leobsst\LaravelCmsCore\Models\User;
+use Leobsst\LaravelCmsCore\Services\FilamentService;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
 class LogResource extends Resource
 {
     protected static ?string $model = Log::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Historique';
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-command-line';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Historique';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-command-line';
+
     protected static ?string $title = 'Logs';
 
     public static function form(Schema $schema): Schema
@@ -56,7 +58,7 @@ class LogResource extends Resource
                         'critical' => 'Critique',
                         'alert' => 'Alerte',
                         'emergency' => 'Urgence',
-                        'cron' => 'CRON'
+                        'cron' => 'CRON',
                     ])
                     ->label(label: 'Type'),
                 Select::make(name: 'status')
@@ -76,7 +78,7 @@ class LogResource extends Resource
                     ->label(label: 'Informations supplémentaires')
                     ->hidden(condition: fn ($state): bool => blank(value: $state))
                     ->viewerOnly()
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ])->disabled();
     }
 
@@ -142,6 +144,7 @@ class LogResource extends Resource
                         'warning' => 'Avertissement',
                         'error' => 'Erreur',
                         'success' => 'Succès',
+                        'cron' => 'CRON',
                         'debug' => 'Débogage',
                         'critical' => 'Critique',
                         'alert' => 'Alerte',
@@ -164,6 +167,7 @@ class LogResource extends Resource
                         ->icon(icon: 'heroicon-o-document-text')
                         ->action(action: function (): bool|Notification {
                             Log::sendLogsToEmail();
+
                             return FilamentService::sendNotification('Les logs ont été envoyés par e-mail');
                         }),
                 ])->button(),
@@ -179,7 +183,7 @@ class LogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListLogs::route(path: '/'),
+            'index' => Pages\ListLogs::route(path: '/'),
         ];
     }
 

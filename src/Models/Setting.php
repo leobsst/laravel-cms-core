@@ -2,10 +2,10 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
+use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
 use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
 
@@ -24,6 +24,7 @@ use Spatie\Tags\Tag;
 class Setting extends Model
 {
     use HasTags;
+
     protected $fillable = [
         'name',
         'value',
@@ -59,8 +60,6 @@ class Setting extends Model
 
     /**
      * Get website tags
-     *
-     * @return string
      */
     public function getWebsiteTagsAttribute(): string
     {
@@ -68,6 +67,7 @@ class Setting extends Model
         Setting::firstWhere('name', 'website_keywords')->tags->each(function ($tag) use (&$tags) {
             $tags[] = $tag->name;
         });
+
         return implode(', ', $tags);
     }
 

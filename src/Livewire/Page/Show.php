@@ -2,33 +2,43 @@
 
 namespace Leobsst\LaravelCmsCore\Livewire\Page;
 
-use Leobsst\LaravelCmsCore\Mail\ContactCustomer;
-use Leobsst\LaravelCmsCore\Mail\ContactClient;
-use Exception;
-use Leobsst\LaravelCmsCore\Models\HistoryMail;
 use Carbon\Carbon;
-use Leobsst\LaravelCmsCore\Models\Page;
-use Leobsst\LaravelCmsCore\Models\Setting;
-use Livewire\Component;
-use Leobsst\LaravelCmsCore\Services\ClientService;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Leobsst\LaravelCmsCore\Mail\ContactClient;
+use Leobsst\LaravelCmsCore\Mail\ContactCustomer;
+use Leobsst\LaravelCmsCore\Models\HistoryMail;
+use Leobsst\LaravelCmsCore\Models\Page;
+use Leobsst\LaravelCmsCore\Models\Setting;
+use Leobsst\LaravelCmsCore\Services\ClientService;
+use Livewire\Component;
 
 class Show extends Component
 {
     public ?string $slug = null;
+
     public $page;
 
     // Contact page properties
     public $name;
+
     public $email;
+
     public $phone;
+
     public $message;
+
     public $captcha;
+
     public $response;
+
     public $subject;
+
     public $data;
+
     public $sent;
+
     public $messages = [
         'name.required' => 'Votre nom est requis.',
         'email.required' => 'Votr adresse email est requise.',
@@ -54,7 +64,7 @@ class Show extends Component
             'message' => 'required',
         ]);
 
-        if (!$this->sent) {
+        if (! $this->sent) {
             if (filled(env('RECAPTCHA_SITE_KEY')) && filled(env('RECAPTCHA_SITE_SECRET'))) {
                 $response = $this->getReCaptchaResponse();
             } else {
@@ -65,7 +75,7 @@ class Show extends Component
             foreach ($response as $key => $value) {
                 $result[$key] = $value;
             }
-            
+
             $this->sent = true;
 
             if (isset($result['score']) && $result['score'] > .3) {
@@ -101,19 +111,21 @@ class Show extends Component
             } else {
                 session()->flash('error', 'Google thinks you are a bot, please refresh and try again');
             }
+
             return redirect()->route('core.page.show', ['slug' => 'contact']);
         }
     }
 
     private function getReCaptchaResponse()
     {
-        $response = Http::post('https://www.google.com/recaptcha/api/siteverify?secret=' . env('RECAPTCHA_SITE_SECRET') . '&response=' . $this->captcha);
+        $response = Http::post('https://www.google.com/recaptcha/api/siteverify?secret='.env('RECAPTCHA_SITE_SECRET').'&response='.$this->captcha);
+
         return $response->json();
     }
 
     public function render()
     {
-        if (!is_null($this->page)) {
+        if (! is_null($this->page)) {
             if ($this->page->is_published) {
                 $this->updateStats();
                 session()->put('current_page', $this->page->id);
@@ -121,6 +133,7 @@ class Show extends Component
                 if ($this->slug == 'contact') {
                     $view = 'livewire.page.contact';
                 }
+
                 return view($view, [
                     'seo' => $this->page->seo,
                 ]);
@@ -140,7 +153,7 @@ class Show extends Component
         $location = ClientService::getLocation();
         $ip = ClientService::getIp();
 
-        if (blank($ip) || (filled($ip) && !in_array($ip, $stats->pluck('ip')->toArray()))) {
+        if (blank($ip) || (filled($ip) && ! in_array($ip, $stats->pluck('ip')->toArray()))) {
             $this->page->stats()->create([
                 'ip' => $ip,
                 'country' => $location->status == 'success' ? $location->country : 'N/A',
@@ -151,13 +164,13 @@ class Show extends Component
     }
 
     /**
-      * update device stats
-      *
-      * @return mixed
-      */
+     * update device stats
+     *
+     * @return mixed
+     */
     public function updateDeviceStats($os)
     {
-        switch($os) {
+        switch ($os) {
             case 1:
                 $this->page->ios += 1;
                 $this->page->update();

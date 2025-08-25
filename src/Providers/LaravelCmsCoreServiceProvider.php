@@ -2,8 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\ServiceProvider;
 use Leobsst\LaravelCmsCore\Console\Commands\addChangeLog;
 use Leobsst\LaravelCmsCore\Console\Commands\ConvertToWebp;
 use Leobsst\LaravelCmsCore\Console\Commands\DeployCommand;
@@ -42,8 +42,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     /**
      * Get the migrations for the package.
-     *
-     * @return void
      */
     private function getMigrations(): void
     {
@@ -54,8 +52,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     /**
      * Get the seeders and factories for the package.
-     *
-     * @return void
      */
     private function getSeedersAndFactories(): void
     {
@@ -68,8 +64,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     /**
      * Get the routes for the package.
-     *
-     * @return void
      */
     private function getRoutes(): void
     {
@@ -86,8 +80,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     /**
      * Get the views for the package.
-     *
-     * @return void
      */
     private function getViews(): void
     {
@@ -100,8 +92,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     /**
      * Get the package information for the package.
-     *
-     * @return void
      */
     private function getPackageInformations(): void
     {
@@ -111,8 +101,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     /**
      * Get the commands for the package.
-     *
-     * @return void
      */
     private function getCommands(): void
     {

@@ -2,9 +2,6 @@
 
 namespace Leobsst\LaravelCmsCore\Traits;
 
-/**
- * 
- */
 trait hasPerpageDropdown
 {
     public $per_page = 10;

@@ -1,17 +1,17 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages\Pages;
 
-use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
-use Leobsst\LaravelCmsCore\Models\Page;
-use Filament\Actions;
-use Leobsst\LaravelCmsCore\Filament\Resources\PageResource;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Leobsst\LaravelCmsCore\Filament\Resources\Pages\PageResource;
+use Leobsst\LaravelCmsCore\Models\Page;
 
 class EditPage extends EditRecord
 {
     protected static string $resource = PageResource::class;
+
     protected static ?string $title = 'Modification de la page';
 
     protected function getHeaderActions(): array
@@ -32,6 +32,7 @@ class EditPage extends EditRecord
         if (isset($data['content'])) {
             $data['content'] = Page::cleanContent($data['content']);
         }
+
         return $data;
     }
 }

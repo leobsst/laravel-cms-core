@@ -2,9 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class UserEmail
@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserEmail extends Model
 {
     use MustVerifyEmail;
+
     protected $fillable = [
         'user_id',
         'email',

@@ -18,13 +18,13 @@ enum LogType: string
     {
         return match ($this) {
             self::INFO => 'info',
-            self::WARNING => 'yellow',
+            self::WARNING,
             self::CRON => 'yellow',
-            self::ERROR => 'danger',
             self::SUCCESS => 'success',
             self::DEBUG => 'gray',
-            self::CRITICAL => 'danger',
-            self::ALERT => 'danger',
+            self::ERROR,
+            self::CRITICAL,
+            self::ALERT,
             self::EMERGENCY => 'danger',
         };
     }

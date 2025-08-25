@@ -1,9 +1,9 @@
 <?php
 
-use Leobsst\LaravelCmsCore\Enums\LogStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
 
 return new class extends Migration
 {

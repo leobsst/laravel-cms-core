@@ -1,26 +1,28 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Menus;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Actions\EditAction;
-use Leobsst\LaravelCmsCore\Models\Menu;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Leobsst\LaravelCmsCore\Filament\Resources\MenuResource\Pages\EditMenu;
-use Leobsst\LaravelCmsCore\Filament\Resources\MenuResource\Pages\ListMenus;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Leobsst\LaravelCmsCore\Models\Menu;
 
 class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Personnalisation';
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bars-3';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Personnalisation';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-bars-3';
+
     protected static ?string $title = 'Menus';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
@@ -35,6 +37,7 @@ class MenuResource extends Resource
                         if ($record->name === 'footer') {
                             return 9;
                         }
+
                         return 6;
                     })
                     ->relationship()
@@ -48,31 +51,32 @@ class MenuResource extends Resource
                         TextInput::make('name')
                             ->label('Nom')
                             ->required()
-                            ->disabled(fn($record) => $record->is_default ?? false),
+                            ->disabled(fn ($record) => $record->is_default ?? false),
                         Select::make('page_id')
                             ->label('Page')
                             ->relationship('page', 'title')
                             ->preload()
                             ->live()
-                            ->searchable(fn(Get $get) => blank($get('url')))
+                            ->searchable(fn (Get $get) => blank($get('url')))
                             ->placeHolder('Sélectionner une page')
-                            ->disabled(fn($record, Get $get) => (filled($record) && $record->is_default) || filled($get('url')))
-                            ->hidden(fn($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
+                            ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('url')))
+                            ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
                         TextInput::make('url')
                             ->label('URL')
                             ->live()
-                            ->disabled(fn($record, Get $get) => (filled($record) && $record->is_default) || filled($get('page_id')))
-                            ->hidden(fn($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
+                            ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('page_id')))
+                            ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
                         Repeater::make('childrens')
                             ->defaultItems(0)
                             ->hiddenLabel()
                             ->collapsed()
-                            ->relationship(modifyQueryUsing: fn($query) => $query->orderBy('order'))
+                            ->relationship(modifyQueryUsing: fn ($query) => $query->orderBy('order'))
                             ->orderColumn('order')
                             ->addActionLabel('Ajout un lien au sous-menu')
-                            ->hidden(fn($record) => filled($record) && (filled($record->page_id) || filled($record->url)) || $schema->getRecord()->name === 'footer')
+                            ->hidden(fn ($record) => filled($record) && (filled($record->page_id) || filled($record->url)) || $schema->getRecord()->name === 'footer')
                             ->mutateRelationshipDataBeforeCreateUsing(function (array $data) use ($schema): array {
                                 $data['menu_id'] = $schema->getRecord()->id;
+
                                 return $data;
                             })
                             ->schema([
@@ -84,13 +88,13 @@ class MenuResource extends Resource
                                     ->relationship('page', 'title')
                                     ->preload()
                                     ->live()
-                                    ->searchable(fn(Get $get) => blank($get('url')))
+                                    ->searchable(fn (Get $get) => blank($get('url')))
                                     ->placeHolder('Sélectionner une page')
-                                    ->disabled(fn($record, Get $get) => (filled($record) && $record->is_default) || filled($get('url'))),
+                                    ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('url'))),
                                 TextInput::make('url')
                                     ->label('URL')
                                     ->live()
-                                    ->disabled(fn($record, Get $get) => (filled($record) && $record->is_default) || filled($get('page_id'))),
+                                    ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('page_id'))),
                             ]),
                     ]),
             ])
@@ -114,8 +118,8 @@ class MenuResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMenus::route('/'),
-            'edit' => EditMenu::route('/{record}'),
+            'index' => Pages\ListMenus::route('/'),
+            'edit' => Pages\EditMenu::route('/{record}'),
         ];
     }
 

@@ -11,6 +11,7 @@ class Logout extends BaseController
     public function logout()
     {
         App(Session::class)->flush();
+
         return redirect(Filament::getPanel('dashboard')->getLoginUrl());
     }
 }

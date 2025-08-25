@@ -3,10 +3,8 @@
 namespace Leobsst\LaravelCmsCore\Http\Requests\Api\Users;
 
 use Illuminate\Contracts\Validation\ValidationRule;
-use Leobsst\LaravelCmsCore\Traits\Request\ApiRequestFaillableTrait;
 use Illuminate\Foundation\Http\FormRequest;
-
-
+use Leobsst\LaravelCmsCore\Traits\Request\ApiRequestFaillableTrait;
 
 final class GetUserRequest extends FormRequest
 {
@@ -41,7 +39,7 @@ final class GetUserRequest extends FormRequest
     {
         return [
             'user.email' => 'The user must be a valid email address.',
-            'user.exists' => 'The user is not found'
+            'user.exists' => 'The user is not found',
         ];
     }
 }

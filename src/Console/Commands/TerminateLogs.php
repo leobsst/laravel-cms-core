@@ -3,10 +3,10 @@
 namespace Leobsst\LaravelCmsCore\Console\Commands;
 
 use Carbon\Carbon;
-use Leobsst\LaravelCmsCore\Enums\LogStatus;
-use Leobsst\LaravelCmsCore\Models\Log as LogModel;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Models\Log as LogModel;
 
 class TerminateLogs extends Command
 {
@@ -38,7 +38,7 @@ class TerminateLogs extends Command
                 'status' => LogStatus::ERROR->value,
             ]);
         });
-        $info = 'Successfully terminated ' . $count . ' logs.';
+        $info = 'Successfully terminated '.$count.' logs.';
         Log::info($info);
         $this->components->success(string: $info);
     }

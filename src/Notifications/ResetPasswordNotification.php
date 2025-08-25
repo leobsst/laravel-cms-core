@@ -2,11 +2,11 @@
 
 namespace Leobsst\LaravelCmsCore\Notifications;
 
-use Leobsst\LaravelCmsCore\Models\Setting;
-use Illuminate\Bus\Queueable;
 use Filament\Facades\Filament;
-use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class ResetPasswordNotification extends Notification
 {
@@ -42,7 +42,7 @@ class ResetPasswordNotification extends Notification
     {
         return (new MailMessage)
             ->subject($this->subject)
-            ->greeting('Bonjour ' . "{$notifiable->name},")
+            ->greeting('Bonjour '."{$notifiable->name},")
             ->line($this->l1)
             ->line($this->l2)
             ->line($this->l3)
@@ -50,7 +50,7 @@ class ResetPasswordNotification extends Notification
             ->action($this->action, $this->resetUrl($notifiable))
             ->line('Ce lien de réinitialisation de mot de passe expirera dans 24 heures.')
             ->line('Si vous n\'avez fait aucune demande, aucune action n\'est requise.')
-            ->salutation('Cordialement, ' . Setting::get('website_name'));
+            ->salutation('Cordialement, '.Setting::get('website_name'));
     }
 
     protected function resetUrl(mixed $notifiable): string

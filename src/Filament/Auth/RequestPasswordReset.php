@@ -2,14 +2,14 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Auth;
 
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Exception;
-use Leobsst\LaravelCmsCore\Models\UserEmail;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Support\Facades\Password;
+use Leobsst\LaravelCmsCore\Models\UserEmail;
 use Leobsst\LaravelCmsCore\Notifications\ResetPasswordNotification;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
 class RequestPasswordReset extends \Filament\Auth\Pages\PasswordReset\RequestPasswordReset
 {
@@ -24,7 +24,7 @@ class RequestPasswordReset extends \Filament\Auth\Pages\PasswordReset\RequestPas
         }
 
         $data = $this->form->getState();
-        $userEmails = UserEmail::where(column: "email", operator: $data['email']);
+        $userEmails = UserEmail::where(column: 'email', operator: $data['email']);
         $status = 'Une erreur est survenue.';
         if ($userEmails->exists()) {
             $data['email'] = $userEmails->first()->user->email;
@@ -33,10 +33,10 @@ class RequestPasswordReset extends \Filament\Auth\Pages\PasswordReset\RequestPas
                 function (CanResetPassword $user, string $token): void {
                     if (! method_exists($user, 'notify')) {
                         $userClass = $user::class;
-    
+
                         throw new Exception("Model [{$userClass}] does not have a [notify()] method.");
                     }
-    
+
                     $notification = new ResetPasswordNotification(
                         token: $token,
                         subject: 'Demande de réinitialisation de mot de passe',

@@ -2,10 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Leobsst\LaravelCmsCore\Models\Page;
-use Spatie\Tags\Tag;
-use Spatie\Tags\HasTags;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
+use Spatie\Tags\Tag;
 
 /**
  * Class Page
@@ -33,7 +32,9 @@ use Illuminate\Database\Eloquent\Model;
 class PagesSeo extends Model
 {
     use HasTags;
+
     protected $table = 'pages_seo';
+
     protected $fillable = [
         'page_id',
         'title',
@@ -82,8 +83,6 @@ class PagesSeo extends Model
 
     /**
      * Get website tags
-     *
-     * @return string
      */
     public function getTagsFormattedAttribute(): string
     {

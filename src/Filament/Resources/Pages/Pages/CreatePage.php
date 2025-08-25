@@ -1,14 +1,15 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages\Pages;
 
-use Leobsst\LaravelCmsCore\Models\Page;
-use Leobsst\LaravelCmsCore\Filament\Resources\PageResource;
 use Filament\Resources\Pages\CreateRecord;
+use Leobsst\LaravelCmsCore\Filament\Resources\Pages\PageResource;
+use Leobsst\LaravelCmsCore\Models\Page;
 
 class CreatePage extends CreateRecord
 {
     protected static string $resource = PageResource::class;
+
     protected static bool $canCreateAnother = false;
 
     protected function mutateFormDataBeforeCreate(array $data): array
@@ -17,6 +18,7 @@ class CreatePage extends CreateRecord
         if (isset($data['content'])) {
             $data['content'] = Page::cleanContent($data['content']);
         }
+
         return $data;
     }
 }

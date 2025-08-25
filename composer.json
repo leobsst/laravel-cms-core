@@ -15,6 +15,12 @@
             "email": "contact@leobsst.fr",
             "homepage": "https://www.linksly.fr/LEOBSST",
             "role": "Developer"
+        },
+        {
+            "name": "B.L.A.M. PRODUCTION",
+            "email": "contact@blam-prod.fr",
+            "homepage": "https://blam-prod.fr",
+            "role": "Provider"
         }
     ],
     "require": {

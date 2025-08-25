@@ -2,8 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Console\Commands\Faker;
 
-use Leobsst\LaravelCmsCore\Models\Log;
 use Illuminate\Console\Command;
+use Leobsst\LaravelCmsCore\Models\Log;
 
 class FakerLog extends Command
 {

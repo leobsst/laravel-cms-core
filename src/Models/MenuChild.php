@@ -2,9 +2,6 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Leobsst\LaravelCmsCore\Models\Menu;
-use Leobsst\LaravelCmsCore\Models\Page;
-use Leobsst\LaravelCmsCore\Models\MenuChildrenItem;
 use Illuminate\Database\Eloquent\Model;
 
 /**

@@ -3,13 +3,13 @@
 namespace Leobsst\LaravelCmsCore\Http\Controllers\API;
 
 use Exception;
-use Leobsst\LaravelCmsCore\Models\User;
-use Leobsst\LaravelCmsCore\Models\UserEmail;
-use Illuminate\Http\Request;
-use Leobsst\LaravelCmsCore\Traits\Api\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Leobsst\LaravelCmsCore\Http\Controllers\CoreController;
 use Leobsst\LaravelCmsCore\Http\Requests\Api\Users\GetUserRequest;
+use Leobsst\LaravelCmsCore\Models\User;
+use Leobsst\LaravelCmsCore\Models\UserEmail;
+use Leobsst\LaravelCmsCore\Traits\Api\ApiResponse;
 
 class UserController extends CoreController
 {
@@ -31,17 +31,17 @@ class UserController extends CoreController
                     'enabled',
                 ])->map(callback: function ($user): array {
                     return [
-                        'id'=> $user->id,
-                        'email'=> $user->email,
-                        'name'=> $user->name,
-                        'avatar'=> $user->avatar,
+                        'id' => $user->id,
+                        'email' => $user->email,
+                        'name' => $user->name,
+                        'avatar' => $user->avatar,
                         'bio' => $user->bio,
                         'enabled' => $user->enabled,
-                        'emails' => $user->emails()->where('email', '!=', $user->email)->get(['id', 'email', 'email_verified_at'])->toArray()
+                        'emails' => $user->emails()->where('email', '!=', $user->email)->get(['id', 'email', 'email_verified_at'])->toArray(),
                     ];
                 })->toArray());
             }
-            
+
             return $this->generateError(cause: 'You are not authorized to view this user data.', code: 403);
         } catch (Exception $e) {
             return $this->generateError(cause: $e->getMessage());
@@ -79,7 +79,7 @@ class UserController extends CoreController
                     'emails' => $user->emails()->where('email', '!=', $user->email)->get(['id', 'email', 'email_verified_at'])->toArray(),
                 ]));
             }
-            
+
             return $this->generateError(cause: 'You are not authorized to view this user data.', code: 403);
         } catch (Exception $e) {
             return $this->generateError(cause: $e->getMessage());

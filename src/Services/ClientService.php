@@ -9,30 +9,27 @@ class ClientService
 {
     /**
      * Get client's ip address
-     *
-     * @return string|null
      */
     public static function getIp(): ?string
     {
         $ip = null;
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        if (! empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        } elseif (! empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+        } elseif (! empty($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
+
         return $ip;
     }
 
     /**
      * Get current operating system
-     *
-     * @return int
      */
     public static function getOS(): int
     {
-        $device = strtolower($_SERVER["HTTP_USER_AGENT"]);
+        $device = strtolower($_SERVER['HTTP_USER_AGENT']);
 
         /* set os 1. IOS / 2. Android / 3. Other */
         if (str_contains($device, 'mac') || str_contains($device, 'iphone')) {
@@ -47,15 +44,13 @@ class ClientService
     }
 
     /**
-    * Get current browser
-    *
-    * @return string
-    */
+     * Get current browser
+     */
     public static function getBrowser(): string
     {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
-        $browser = "N/A";
-    
+        $browser = 'N/A';
+
         $browsers = [
             '/msie/i' => 'Internet explorer',
             '/firefox/i' => 'Firefox',
@@ -67,31 +62,30 @@ class ClientService
             '/opera/i' => 'Opera',
             '/mobile/i' => 'Mobile browser',
         ];
-    
+
         foreach ($browsers as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
                 $browser = $value;
             }
         }
-    
+
         return $browser;
     }
 
     /**
      * Get location from IP address
-     *
-     * @return mixed
      */
     public static function getLocation(): mixed
     {
-        $client = new Client();
+        $client = new Client;
         $request = new Request(
             'GET',
-            "http://ip-api.com/json/" . self::getIp(),
+            'http://ip-api.com/json/'.self::getIp(),
             ['Content-Type' => 'application/json']
         );
 
         $response = $client->send($request);
+
         return json_decode($response->getBody()->getContents());
     }
 }

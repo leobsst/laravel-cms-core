@@ -1,37 +1,39 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Users;
 
-use Filament\Schemas\Schema;
 use Filament\Actions\ActionGroup;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages\ListUsers;
-use Leobsst\LaravelCmsCore\Models\User;
-use Filament\Tables\Table;
-use Leobsst\LaravelCmsCore\Services\RolesService;
-use Filament\Resources\Resource;
-use Leobsst\LaravelCmsCore\Services\FilamentService;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
-use Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Leobsst\LaravelCmsCore\Models\User;
+use Leobsst\LaravelCmsCore\Services\FilamentService;
+use Leobsst\LaravelCmsCore\Services\RolesService;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Personnalisation';
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Personnalisation';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-user-group';
+
     protected static ?string $label = 'Utilisateurs';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
@@ -43,7 +45,7 @@ class UserResource extends Resource
                     ->required(),
                 TextInput::make(name: 'email')
                     ->label(label: 'Adresse e-mail')
-                    ->unique(table: 'user_emails', column: 'email', ignorable: fn($record): mixed => optional(value: $record)->emails()?->where('email', $record->email)?->first() ?? null)
+                    ->unique(table: 'user_emails', column: 'email', ignorable: fn ($record): mixed => optional(value: $record)->emails()?->where('email', $record->email)?->first() ?? null)
                     ->required(),
                 Repeater::make(name: 'emails')
                     ->label(label: 'Adresses e-mail supplémentaires')
@@ -71,7 +73,7 @@ class UserResource extends Resource
                         titleAttribute: 'name',
                         modifyQueryUsing: fn (Builder $query): Builder => auth()->user()->hasRole(roles: 'admin') ? $query : $query->whereNotIn(column: 'name', values: ['admin', 'owner'])
                     )
-                    ->getOptionLabelFromRecordUsing(callback: fn (Model $record): string|null => RolesService::getRoleLongName(role: $record->name))
+                    ->getOptionLabelFromRecordUsing(callback: fn (Model $record): ?string => RolesService::getRoleLongName(role: $record->name))
                     ->preload(),
                 Toggle::make(name: 'enabled')
                     ->label(label: 'Activé')
@@ -93,7 +95,7 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make(name: 'role')
                     ->label(label: 'Rôle')
-                    ->formatStateUsing(callback: fn ($record): string|null => RolesService::getRoleLongName(role: $record->role))
+                    ->formatStateUsing(callback: fn ($record): ?string => RolesService::getRoleLongName(role: $record->role))
                     ->badge()
                     ->color(color: fn ($record): string => match ($record->role) {
                         'user' => 'gray',
@@ -136,7 +138,7 @@ class UserResource extends Resource
                                 FilamentService::sendNotification(title: 'Utilisateur supprimé avec succès');
                             }
                         }),
-                ])->button()->color(color: 'gray')
+                ])->button()->color(color: 'gray'),
             ])
             ->toolbarActions(actions: [
                 BulkActionGroup::make(actions: [
@@ -153,6 +155,7 @@ class UserResource extends Resource
                                 foreach ($records as $record) {
                                     if ($record->hasRole('admin')) {
                                         $title = 'Impossible de supprimer '.$record->name;
+
                                         return FilamentService::sendNotification(
                                             title: $title,
                                             success: false,
@@ -163,18 +166,19 @@ class UserResource extends Resource
                                         $record->delete();
                                     }
                                 }
+
                                 return FilamentService::sendNotification(title: 'Utilisateurs supprimés avec succès');
                             }
                         }),
                 ]),
             ])
-            ->checkIfRecordIsSelectableUsing(callback: fn ($record): bool => !$record->hasRole('admin'));
+            ->checkIfRecordIsSelectableUsing(callback: fn ($record): bool => ! $record->hasRole('admin'));
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListUsers::route('/'),
+            'index' => Pages\ListUsers::route('/'),
         ];
     }
 
@@ -183,7 +187,7 @@ class UserResource extends Resource
         return ['name', 'email'];
     }
 
-    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
     {
         return $record->name;
     }

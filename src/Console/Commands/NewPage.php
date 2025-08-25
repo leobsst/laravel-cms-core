@@ -2,8 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Console\Commands;
 
-use Leobsst\LaravelCmsCore\Models\Page;
 use Illuminate\Console\Command;
+use Leobsst\LaravelCmsCore\Models\Page;
+
 use function Laravel\Prompts\textarea;
 
 class NewPage extends Command
@@ -27,9 +28,9 @@ class NewPage extends Command
      */
     public function handle()
     {
-        setlocale(LC_ALL, "en_US.utf8");
+        setlocale(LC_ALL, 'en_US.utf8');
         if ($this->argument('name')) {
-            $name = str_replace(['/', '\\',], '', $this->argument('name'));
+            $name = str_replace(['/', '\\'], '', $this->argument('name'));
         } else {
             $name = str_replace(['/', '\\'], '', $this->ask('Entrez le nom de la page'));
         }
@@ -37,7 +38,7 @@ class NewPage extends Command
         $fileName = str_replace([' ', "'"], '', ucwords(str_replace(['-', '_'], ' ', $name)));
         $fileName = urlencode(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $fileName));
 
-        while(file_exists(database_path('seeders/insert' . $fileName . 'PageSeeder.php'))) {
+        while (file_exists(database_path('seeders/insert'.$fileName.'PageSeeder.php'))) {
             $name = str_replace(['/', '\\'], '', $this->ask('Le fichier existe déjà. Entrez un autre nom'));
             $fileName = str_replace([' ', "'"], '', ucwords(str_replace(['-', '_'], ' ', $name)));
             $fileName = urlencode(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $fileName));
@@ -54,7 +55,7 @@ class NewPage extends Command
             'Entrez le contenu de la page',
             required: true
         ));
-        
+
         $this->info('Generating new page seeder...');
 
         $content = "<?php\n";
@@ -65,7 +66,7 @@ class NewPage extends Command
         $content .= "use App\Models\PagesSeo;\n";
         $content .= "use Illuminate\Database\Seeder;\n";
         $content .= "\n";
-        $content .= "class insert" . $fileName . "PageSeeder extends Seeder\n";
+        $content .= 'class insert'.$fileName."PageSeeder extends Seeder\n";
         $content .= "{\n";
         $content .= "    /**\n";
         $content .= "     * Run the database seeds.\n";
@@ -73,12 +74,12 @@ class NewPage extends Command
         $content .= "    public function run(): void\n";
         $content .= "    {\n";
         $content .= "        \$page = Page::create([\n";
-        $content .= "            'title' => '" . $name . "',\n";
-        $content .= "            'slug' => '" . $slug . "',\n";
-        $content .= "            'content' => '" . $pageContent . "',\n";
+        $content .= "            'title' => '".$name."',\n";
+        $content .= "            'slug' => '".$slug."',\n";
+        $content .= "            'content' => '".$pageContent."',\n";
         $content .= "            'is_home' => false,\n";
-        $content .= "            'is_published' => " . ($is_published ? 'true' : 'false') . ",\n";
-        $content .= "            'is_default' => " . ($is_default ? 'true' : 'false') . ",\n";
+        $content .= "            'is_published' => ".($is_published ? 'true' : 'false').",\n";
+        $content .= "            'is_default' => ".($is_default ? 'true' : 'false').",\n";
         $content .= "            'published_at' => now(),\n";
         $content .= "            'created_at' => now(),\n";
         $content .= "            'updated_at' => now(),\n";
@@ -87,8 +88,8 @@ class NewPage extends Command
         $content .= "        PagesSeo::create([\n";
         $content .= "            'page_id' => \$page->id,\n";
         $content .= "            'title' => \$page->title,\n";
-        $content .= "            'description' => '" . $description . "',\n";
-        $content .= "            'tags' => ['" . implode("', '", $keywords) . "'],\n";
+        $content .= "            'description' => '".$description."',\n";
+        $content .= "            'tags' => ['".implode("', '", $keywords)."'],\n";
         $content .= "            'robots' => 'index, follow',\n";
         $content .= "            'og_type' => 'website',\n";
         $content .= "            'og_locale' => 'fr_FR',\n";
@@ -96,7 +97,7 @@ class NewPage extends Command
         $content .= "        ]);\n";
         $content .= "    }\n";
         $content .= "}\n";
-        file_put_contents(database_path('seeders/insert' . $fileName . 'PageSeeder.php'), $content);
+        file_put_contents(database_path('seeders/insert'.$fileName.'PageSeeder.php'), $content);
 
         $this->newLine();
         $this->info('Seeder generated successfully.');
@@ -105,12 +106,13 @@ class NewPage extends Command
         $this->newLine();
 
         $dbSeeder = file_get_contents(database_path('seeders/DatabaseSeeder.php'));
-        $dbSeeder = str_replace('/* PageUse */', "/* PageUse */\nuse Database\\Seeders\\insert" . $fileName . "PageSeeder;", $dbSeeder);
-        $dbSeeder = str_replace('/* Pages */', "/* Pages */\n            insert" . $fileName . "PageSeeder::class,", $dbSeeder);
+        $dbSeeder = str_replace('/* PageUse */', "/* PageUse */\nuse Database\\Seeders\\insert".$fileName.'PageSeeder;', $dbSeeder);
+        $dbSeeder = str_replace('/* Pages */', "/* Pages */\n            insert".$fileName.'PageSeeder::class,', $dbSeeder);
         file_put_contents(database_path('seeders/DatabaseSeeder.php'), $dbSeeder);
 
         $this->newLine(2);
         $this->info('Files generated successfully.');
+
         return Command::SUCCESS;
     }
 }

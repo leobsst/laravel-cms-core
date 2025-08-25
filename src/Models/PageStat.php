@@ -2,10 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Illuminate\Support\Carbon;
-use Leobsst\LaravelCmsCore\Models\Page;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * Class PageStat

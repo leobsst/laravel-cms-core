@@ -2,9 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Leobsst\LaravelCmsCore\Models\MenuChild;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Page
@@ -34,7 +33,7 @@ class Page extends Model
         'is_published',
         'is_home',
         'is_default',
-        'published_at'
+        'published_at',
     ];
 
     protected $casts = [
@@ -43,7 +42,7 @@ class Page extends Model
         'is_default' => 'boolean',
         'published_at' => 'datetime',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
     ];
 
     public function seo()
@@ -76,14 +75,16 @@ class Page extends Model
             '/\s*class="\s*"/si',
             '/\s*class=\'\s*\'/si',
         ], '', $content);
+
         return $content;
     }
 
     public static function cleanSlug(string $slug): string
     {
-        setlocale(LC_ALL, "en_US.utf8");
+        setlocale(LC_ALL, 'en_US.utf8');
         $slug = urlencode(str_replace(' ', '-', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', trim(strtolower($slug)))));
-        setlocale(LC_ALL, "fr_FR.utf8");
+        setlocale(LC_ALL, 'fr_FR.utf8');
+
         return $slug;
     }
 }

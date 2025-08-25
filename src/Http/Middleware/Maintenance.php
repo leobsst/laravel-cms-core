@@ -2,10 +2,10 @@
 
 namespace Leobsst\LaravelCmsCore\Http\Middleware;
 
-use Leobsst\LaravelCmsCore\Models\Setting;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Leobsst\LaravelCmsCore\Models\Setting;
 use Symfony\Component\HttpFoundation\Response;
 
 class Maintenance
@@ -13,7 +13,7 @@ class Maintenance
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request):Response $next
+     * @param  Closure(Request):Response  $next
      */
     public function handle(Request $request, Closure $next): Response
     {

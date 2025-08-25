@@ -1,35 +1,37 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Settings;
 
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Illuminate\Support\HtmlString;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\CodeEditor;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Schemas\Components\Component;
-use Illuminate\Contracts\Support\Htmlable;
-use Leobsst\LaravelCmsCore\Models\Setting;
 use Filament\Forms\Components\SpatieTagsInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\HtmlString;
 use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
-use Leobsst\LaravelCmsCore\Filament\Tables\Columns\SettingTypeColumn;
-use Leobsst\LaravelCmsCore\Filament\Resources\SettingResource\Pages\ListSettings;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Personnalisation';
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Personnalisation';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cog';
+
     protected static ?string $label = 'Paramètres';
+
     protected static ?int $navigationSort = 99;
 
     public static function form(Schema $schema): Schema
@@ -102,7 +104,7 @@ class SettingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSettings::route('/'),
+            'index' => Pages\ListSettings::route('/'),
         ];
     }
 
@@ -160,7 +162,7 @@ class SettingResource extends Resource
         return ['name'];
     }
 
-    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
     {
         return $record->name;
     }

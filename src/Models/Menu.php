@@ -2,7 +2,6 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Leobsst\LaravelCmsCore\Models\MenuChild;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public function childrens()

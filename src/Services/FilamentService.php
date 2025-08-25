@@ -3,15 +3,15 @@
 namespace Leobsst\LaravelCmsCore\Services;
 
 use Exception;
-use Leobsst\LaravelCmsCore\Models\Setting;
-use Filament\Support\Colors\Color;
 use Filament\Notifications\Notification;
+use Filament\Support\Colors\Color;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class FilamentService
 {
     public static function sendNotification(string $title, bool $success = true, ?string $icon = null, ?string $iconColor = null, ?string $color = null, ?string $body = null): Notification|bool
     {
-        if (!is_null(filament()->getCurrentOrDefaultPanel())) {
+        if (! is_null(filament()->getCurrentOrDefaultPanel())) {
             $notification = Notification::make()->title($title);
 
             if ($success) {
@@ -32,6 +32,7 @@ class FilamentService
             if (filled($body)) {
                 $notification->body($body);
             }
+
             return $notification->send();
         } else {
             return false;

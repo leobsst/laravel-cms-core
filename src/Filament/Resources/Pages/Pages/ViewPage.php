@@ -1,14 +1,13 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\PageResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages\Pages;
 
-use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
-use Filament\Actions;
-use Leobsst\LaravelCmsCore\Filament\Resources\PageResource;
+use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use Leobsst\LaravelCmsCore\Filament\Widgets\Last30DaysVisit;
 use Illuminate\Contracts\Support\Htmlable;
+use Leobsst\LaravelCmsCore\Filament\Resources\Pages\PageResource;
+use Leobsst\LaravelCmsCore\Filament\Widgets\Last30DaysVisit;
 
 class ViewPage extends ViewRecord
 {
@@ -32,7 +31,7 @@ class ViewPage extends ViewRecord
         ];
     }
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
         return $this->record->title;
     }

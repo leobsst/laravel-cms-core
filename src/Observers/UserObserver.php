@@ -37,7 +37,7 @@ class UserObserver
         if (filled(value: $user->extra_data) && is_array(value: $user->extra_data)) {
             $user->extra_data = serialize($user->extra_data);
         }
-        
+
         $user->emails()->where('email', $user->getOriginal('email'))->update([
             'email' => $user->email,
             'email_verified_at' => now(),

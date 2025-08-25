@@ -1,11 +1,11 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\SettingResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Settings\Pages;
 
+use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
-use Filament\Resources\Pages\ListRecords;
-use Leobsst\LaravelCmsCore\Filament\Resources\SettingResource;
+use Leobsst\LaravelCmsCore\Filament\Resources\Settings\SettingResource;
 
 class ListSettings extends ListRecords
 {

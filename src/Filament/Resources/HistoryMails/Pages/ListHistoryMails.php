@@ -1,9 +1,9 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\HistoryMailResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\HistoryMails\Pages;
 
-use Leobsst\LaravelCmsCore\Filament\Resources\HistoryMailResource;
 use Filament\Resources\Pages\ListRecords;
+use Leobsst\LaravelCmsCore\Filament\Resources\HistoryMails\HistoryMailResource;
 
 class ListHistoryMails extends ListRecords
 {

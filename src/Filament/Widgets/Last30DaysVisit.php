@@ -2,15 +2,17 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Widgets;
 
-use Leobsst\LaravelCmsCore\Models\PageStat;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Database\Eloquent\Model;
+use Leobsst\LaravelCmsCore\Models\PageStat;
 
 class Last30DaysVisit extends BaseWidget
 {
     protected static ?int $sort = -4;
+
     protected ?string $pollingInterval = null;
+
     public ?Model $record = null;
 
     protected function getStats(): array
@@ -48,7 +50,7 @@ class Last30DaysVisit extends BaseWidget
             ->orderBy($interval)
             ->get()
             ->groupBy($interval)
-            ->map(fn($dayGroup) => $dayGroup->count())
+            ->map(fn ($dayGroup) => $dayGroup->count())
             ->toArray();
 
         return [

@@ -51,7 +51,6 @@ class DeployCommand extends Command
 
         $this->newLine(2);
 
-
         $this->components->info('Caching framework bootstrap, configuration, and metadata.');
 
         collect([

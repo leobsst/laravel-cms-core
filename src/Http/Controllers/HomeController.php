@@ -2,8 +2,6 @@
 
 namespace Leobsst\LaravelCmsCore\Http\Controllers;
 
-use App\Models\Page;
-
 class HomeController extends CoreController
 {
     /**

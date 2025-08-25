@@ -1,9 +1,9 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\UserResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Users\Pages;
 
-use Leobsst\LaravelCmsCore\Filament\Resources\UserResource;
 use Filament\Resources\Pages\CreateRecord;
+use Leobsst\LaravelCmsCore\Filament\Resources\Users\UserResource;
 
 class CreateUser extends CreateRecord
 {

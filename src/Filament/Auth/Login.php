@@ -2,19 +2,19 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Auth;
 
-use Filament\Facades\Filament;
-use Illuminate\Auth\SessionGuard;
-use Illuminate\Support\HtmlString;
-use Leobsst\LaravelCmsCore\Models\Log;
-use Leobsst\LaravelCmsCore\Enums\LogType;
-use Filament\Models\Contracts\FilamentUser;
-use Leobsst\LaravelCmsCore\Enums\LogStatus;
-use Leobsst\LaravelCmsCore\Models\UserEmail;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Validation\ValidationException;
-use Leobsst\LaravelCmsCore\Services\ClientService;
-use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use Filament\Auth\Http\Responses\Contracts\LoginResponse;
+use Filament\Facades\Filament;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Auth\SessionGuard;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\HtmlString;
+use Illuminate\Validation\ValidationException;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
+use Leobsst\LaravelCmsCore\Models\Log;
+use Leobsst\LaravelCmsCore\Models\UserEmail;
+use Leobsst\LaravelCmsCore\Services\ClientService;
 
 class Login extends \Filament\Auth\Pages\Login
 {

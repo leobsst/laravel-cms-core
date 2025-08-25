@@ -1,9 +1,9 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Filament\Resources\LogResource\Pages;
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Logs\Pages;
 
-use Leobsst\LaravelCmsCore\Filament\Resources\LogResource;
 use Filament\Resources\Pages\ListRecords;
+use Leobsst\LaravelCmsCore\Filament\Resources\Logs\LogResource;
 
 class ListLogs extends ListRecords
 {

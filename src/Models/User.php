@@ -2,23 +2,26 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Leobsst\LaravelCmsCore\Models\Log;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
+use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
-use Leobsst\LaravelCmsCore\Enums\LogType;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Laravel\Passport\HasApiTokens;
 use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
+use Leobsst\LaravelCmsCore\Notifications\ResetPasswordNotification;
 use Leobsst\LaravelCmsCore\Observers\UserObserver;
 use Leobsst\LaravelCmsCore\Services\ClientService;
-use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Leobsst\LaravelCmsCore\Notifications\ResetPasswordNotification;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class Page
@@ -34,8 +37,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property ?string $phone
  * @property string $password
  * @property ?string $remember_token
- * @property ?string $two_fa_secret
- * @property bool $two_fa_enabled
  * @property ?string $avatar
  * @property bool $avatar_gravatar
  * @property string $bio
@@ -48,16 +49,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property ?string $linkedin
  * @property ?string $github
  * @property ?string $website
- * @property ?string $extra_data
+ * @property array $extra_data
  * @property bool $enabled
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Collection|UserEmail[] $emails
  */
 #[ObservedBy(classes: [UserObserver::class])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasEmailAuthentication, MustVerifyEmail
 {
-    use HasApiTokens, HasRoles, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -75,8 +76,6 @@ class User extends Authenticatable implements FilamentUser
         'phone',
         'password',
         'remember_token',
-        'two_fa_secret',
-        'two_fa_enabled',
         'avatar',
         'avatar_gravatar',
         'bio',
@@ -101,8 +100,8 @@ class User extends Authenticatable implements FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
-        'two_fa_secret',
-        'two_fa_enabled',
+        'app_authentication_secret',
+        'app_authentication_recovery_codes',
     ];
 
     /**
@@ -114,7 +113,9 @@ class User extends Authenticatable implements FilamentUser
         'username_visible' => 'boolean',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'two_fa_enabled' => 'boolean',
+        'app_authentication_secret' => 'encrypted',
+        'app_authentication_recovery_codes' => 'encrypted:array',
+        'has_email_authentication' => 'boolean',
         'avatar_gravatar' => 'boolean',
         'extra_data' => 'array',
         'enabled' => 'boolean',
@@ -133,11 +134,7 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Log an action.
      *
-     * @param LogType $type
-     * @param string $message
-     * @param LogStatus $status
-     * @param string|null $data
-     * @return void
+     * @param  string|null  $data
      */
     public function log(LogType $type, string $message, LogStatus $status, mixed $data = null): void
     {
@@ -152,9 +149,6 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * Check if the user has a role to access the panel.
-     *
-     * @param Panel $panel
-     * @return bool
      */
     public function canAccessPanel(Panel $panel): bool
     {
@@ -163,9 +157,101 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
+     * Determine if the user has verified their email address.
+     */
+    public function hasVerifiedEmail(): bool
+    {
+        return filled($this->email_verified_at);
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     */
+    public function markEmailAsVerified(): bool
+    {
+        return $this->forceFill([
+            'email_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new \Illuminate\Auth\Notifications\VerifyEmail);
+    }
+
+    /**
+     * Get the email address that should be used for verification.
+     */
+    public function getEmailForVerification(): string
+    {
+        return $this->email;
+    }
+
+    public function getAppAuthenticationSecret(): ?string
+    {
+        // This method should return the user's saved app authentication secret.
+
+        return $this->app_authentication_secret;
+    }
+
+    public function saveAppAuthenticationSecret(?string $secret): void
+    {
+        // This method should save the user's app authentication secret.
+
+        $this->app_authentication_secret = $secret;
+        $this->save();
+    }
+
+    public function getAppAuthenticationHolderName(): string
+    {
+        // In a user's authentication app, each account can be represented by a "holder name".
+        // If the user has multiple accounts in your app, it might be a good idea to use
+        // their email address as then they are still uniquely identifiable.
+
+        return $this->email;
+    }
+
+    /**
+     * @return ?array<string>
+     */
+    public function getAppAuthenticationRecoveryCodes(): ?array
+    {
+        // This method should return the user's saved app authentication recovery codes.
+
+        return $this->app_authentication_recovery_codes;
+    }
+
+    /**
+     * @param  array<string> | null  $codes
+     */
+    public function saveAppAuthenticationRecoveryCodes(?array $codes): void
+    {
+        // This method should save the user's app authentication recovery codes.
+
+        $this->app_authentication_recovery_codes = $codes;
+        $this->save();
+    }
+
+    public function hasEmailAuthentication(): bool
+    {
+        // This method should return true if the user has enabled email authentication.
+
+        return $this->has_email_authentication;
+    }
+
+    public function toggleEmailAuthentication(bool $condition): void
+    {
+        // This method should save whether or not the user has enabled email authentication.
+
+        $this->has_email_authentication = $condition;
+        $this->save();
+    }
+
+    /**
      * Retrieve the user's role.
-     *
-     * @return string|null
      */
     public function getRoleAttribute(): ?string
     {
@@ -174,13 +260,11 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * Send the finalization email.
-     *
-     * @return void
      */
     public function sendFinalizationEmail(): void
     {
         $token = app('auth.password.broker')->createToken($this);
-        $subject = ('Bienvenue sur ' . Setting::get('website_name'));
+        $subject = ('Bienvenue sur '.Setting::get('website_name'));
         self::notify(new ResetPasswordNotification(
             token: $token,
             subject: $subject,

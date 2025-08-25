@@ -2,11 +2,11 @@
 
 namespace Leobsst\LaravelCmsCore\Traits;
 
-use Leobsst\LaravelCmsCore\Enums\LogType;
+use Illuminate\Database\Eloquent\Model;
 use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Models\Log as LogModel;
 use Leobsst\LaravelCmsCore\Services\ClientService;
-use Illuminate\Database\Eloquent\Model;
 
 trait LogModelTransactionsTrait
 {
