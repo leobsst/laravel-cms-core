@@ -49,7 +49,7 @@ Route::name('core.')->group(function () {
             return app(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class, [
                 'slug' => $slug,
                 'folder' => $folder,
-            ]);
+            ])->render();
         })->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
     });
 });

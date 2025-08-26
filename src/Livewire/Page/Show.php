@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Leobsst\LaravelCmsCore\Mail\ContactClient;
 use Leobsst\LaravelCmsCore\Mail\ContactCustomer;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
@@ -53,10 +52,10 @@ class Show extends Component
 
     public function mount()
     {
-        $this->page = Page::where('slug', 'LIKE', '%'.Str::slug($this->slug).'%')
+        $this->page = Page::where('slug', $this->slug)
             ->when(filled($this->folder), function ($query) {
                 $query->whereHas('theme', function ($q) {
-                    $q->where('name', 'LIKE', '%'.Str::slug($this->folder).'%');
+                    $q->where('name', $this->folder);
                 });
             })
             ->first();
