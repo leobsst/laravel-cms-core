@@ -94,14 +94,12 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'primary_color',
                 'value' => '#e3903e',
-                'default_value' => '#e3903e',
                 'type' => SettingTypeEnum::COLOR,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
                 'name' => 'primary_color_dark',
                 'value' => '#de6849',
-                'default_value' => '#de6849',
                 'type' => SettingTypeEnum::COLOR,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
@@ -109,7 +107,7 @@ class insertDefaultSettings extends Seeder
                 'name' => 'business_entity_enabled',
                 'value' => 0,
                 'type' => SettingTypeEnum::BOOLEAN,
-                'category' => SettingCategoryEnum::CUSTOMIZATION,
+                'category' => SettingCategoryEnum::GENERAL,
             ],
             [
                 'name' => 'business_entity_name',

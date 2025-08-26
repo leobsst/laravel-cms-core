@@ -116,7 +116,7 @@ class HistoryMailResource extends Resource
         ];
     }
 
-    public static function canViewAny(): bool
+    public static function canAccess(): bool
     {
         return auth()->user()->hasRole(roles: 'manager');
     }

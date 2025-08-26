@@ -10,11 +10,12 @@ use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
 
 /**
- * Class Page
+ * Class Setting
  *
  * @property int $id
  * @property string $name
- * @property string $value
+ * @property ?string $value
+ * @property ?string $default_value
  * @property SettingTypeEnum $type
  * @property SettingCategoryEnum $category
  * @property bool $is_default

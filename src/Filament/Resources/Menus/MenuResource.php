@@ -125,7 +125,7 @@ class MenuResource extends Resource
         ];
     }
 
-    public static function canViewAny(): bool
+    public static function canAccess(): bool
     {
         return auth()->user()->hasRole('manager') && Feature::active('menus');
     }
