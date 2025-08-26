@@ -5,6 +5,7 @@
 - Cleaned project
 - Added Laravel Pennant for Features
 - Added Business settings category
+- Added theme (folder) for page
 
 ## v1.1.1
 

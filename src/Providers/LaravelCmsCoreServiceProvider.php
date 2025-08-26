@@ -2,16 +2,20 @@
 
 namespace Leobsst\LaravelCmsCore\Providers;
 
-use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Http\Request;
+use Laravel\Pennant\Feature;
+use Laravel\Passport\Passport;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Console\AboutCommand;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Leobsst\LaravelCmsCore\Console\Commands\addChangeLog;
 use Leobsst\LaravelCmsCore\Console\Commands\ConvertToWebp;
 use Leobsst\LaravelCmsCore\Console\Commands\DeployCommand;
-use Leobsst\LaravelCmsCore\Console\Commands\Faker\FakerLog;
 use Leobsst\LaravelCmsCore\Console\Commands\TerminateLogs;
-use Leobsst\LaravelCmsCore\Console\Commands\Translation\AddTranslationToFile;
-use Leobsst\LaravelCmsCore\Console\Commands\Translation\NewTranslation;
+use Leobsst\LaravelCmsCore\Console\Commands\Faker\FakerLog;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\Translate;
+use Leobsst\LaravelCmsCore\Console\Commands\Translation\NewTranslation;
+use Leobsst\LaravelCmsCore\Console\Commands\Translation\AddTranslationToFile;
 
 class LaravelCmsCoreServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,16 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->getViews();
         $this->getPackageInformations();
         $this->getCommands();
+        
+        // Pennant Feature Flag global scope
+        Feature::resolveScopeUsing(fn ($drive) => null);
+        EnsureFeaturesAreActive::whenInactive(callback: fn (Request $request, array $features) => 
+            abort(404, 'Cette page est indisponible', [
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            ])
+        );
+
+        Passport::enablePasswordGrant();
     }
 
     /**
