@@ -6,6 +6,7 @@
 - Added Laravel Pennant for Features
 - Added Business settings category
 - Added theme (folder) for page
+- Changed Rich editor from TinyMCE to Tiptap
 
 ## v1.1.1
 

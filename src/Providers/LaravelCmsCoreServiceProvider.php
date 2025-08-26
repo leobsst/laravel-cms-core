@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +17,9 @@ use Leobsst\LaravelCmsCore\Console\Commands\TerminateLogs;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\AddTranslationToFile;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\NewTranslation;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\Translate;
+use Leobsst\LaravelCmsCore\Models\Features\Menus\Menu;
+use Leobsst\LaravelCmsCore\Models\Setting;
+use Leobsst\LaravelCmsCore\Services\ClientService;
 
 class LaravelCmsCoreServiceProvider extends ServiceProvider
 {
@@ -40,6 +44,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         ])
         );
 
+        // Passport
         Passport::enablePasswordGrant();
     }
 
@@ -50,7 +55,13 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register any application services or bindings here
+        session()->put('cookie_consent');
+        $loader = AliasLoader::getInstance();
+
+        // Add your aliases
+        $loader->alias('Setting', Setting::class);
+        $loader->alias('ClientService', ClientService::class);
+        $loader->alias('Menu', Menu::class);
     }
 
     /**

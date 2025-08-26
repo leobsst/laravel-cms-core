@@ -10,11 +10,13 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\FusedGroup;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
@@ -59,15 +61,38 @@ class PageResource extends Resource
                                             ->placeholder('Nom de la page')
                                             ->maxLength(45)
                                             ->disabled(fn ($record) => $record->is_default ?? false),
-                                        TextInput::make('slug')
+                                        FusedGroup::make([
+                                            Select::make('theme_id')
+                                                ->relationship('theme', 'name')
+                                                ->hiddenLabel()
+                                                ->required(fn ($record) => ! $record?->is_default)
+                                                ->disabled(fn ($record) => $record->is_default ?? false)
+                                                ->searchable()
+                                                ->createOptionForm([
+                                                    TextInput::make('name')
+                                                        ->required()
+                                                        ->placeholder('Thème (dossier public)')
+                                                        ->maxLength(45)
+                                                        ->unique('themes', 'name', ignoreRecord: true)
+                                                        ->regex(pattern: '^[a-zA-Z0-9-_]+$')
+                                                        ->validationMessages([
+                                                            'unique' => 'Ce thème existe déjà.',
+                                                            'regex' => 'Le thème ne peut contenir que des lettres, chiffres, tirets et underscores.',
+                                                        ]),
+                                                ]),
+                                            TextInput::make('slug')
+                                                ->hiddenLabel()
+                                                ->required(fn ($record) => ! $record?->is_default)
+                                                ->placeholder(fn ($record) => filled($record) && $record->is_default ? '' : 'Slug de la page')
+                                                ->disabled(fn ($record) => $record->is_default ?? false)
+                                                ->unique('pages', 'slug', ignoreRecord: true)
+                                                ->validationMessages([
+                                                    'unique' => 'Ce slug est déjà utilisé.',
+                                                ]),
+                                        ])
+                                            ->columns(2)
                                             ->label('Slug')
-                                            ->required(fn ($record) => ! $record?->is_default)
-                                            ->placeholder(fn ($record) => filled($record) && $record->is_default ? '' : 'Slug de la page')
-                                            ->disabled(fn ($record) => $record->is_default ?? false)
-                                            ->unique('pages', 'slug', ignoreRecord: true)
-                                            ->validationMessages([
-                                                'unique' => 'Ce slug est déjà utilisé.',
-                                            ]),
+                                            ->separator('/'),
                                     ])->columns(2),
                                 Section::make('SEO')
                                     ->relationship('seo')
@@ -109,14 +134,11 @@ class PageResource extends Resource
                                     ]),
                             ]),
                     ])->columnSpanFull(),
-                Section::make('Contenu')
-                    ->schema([
-                        RichEditor::make('content')
-                            ->hiddenLabel()
-                            ->required()
-                            ->fileAttachmentsDisk('uploads')
-                            ->columnSpan('full'),
-                    ])->columns(1)->collapsible(),
+                RichEditor::make('content')
+                    ->hiddenLabel()
+                    ->required()
+                    ->fileAttachmentsDisk('uploads')
+                    ->columnSpanFull(),
             ]);
     }
 

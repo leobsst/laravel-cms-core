@@ -53,16 +53,6 @@ class Show extends Component
 
     public function mount()
     {
-        $path = request()->path();
-
-        if (Str::contains($path, '/')) {
-            $segments = explode('/', $path);
-            $this->folder = $segments[0];
-            $this->slug = end($segments);
-        } else {
-            $this->slug = $path;
-        }
-
         $this->page = Page::where('slug', 'LIKE', '%'.Str::slug($this->slug).'%')
             ->when(filled($this->folder), function ($query) {
                 $query->whereHas('theme', function ($q) {
