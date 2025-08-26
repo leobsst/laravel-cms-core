@@ -4,7 +4,7 @@ namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Leobsst\LaravelCmsCore\Filament\Resources\Pages\PageResource;
-use Leobsst\LaravelCmsCore\Models\Page;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 class CreatePage extends CreateRecord
 {

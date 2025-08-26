@@ -28,7 +28,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Filament\Tables\Columns\PageStatColumn;
-use Leobsst\LaravelCmsCore\Models\Page;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 class PageResource extends Resource
 {

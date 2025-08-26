@@ -12,7 +12,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Laravel\Pennant\Feature;
-use Leobsst\LaravelCmsCore\Models\Menu;
+use Leobsst\LaravelCmsCore\Models\Features\Menus\Menu;
 
 class MenuResource extends Resource
 {
@@ -30,7 +30,7 @@ class MenuResource extends Resource
     {
         return $schema
             ->components([
-                Repeater::make('childrens')
+                Repeater::make('children')
                     ->hiddenLabel()
                     ->collapsible()
                     ->addActionLabel('Ajouter un lien')
@@ -67,7 +67,7 @@ class MenuResource extends Resource
                             ->live()
                             ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('page_id')))
                             ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
-                        Repeater::make('childrens')
+                        Repeater::make('children')
                             ->defaultItems(0)
                             ->hiddenLabel()
                             ->collapsed()
@@ -113,7 +113,8 @@ class MenuResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-            ]);
+            ])
+            ->modifyQueryUsing(fn ($query) => $query->with('children'));
     }
 
     public static function getPages(): array

@@ -6,7 +6,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 use Leobsst\LaravelCmsCore\Filament\Resources\Pages\PageResource;
-use Leobsst\LaravelCmsCore\Models\Page;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 class EditPage extends EditRecord
 {
