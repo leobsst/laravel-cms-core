@@ -2,7 +2,6 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages;
 
-use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -10,6 +9,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -111,14 +111,11 @@ class PageResource extends Resource
                     ])->columnSpanFull(),
                 Section::make('Contenu')
                     ->schema([
-                        TinyEditor::make('content')
+                        RichEditor::make('content')
                             ->hiddenLabel()
                             ->required()
-                            ->columnSpanFull()
                             ->fileAttachmentsDisk('uploads')
-                            ->profile('custom')
-                            ->columnSpan('full')
-                            ->showMenuBar(),
+                            ->columnSpan('full'),
                     ])->columns(1)->collapsible(),
             ]);
     }
