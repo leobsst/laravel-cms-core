@@ -41,6 +41,8 @@ class FeatureResource extends Resource
                     ->label(label: fn (Feature $record): string => $record->value ? 'Désactiver' : 'Activer')
                     ->icon(icon: fn (Feature $record): string => $record->value ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
                     ->requiresConfirmation(condition: fn (Feature $record): bool => $record->value)
+                    ->modal(condition: fn (Feature $record): bool => $record->value)
+                    ->modalIconColor(color: 'danger')
                     ->modalIcon(icon: 'heroicon-o-x-circle')
                     ->modalHeading(heading: fn (Feature $record): string => 'Désactiver  '.$record->name.' ?')
                     ->modalSubmitActionLabel(label: 'Désactiver')
