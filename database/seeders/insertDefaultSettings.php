@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
 use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class insertDefaultSettings extends Seeder
 {
@@ -222,7 +223,7 @@ class insertDefaultSettings extends Seeder
 
         foreach ($defaultConfigurations as $configuration) {
             if ($configuration['name'] === 'website_keywords') {
-                DB::table('settings')->updateOrInsert([
+                Setting::updateOrCreate([
                     'name' => $configuration['name'],
                 ], [
                     'type' => SettingTypeEnum::TAGS,
@@ -230,6 +231,7 @@ class insertDefaultSettings extends Seeder
                     'is_default' => true,
                     'tags' => [
                         0 => 'LEOBSST',
+                        1 => 'B.L.A.M. PRODUCTION',
                     ],
                 ]);
             } else {
