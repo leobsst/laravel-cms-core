@@ -59,6 +59,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->publishes(paths: [
             __DIR__.'/../../database/seeders' => database_path(path: 'seeders'),
             __DIR__.'/../../database/factories' => database_path(path: 'factories'),
+            __DIR__.'/../../../laravel/pennant/config' => config_path(path: 'pennant.php'),
         ], groups: 'laravel-cms-core-database');
     }
 
