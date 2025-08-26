@@ -31,7 +31,7 @@ class FeatureResource extends Resource
                     ->label(label: 'Nom')
                     ->searchable()
                     ->sortable(),
-                IconColumn::make(name: 'value')
+                IconColumn::make(name: 'bool_value')
                     ->label(label: 'Active')
                     ->boolean()
                     ->sortable(),
@@ -48,7 +48,7 @@ class FeatureResource extends Resource
                     ->modalHeading(heading: fn (Feature $record): string => 'Désactiver  '.$record->name.' ?')
                     ->modalSubmitActionLabel(label: 'Désactiver')
                     ->action(action: function (Feature $record): Notification|bool {
-                        if ($record->update(attributes: ['value' => ! $record->bool_value])) {
+                        if ($record->update(attributes: ['value' => $record->bool_value ? 'false' : 'true'])) {
                             return FilamentService::sendNotification(title: $record->bool_value
                                 ? 'Fonctionnalité activée'
                                 : 'Fonctionnalité désactivée'
@@ -64,7 +64,11 @@ class FeatureResource extends Resource
                     ->label(label: 'Active')
                     ->trueLabel(trueLabel: 'Oui')
                     ->falseLabel(falseLabel: 'Non')
-                    ->placeholder(placeholder: 'Toutes'),
+                    ->placeholder(placeholder: 'Toutes')
+                    ->queries(
+                        true: fn ($query) => $query->where('value', 'true'),
+                        false: fn ($query) => $query->where('value', 'false')
+                    ),
             ]);
     }
 
