@@ -38,17 +38,18 @@ class FeatureResource extends Resource
             ])
             ->recordActions(actions: [
                 Action::make(name: 'toggle')
-                    ->label(label: fn (Feature $record): string => $record->value ? 'Désactiver' : 'Activer')
-                    ->icon(icon: fn (Feature $record): string => $record->value ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
-                    ->requiresConfirmation(condition: fn (Feature $record): bool => $record->value)
-                    ->modal(condition: fn (Feature $record): bool => $record->value)
+                    ->label(label: fn (Feature $record): string => $record->bool_value ? 'Désactiver' : 'Activer')
+                    ->icon(icon: fn (Feature $record): string => $record->bool_value ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                    ->requiresConfirmation(condition: fn (Feature $record): bool => $record->bool_value)
+                    ->modal(condition: fn (Feature $record): bool => $record->bool_value)
                     ->modalIconColor(color: 'danger')
                     ->modalIcon(icon: 'heroicon-o-x-circle')
+                    ->color(color: fn (Feature $record): string => $record->bool_value ? 'danger' : 'primary')
                     ->modalHeading(heading: fn (Feature $record): string => 'Désactiver  '.$record->name.' ?')
                     ->modalSubmitActionLabel(label: 'Désactiver')
                     ->action(action: function (Feature $record): Notification|bool {
-                        if ($record->update(attributes: ['value' => ! $record->value])) {
-                            return FilamentService::sendNotification(title: $record->value
+                        if ($record->update(attributes: ['value' => ! $record->bool_value])) {
+                            return FilamentService::sendNotification(title: $record->bool_value
                                 ? 'Fonctionnalité activée'
                                 : 'Fonctionnalité désactivée'
                             );

@@ -15,7 +15,7 @@ return new class extends PennantMigration
             $table->id();
             $table->string('name');
             $table->string('scope')->default('__laravel_null');
-            $table->boolean('value');
+            $table->text('value');
             $table->timestamps();
 
             $table->unique(['name', 'scope']);

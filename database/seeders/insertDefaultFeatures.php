@@ -39,7 +39,7 @@ class insertDefaultFeatures extends Seeder
             DB::table(table: 'features')->updateOrInsert(
                 ['name' => $feature['name']],
                 [
-                    'value' => $feature['value'],
+                    'value' => $feature['value'] ? 'true' : 'false',
                     'scope' => '__laravel_null',
                 ]
             );
