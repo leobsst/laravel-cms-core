@@ -63,7 +63,7 @@ class PageResource extends Resource
                                             ->disabled(fn ($record) => $record->is_default ?? false),
                                         FusedGroup::make([
                                             Select::make('theme_id')
-                                                ->relationship('page_themes', 'name')
+                                                ->relationship('theme', 'name')
                                                 ->hiddenLabel()
                                                 ->disabled(fn ($record) => $record->is_default ?? false)
                                                 ->searchable()
@@ -72,7 +72,7 @@ class PageResource extends Resource
                                                         ->required()
                                                         ->placeholder('Thème (dossier public)')
                                                         ->maxLength(45)
-                                                        ->unique('themes', 'name', ignoreRecord: true)
+                                                        ->unique('page_themes', 'name', ignoreRecord: true)
                                                         ->regex('/^[a-zA-Z0-9-_]+$/')
                                                         ->validationMessages([
                                                             'unique' => 'Ce thème existe déjà.',
