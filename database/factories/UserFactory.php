@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Leobsst\LaravelCmsCore\Models\User>
+ * @extends Factory<\Leobsst\LaravelCmsCore\Models\User>
  */
 class UserFactory extends Factory
 {

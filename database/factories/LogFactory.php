@@ -8,7 +8,7 @@ use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory
+ * @extends Factory
  */
 class LogFactory extends Factory
 {

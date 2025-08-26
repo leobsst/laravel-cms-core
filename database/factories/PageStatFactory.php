@@ -3,10 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Leobsst\LaravelCmsCore\Models\Page;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Leobsst\LaravelCmsCore\Models\PageStat>
+ * @extends Factory<\Leobsst\LaravelCmsCore\Models\Features\Pages\PageStat>
  */
 class PageStatFactory extends Factory
 {

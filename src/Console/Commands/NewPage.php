@@ -3,7 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Console\Commands;
 
 use Illuminate\Console\Command;
-use Leobsst\LaravelCmsCore\Models\Page;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 use function Laravel\Prompts\textarea;
 

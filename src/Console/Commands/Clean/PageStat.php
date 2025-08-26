@@ -3,7 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Console\Commands\Clean;
 
 use Illuminate\Console\Command;
-use Leobsst\LaravelCmsCore\Models\PageStat as Model;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\PageStat as Model;
 
 class PageStat extends Command
 {
