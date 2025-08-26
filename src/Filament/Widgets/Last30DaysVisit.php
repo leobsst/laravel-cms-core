@@ -5,7 +5,7 @@ namespace Leobsst\LaravelCmsCore\Filament\Widgets;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Model;
-use Leobsst\LaravelCmsCore\Models\PageStat;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\PageStat;
 
 class Last30DaysVisit extends BaseWidget
 {
