@@ -4,6 +4,9 @@ namespace Leobsst\LaravelCmsCore\Models\Features\Pages;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
 
@@ -14,6 +17,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property string $title
  * @property ?string $title-content
  * @property ?string $slug
+ * @property ?int $theme_id
  * @property ?string $content
  * @property ?string $banner
  * @property bool $is_published
@@ -23,6 +27,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property PagesSeo $seo
  * @property Collection|PageStat[] $stats
  * @property MenuChild $menu
+ * @property ?PageTheme $theme
  */
 class Page extends Model
 {
@@ -47,19 +52,29 @@ class Page extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function seo()
+    public function seo(): HasOne
     {
         return $this->hasOne(PagesSeo::class);
     }
 
-    public function stats()
+    public function stats(): HasMany
     {
         return $this->hasMany(PageStat::class, 'page_id');
     }
 
-    public function menu()
+    public function menu(): HasOne
     {
         return $this->hasOne(MenuChild::class, 'page_id');
+    }
+
+    public function theme(): BelongsTo
+    {
+        return $this->belongsTo(PageTheme::class, 'theme_id');
+    }
+
+    public function getThemedSlugAttribute(): string
+    {
+        return $this->theme ? $this->theme->name.'/'.$this->slug : $this->slug;
     }
 
     public static function cleanContent(string $content): string

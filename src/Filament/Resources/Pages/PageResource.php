@@ -23,6 +23,8 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
@@ -129,11 +131,11 @@ class PageResource extends Resource
                     ->label('Nom')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('slug')
+                TextColumn::make('themed_slug')
                     ->label('Slug')
-                    ->searchable()
+                    ->searchable(['theme', 'slug'])
                     ->copyable()
-                    ->sortable(),
+                    ->sortable(['theme', 'slug']),
                 ToggleColumn::make('is_published')
                     ->label('Publiée')
                     ->sortable()
@@ -169,6 +171,23 @@ class PageResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->filters([
+                SelectFilter::make('theme')
+                    ->label('Thème')
+                    ->relationship('theme', 'name')
+                    ->placeholder('Tous les thèmes')
+                    ->searchable()
+                    ->multiple(),
+                TernaryFilter::make('is_published')
+                    ->label('Publiée ?')
+                    ->placeholder('Toutes'),
+            ])
+            ->modifyQueryUsing(fn ($query) => $query->with([
+                'theme',
+                'seo',
+                'stats',
+            ])
+            )
             ->checkIfRecordIsSelectableUsing(fn ($record) => ! $record->is_default);
     }
 

@@ -7,7 +7,7 @@ use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
 
 /**
- * Class Page
+ * Class PageSeo
  *
  * @property int $page_id
  * @property string $title

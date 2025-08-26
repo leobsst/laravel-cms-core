@@ -65,7 +65,9 @@ class Show extends Component
 
         $this->page = Page::where('slug', 'LIKE', '%'.Str::slug($this->slug).'%')
             ->when(filled($this->folder), function ($query) {
-                $query->where('folder', 'LIKE', '%'.Str::slug($this->folder).'%');
+                $query->whereHas('theme', function ($q) {
+                    $q->where('name', 'LIKE', '%'.Str::slug($this->folder).'%');
+                });
             })
             ->first();
         $this->sent = false;
