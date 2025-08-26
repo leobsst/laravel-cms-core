@@ -2,12 +2,15 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\Features;
 
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Models\Feature;
+use Leobsst\LaravelCmsCore\Services\FilamentService;
 
 class FeatureResource extends Resource
 {
@@ -32,6 +35,25 @@ class FeatureResource extends Resource
                     ->label(label: 'Active')
                     ->boolean()
                     ->sortable(),
+            ])
+            ->recordActions(actions: [
+                Action::make(name: 'toggle')
+                    ->label(label: fn (Feature $record): string => $record->value ? 'Désactiver' : 'Activer')
+                    ->icon(icon: fn (Feature $record): string => $record->value ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                    ->requiresConfirmation(condition: fn (Feature $record): bool => $record->value)
+                    ->modalIcon(icon: 'heroicon-o-x-circle')
+                    ->modalHeading(heading: fn (Feature $record): string => 'Désactiver  '.$record->name.' ?')
+                    ->modalSubmitActionLabel(label: 'Désactiver')
+                    ->action(action: function (Feature $record): Notification|bool {
+                        if ($record->update(attributes: ['value' => ! $record->value])) {
+                            return FilamentService::sendNotification(title: $record->value
+                                ? 'Fonctionnalité activée'
+                                : 'Fonctionnalité désactivée'
+                            );
+                        }
+
+                        return FilamentService::sendNotification(title: 'Une erreur est survenue', success: false);
+                    }),
             ])
             ->defaultSort(column: 'name')
             ->filters(filters: [

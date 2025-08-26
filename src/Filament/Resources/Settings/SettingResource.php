@@ -111,33 +111,33 @@ class SettingResource extends Resource
     {
         return match ($record->type) {
             SettingTypeEnum::STRING => TextInput::make('value')
-                ->label($record->getSettingName()),
+                ->label($record->setting_name),
             SettingTypeEnum::NUMBER => TextInput::make('value')
                 ->label('Valeur')
                 ->integer(),
             SettingTypeEnum::BOOLEAN => Toggle::make('value')
-                ->label($record->getSettingName())
+                ->label($record->setting_name)
                 ->required(),
             SettingTypeEnum::JSON => Textarea::make('value')
-                ->label($record->getSettingName()),
+                ->label($record->setting_name),
             SettingTypeEnum::DATE => DatePicker::make('value')
-                ->label($record->getSettingName()),
+                ->label($record->setting_name),
             SettingTypeEnum::URL => TextInput::make('value')
-                ->label($record->getSettingName())
+                ->label($record->setting_name)
                 ->url(),
             SettingTypeEnum::EMAIL => TextInput::make('value')
-                ->label($record->getSettingName())
+                ->label($record->setting_name)
                 ->email()
                 ->required(),
             SettingTypeEnum::TEXTAREA => $record->name === 'custom_css'
-                ? CodeEditor::make('value')->label($record->getSettingName())->language(Language::Css)
-                : Textarea::make('value')->label($record->getSettingName())->rows(10),
+                ? CodeEditor::make('value')->label($record->setting_name)->language(Language::Css)
+                : Textarea::make('value')->label($record->setting_name)->rows(10),
             SettingTypeEnum::COLOR => ColorPicker::make('value')
-                ->label($record->getSettingName())
+                ->label($record->setting_name)
                 ->hexColor()
                 ->required(),
             SettingTypeEnum::TAGS => SpatieTagsInput::make('tags')
-                ->label($record->getSettingName())
+                ->label($record->setting_name)
                 ->required(),
             SettingTypeEnum::IMAGE => FileUpload::make('value')
                 ->label('Bannière')
