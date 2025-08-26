@@ -1,8 +1,9 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Models\Features;
+namespace Leobsst\LaravelCmsCore\Models\Features\Menus;
 
 use Illuminate\Database\Eloquent\Model;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 /**
  * Class MenuChild

@@ -1,6 +1,6 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Models\Features;
+namespace Leobsst\LaravelCmsCore\Models\Features\Pages;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
