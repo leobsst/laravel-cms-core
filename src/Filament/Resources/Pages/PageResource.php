@@ -63,7 +63,7 @@ class PageResource extends Resource
                                             ->disabled(fn ($record) => $record->is_default ?? false),
                                         FusedGroup::make([
                                             Select::make('theme_id')
-                                                ->relationship('theme', 'name')
+                                                ->relationship('page_themes', 'name')
                                                 ->hiddenLabel()
                                                 ->disabled(fn ($record) => $record->is_default ?? false)
                                                 ->searchable()
