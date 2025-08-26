@@ -46,8 +46,7 @@ class SettingResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->tooltip(fn ($record) => $record->getSettingName())
+                TextColumn::make('setting_name')
                     ->searchable()
                     ->label('Nom'),
                 TextColumn::make('custom')
