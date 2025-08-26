@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('category')->default(SettingCategoryEnum::GENERAL->value);
             $table->boolean('is_default')->default(false);
             $table->boolean('enabled')->default(true);
+            $table->boolean('protected')->default(false);
             $table->timestamps();
         });
     }

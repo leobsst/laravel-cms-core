@@ -6,6 +6,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
 use Leobsst\LaravelCmsCore\Filament\Resources\Settings\SettingResource;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class ListSettings extends ListRecords
 {
@@ -25,6 +26,11 @@ class ListSettings extends ListRecords
             'contact' => Tab::make('Contact')
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('category', SettingCategoryEnum::CONTACT);
+                }),
+            'business' => Tab::make('Entreprise')
+                ->hidden(condition: Setting::get('business_entity_enabled') == 0)
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('category', SettingCategoryEnum::BUSINESS);
                 }),
             'social' => Tab::make('Réseaux sociaux')
                 ->modifyQueryUsing(function ($query) {

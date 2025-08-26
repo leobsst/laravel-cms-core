@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
@@ -87,16 +88,26 @@ class SettingResource extends Resource
                 TextColumn::make('type')
                     ->label('Type')
                     ->badge()
-                    ->formatStateUsing(fn ($record) => $record->type->title())
+                    ->formatStateUsing(fn (Setting $record) => $record->type->title())
                     ->toggleable(),
+                IconColumn::make('protected')
+                    ->label('Protégé')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-shield-check')
+                    ->falseIcon(null)
+                    ->sortable(),
             ])
             ->recordActions([
                 EditAction::make()
                     ->modalHeading('Modification du paramètre')
                     ->modalWidth('xl')
-                    ->visible(fn ($record) => $record->enabled),
+                    ->disabled(condition: fn (Setting $record): bool => $record->protected && ! auth()->user()->hasRole('admin'))
+                    ->visible(fn (Setting $record): bool => $record->protected && ! auth()->user()->hasRole('admin')
+                        ? false
+                        : $record->enabled
+                    ),
             ])
-            ->checkIfRecordIsSelectableUsing(fn ($record) => ! $record->is_default)
+            ->checkIfRecordIsSelectableUsing(fn (Setting $record) => ! $record->is_default)
             ->modifyQueryUsing(fn ($query) => $query->orderBy('name'));
     }
 

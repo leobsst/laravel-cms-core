@@ -19,6 +19,7 @@ use Spatie\Tags\Tag;
  * @property SettingCategoryEnum $category
  * @property bool $is_default
  * @property bool $enabled
+ * @property bool $protected
  * @property Tag[] $tags
  */
 class Setting extends Model
@@ -32,6 +33,7 @@ class Setting extends Model
         'category',
         'is_default',
         'enabled',
+        'protected'
     ];
 
     protected $casts = [
@@ -39,6 +41,7 @@ class Setting extends Model
         'category' => SettingCategoryEnum::class,
         'is_default' => 'boolean',
         'enabled' => 'boolean',
+        'protected' => 'boolean'
     ];
 
     /*

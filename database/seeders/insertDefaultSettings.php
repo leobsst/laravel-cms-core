@@ -24,6 +24,7 @@ class insertDefaultSettings extends Seeder
                 'name' => 'website_url',
                 'value' => 'https://localhost.test',
                 'type' => SettingTypeEnum::URL,
+                'protected' => true,
             ],
             [
                 'name' => 'website_logo',
@@ -219,6 +220,13 @@ class insertDefaultSettings extends Seeder
                 'type' => SettingTypeEnum::BOOLEAN,
                 'category' => SettingCategoryEnum::SECURITY,
             ],
+            [
+                'name' => 'website_closed',
+                'value' => 0,
+                'type' => SettingTypeEnum::BOOLEAN,
+                'category' => SettingCategoryEnum::SECURITY,
+                'protected' => true,
+            ],
         ];
 
         foreach ($defaultConfigurations as $configuration) {
@@ -243,6 +251,7 @@ class insertDefaultSettings extends Seeder
                     'enabled' => $configuration['enabled'] ?? true,
                     'category' => $configuration['category'] ?? SettingCategoryEnum::GENERAL,
                     'is_default' => true,
+                    'protected' => $configuration['protected'] ?? false,
                 ]);
             }
         }
