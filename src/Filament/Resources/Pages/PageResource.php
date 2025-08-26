@@ -65,7 +65,6 @@ class PageResource extends Resource
                                             Select::make('theme_id')
                                                 ->relationship('theme', 'name')
                                                 ->hiddenLabel()
-                                                ->required(fn ($record) => ! $record?->is_default)
                                                 ->disabled(fn ($record) => $record->is_default ?? false)
                                                 ->searchable()
                                                 ->createOptionForm([
@@ -74,7 +73,7 @@ class PageResource extends Resource
                                                         ->placeholder('Thème (dossier public)')
                                                         ->maxLength(45)
                                                         ->unique('themes', 'name', ignoreRecord: true)
-                                                        ->regex(pattern: '^[a-zA-Z0-9-_]+$')
+                                                        ->regex('/^[a-zA-Z0-9-_]+$/')
                                                         ->validationMessages([
                                                             'unique' => 'Ce thème existe déjà.',
                                                             'regex' => 'Le thème ne peut contenir que des lettres, chiffres, tirets et underscores.',
@@ -91,8 +90,7 @@ class PageResource extends Resource
                                                 ]),
                                         ])
                                             ->columns(2)
-                                            ->label('Slug')
-                                            ->separator('/'),
+                                            ->label('Slug'),
                                     ])->columns(2),
                                 Section::make('SEO')
                                     ->relationship('seo')
