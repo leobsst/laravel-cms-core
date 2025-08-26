@@ -1,37 +1,45 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Models;
+namespace Leobsst\LaravelCmsCore\Models\Features;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MenuChild
  *
- * @property ?int $parent_id
  * @property string $name
  * @property ?string $url
  * @property ?int $page_id
+ * @property int $menu_id
  * @property int $order
  * @property ?string $icon
  * @property bool $is_active
- * @property MenuChild $parent
+ * @property bool $is_default
+ * @property Menu $menu
+ * @property MenuChildrenItem[] $children
  * @property Page $page
  */
-class MenuChildrenItem extends Model
+class MenuChild extends Model
 {
     protected $fillable = [
-        'parent_id',
         'name',
         'url',
         'page_id',
+        'menu_id',
         'order',
         'icon',
         'is_active',
+        'is_default',
     ];
 
-    public function parent()
+    public function menu()
     {
-        return $this->belongsTo(MenuChild::class, 'parent_id');
+        return $this->belongsTo(Menu::class, 'menu_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(MenuChildrenItem::class, 'parent_id')->orderBy('order');
     }
 
     public function page()

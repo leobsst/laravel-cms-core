@@ -1,0 +1,48 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class insertDefaultSettings extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $features = [
+            [
+                'name' => 'pages',
+                'value' => false,
+            ],
+            [
+                'name' => 'slides',
+                'value' => false,
+            ],
+            [
+                'name' => 'diaporamas',
+                'value' => false,
+            ],
+            [
+                'name' => 'menus',
+                'value' => false,
+            ],
+            [
+                'name' => 'payments',
+                'value' => false,
+            ],
+        ];
+
+        foreach ($features as $feature) {
+            DB::table(table: 'features')->updateOrInsert(
+                ['name' => $feature['name']],
+                [
+                    'value' => $feature['value'],
+                    'scope' => '__laravel_null',
+                ]
+            );
+        }
+    }
+}

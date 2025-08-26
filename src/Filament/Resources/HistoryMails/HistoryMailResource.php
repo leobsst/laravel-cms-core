@@ -115,4 +115,9 @@ class HistoryMailResource extends Resource
             'index' => Pages\ListHistoryMails::route('/'),
         ];
     }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->hasRole(roles: 'manager');
+    }
 }

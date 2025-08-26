@@ -96,7 +96,12 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     private function getPackageInformations(): void
     {
         // Load Informations
-        AboutCommand::add('Laravel CMS Core', fn (): array => ['Author' => 'LEOBSST']);
+        AboutCommand::add('Laravel CMS Core', fn (): array => [
+            'Authors' => [
+                'LEOBSST',
+                'B.L.A.M. PRODUCTION',
+            ],
+        ]);
     }
 
     /**

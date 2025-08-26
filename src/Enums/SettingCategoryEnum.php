@@ -10,6 +10,7 @@ enum SettingCategoryEnum: string
     case SOCIAL = 'social';
     case PAYMENT = 'payment';
     case SECURITY = 'security';
+    case BUSINESS = 'business';
 
     public function title(): string
     {
@@ -20,6 +21,8 @@ enum SettingCategoryEnum: string
             self::SOCIAL => 'Réseaux sociaux',
             self::PAYMENT => 'Paiement',
             self::SECURITY => 'Administration',
+            self::BUSINESS => 'Entreprise',
+            default => 'Unknown',
         };
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Models;
+namespace Leobsst\LaravelCmsCore\Models\Features;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Tags\HasTags;

@@ -17,19 +17,21 @@ use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
 |
 */
 
-// Session
-Route::get('/login', fn () => redirect(Filament::getPanel('dashboard')->getLoginUrl()))->name('core.login');
-Route::get('/logout', [Logout::class, 'logout'])->name('core.logout');
+Route::name('core.')->group(function () {
+    // Session
+    Route::get('/login', fn () => redirect(Filament::getPanel('dashboard')->getLoginUrl()))->name('login');
+    Route::get('/logout', [Logout::class, 'logout'])->name('logout');
 
-// Sitemap
-Route::get('/sitemap.xml', [HomeController::class, 'getSiteMap'])->name('core.sitemap');
+    // Sitemap
+    Route::get('/sitemap.xml', [HomeController::class, 'getSiteMap'])->name('sitemap');
 
-// Filemanager
-// Route::group(['prefix' => 'dashboard/files/filemanager', 'middleware' => ['web', 'auth', Owner::class]], function () {
-//    Lfm::routes();
-// });
+    // Filemanager
+    // Route::group(['prefix' => 'dashboard/files/filemanager', 'middleware' => ['web', 'auth', Owner::class]], function () {
+    //    Lfm::routes();
+    // });
 
-Route::group(['middleware' => Maintenance::class], function () {
-    /* Get page */
-    Route::get('/{slug?}', Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('core.page.show');
+    Route::group(['middleware' => Maintenance::class], function () {
+        /* Get page */
+        Route::get('/{slug?}', Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show');
+    });
 });

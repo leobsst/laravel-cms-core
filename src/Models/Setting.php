@@ -46,7 +46,7 @@ class Setting extends Model
     */
     public static function set(string $parameter, mixed $value): bool|Exception
     {
-        return Setting::where('name', $parameter)->firstOrFail()->update(['value' => $value]);
+        return self::where('name', $parameter)->firstOrFail()->update(['value' => $value]);
     }
 
     /*
@@ -55,7 +55,7 @@ class Setting extends Model
     */
     public static function get(string $parameter): null|string|Exception
     {
-        return Setting::where('name', $parameter)->firstOrFail()->value;
+        return self::where('name', $parameter)->firstOrFail()->value;
     }
 
     /**
@@ -64,14 +64,14 @@ class Setting extends Model
     public function getWebsiteTagsAttribute(): string
     {
         $tags = [];
-        Setting::firstWhere('name', 'website_keywords')->tags->each(function ($tag) use (&$tags) {
+        self::firstWhere('name', 'website_keywords')->tags->each(function ($tag) use (&$tags) {
             $tags[] = $tag->name;
         });
 
         return implode(', ', $tags);
     }
 
-    public function getSettingName(): string
+    public function getSettingNameAttribute(): string
     {
         return match ($this->name) {
             'website_name' => 'Nom du site',
@@ -103,6 +103,6 @@ class Setting extends Model
 
     public static function isMaintenance(): bool
     {
-        return Setting::get('under_maintenance') == 1;
+        return self::get('under_maintenance') == 1;
     }
 }

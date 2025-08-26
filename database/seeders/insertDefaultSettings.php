@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
 use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
-use Leobsst\LaravelCmsCore\Models\Setting;
 
 class insertDefaultSettings extends Seeder
 {
@@ -102,6 +102,63 @@ class insertDefaultSettings extends Seeder
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
+                'name' => 'business_entity_enabled',
+                'value' => 0,
+                'type' => SettingTypeEnum::BOOLEAN,
+                'category' => SettingCategoryEnum::CUSTOMIZATION,
+            ],
+            [
+                'name' => 'business_entity_name',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_siret',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_vat_number',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_address',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_city',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_zip',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_country',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_phone_number',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_email_address',
+                'value' => null,
+                'type' => SettingTypeEnum::EMAIL,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
+                'name' => 'business_entity_owner',
+                'value' => null,
+                'category' => SettingCategoryEnum::BUSINESS,
+            ],
+            [
                 'name' => 'facebook',
                 'value' => null,
                 'type' => SettingTypeEnum::URL,
@@ -165,7 +222,7 @@ class insertDefaultSettings extends Seeder
 
         foreach ($defaultConfigurations as $configuration) {
             if ($configuration['name'] === 'website_keywords') {
-                Setting::firstOrCreate([
+                DB::table('settings')->updateOrInsert([
                     'name' => $configuration['name'],
                 ], [
                     'type' => SettingTypeEnum::TAGS,
@@ -176,7 +233,7 @@ class insertDefaultSettings extends Seeder
                     ],
                 ]);
             } else {
-                Setting::firstOrCreate([
+                DB::table('settings')->updateOrInsert([
                     'name' => $configuration['name'],
                 ], [
                     'value' => $configuration['value'],

@@ -23,8 +23,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->longText('two_fa_secret')->nullable();
-            $table->boolean('two_fa_enabled')->default(false);
+            $table->text('app_authentication_secret')->nullable();
+            $table->text('app_authentication_recovery_codes')->nullable();
+            $table->boolean('has_email_authentication')->default(false);
             $table->string('avatar')->nullable();
             $table->boolean('avatar_gravatar')->default(false);
             $table->longText('bio')->nullable();
@@ -37,7 +38,7 @@ return new class extends Migration
             $table->longText('linkedin')->nullable();
             $table->longText('github')->nullable();
             $table->longText('website')->nullable();
-            $table->longText('extra_data')->nullable()->comment('serialized array');
+            $table->json('extra_data')->nullable()->comment('serialized array');
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

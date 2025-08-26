@@ -1,9 +1,10 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Models;
+namespace Leobsst\LaravelCmsCore\Models\Features;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Page
@@ -81,10 +82,8 @@ class Page extends Model
 
     public static function cleanSlug(string $slug): string
     {
-        setlocale(LC_ALL, 'en_US.utf8');
-        $slug = urlencode(str_replace(' ', '-', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', trim(strtolower($slug)))));
-        setlocale(LC_ALL, 'fr_FR.utf8');
+        $slug = str_replace(' ', '-', $slug);
 
-        return $slug;
+        return Str::slug($slug);
     }
 }

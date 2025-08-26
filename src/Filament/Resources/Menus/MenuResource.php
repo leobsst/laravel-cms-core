@@ -11,6 +11,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Models\Menu;
 
 class MenuResource extends Resource
@@ -125,6 +126,6 @@ class MenuResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->hasRole('owner');
+        return auth()->user()->hasRole('manager') && Feature::active('menus');
     }
 }

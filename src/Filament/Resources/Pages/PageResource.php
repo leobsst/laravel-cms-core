@@ -26,6 +26,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Filament\Tables\Columns\PageStatColumn;
 use Leobsst\LaravelCmsCore\Models\Page;
 
@@ -201,6 +202,6 @@ class PageResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->hasRole('editor');
+        return auth()->user()->hasRole('editor') && Feature::active('pages');
     }
 }
