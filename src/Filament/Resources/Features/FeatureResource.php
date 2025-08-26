@@ -31,25 +31,25 @@ class FeatureResource extends Resource
                     ->label(label: 'Nom')
                     ->searchable()
                     ->sortable(),
-                IconColumn::make(name: 'bool_value')
+                IconColumn::make(name: 'boolvalue')
                     ->label(label: 'Active')
                     ->boolean()
                     ->sortable(),
             ])
             ->recordActions(actions: [
                 Action::make(name: 'toggle')
-                    ->label(label: fn (Feature $record): string => $record->bool_value ? 'Désactiver' : 'Activer')
-                    ->icon(icon: fn (Feature $record): string => $record->bool_value ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
-                    ->requiresConfirmation(condition: fn (Feature $record): bool => $record->bool_value)
-                    ->modal(condition: fn (Feature $record): bool => $record->bool_value)
+                    ->label(label: fn (Feature $record): string => $record->boolvalue ? 'Désactiver' : 'Activer')
+                    ->icon(icon: fn (Feature $record): string => $record->boolvalue ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                    ->requiresConfirmation(condition: fn (Feature $record): bool => $record->boolvalue)
+                    ->modal(condition: fn (Feature $record): bool => $record->boolvalue)
                     ->modalIconColor(color: 'danger')
                     ->modalIcon(icon: 'heroicon-o-x-circle')
-                    ->color(color: fn (Feature $record): string => $record->bool_value ? 'danger' : 'primary')
+                    ->color(color: fn (Feature $record): string => $record->boolvalue ? 'danger' : 'primary')
                     ->modalHeading(heading: fn (Feature $record): string => 'Désactiver  '.$record->name.' ?')
                     ->modalSubmitActionLabel(label: 'Désactiver')
                     ->action(action: function (Feature $record): Notification|bool {
-                        if ($record->update(attributes: ['value' => $record->bool_value ? 'false' : 'true'])) {
-                            return FilamentService::sendNotification(title: $record->bool_value
+                        if ($record->update(attributes: ['value' => $record->boolvalue ? 'false' : 'true'])) {
+                            return FilamentService::sendNotification(title: $record->boolvalue
                                 ? 'Fonctionnalité activée'
                                 : 'Fonctionnalité désactivée'
                             );

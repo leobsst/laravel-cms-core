@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $scope
  * @property string $value
- * @property bool $bool_value
+ * @property bool $boolvalue
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -24,16 +24,11 @@ class Feature extends Model
     ];
 
     protected $hidden = [
-        'scope',
         'created_at',
         'updated_at',
     ];
 
-    protected $casts = [
-        'bool_value' => 'boolean',
-    ];
-
-    public function getBoolValueAttribute()
+    public function getBoolvalueAttribute()
     {
         return $this->value == 'true';
     }

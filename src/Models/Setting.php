@@ -31,6 +31,7 @@ class Setting extends Model
     protected $fillable = [
         'name',
         'value',
+        'default_value',
         'type',
         'category',
         'is_default',

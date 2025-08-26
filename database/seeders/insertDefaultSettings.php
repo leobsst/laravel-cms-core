@@ -94,12 +94,14 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'primary_color',
                 'value' => '#e3903e',
+                'default_value' => '#e3903e',
                 'type' => SettingTypeEnum::COLOR,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
                 'name' => 'primary_color_dark',
                 'value' => '#de6849',
+                'default_value' => '#de6849',
                 'type' => SettingTypeEnum::COLOR,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
@@ -247,6 +249,7 @@ class insertDefaultSettings extends Seeder
                     'name' => $configuration['name'],
                 ], [
                     'value' => $configuration['value'],
+                    'default_value' => $configuration['default_value'] ?? $configuration['value'],
                     'type' => $configuration['type'] ?? SettingTypeEnum::STRING,
                     'enabled' => $configuration['enabled'] ?? true,
                     'category' => $configuration['category'] ?? SettingCategoryEnum::GENERAL,
