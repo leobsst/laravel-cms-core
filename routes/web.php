@@ -2,6 +2,7 @@
 
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 use Leobsst\LaravelCmsCore\Http\Controllers\Logout;
 use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
@@ -32,6 +33,6 @@ Route::name('core.')->group(function () {
 
     Route::group(['middleware' => Maintenance::class], function () {
         /* Get page */
-        Route::get('/{slug?}', Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show');
+        Route::get('/{slug?}', Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
     });
 });

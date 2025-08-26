@@ -71,6 +71,8 @@ class LogResource extends Resource
                     ->label(label: 'Statut'),
                 TextInput::make(name: 'ip_address')
                     ->label(label: 'IP'),
+                TextInput::make(name: 'reference_table')
+                    ->label(label: 'Table'),
                 Textarea::make(name: 'message')
                     ->label(label: 'Message')
                     ->columnSpanFull(),
@@ -115,8 +117,12 @@ class LogResource extends Resource
                 TextColumn::make(name: 'ip_address')
                     ->searchable()
                     ->toggleable()
-                    ->toggledHiddenByDefault()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label(label: 'IP'),
+                TextColumn::make(name: 'reference_table')
+                    ->label(label: 'Table')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters(filters: [
                 Filter::make(name: 'created_at')
