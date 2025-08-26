@@ -2,9 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore\Models\Features\Pages;
 
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
 
 /**
