@@ -33,6 +33,6 @@ Route::name('core.')->group(function () {
 
     Route::group(['middleware' => Maintenance::class], function () {
         /* Get page */
-        Route::get('/{slug?}', Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
+        Route::fallback(Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
     });
 });

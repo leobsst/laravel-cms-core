@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Leobsst\LaravelCmsCore\Mail\ContactClient;
 use Leobsst\LaravelCmsCore\Mail\ContactCustomer;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
@@ -17,6 +18,8 @@ use Livewire\Component;
 class Show extends Component
 {
     public ?string $slug = null;
+
+    public ?string $folder = null;
 
     public $page;
 
@@ -50,7 +53,21 @@ class Show extends Component
 
     public function mount()
     {
-        $this->page = Page::firstWhere('slug', $this->slug);
+        $path = request()->path();
+
+        if (Str::contains($path, '/')) {
+            $segments = explode('/', $path);
+            $this->folder = $segments[0];
+            $this->slug = end($segments);
+        } else {
+            $this->slug = $path;
+        }
+
+        $this->page = Page::where('slug', 'LIKE', '%'.Str::slug($this->slug).'%')
+            ->when(filled($this->folder), function ($query) {
+                $query->where('folder', 'LIKE', '%'.Str::slug($this->folder).'%');
+            })
+            ->first();
         $this->sent = false;
     }
 
@@ -125,25 +142,26 @@ class Show extends Component
 
     public function render()
     {
-        if (! is_null($this->page)) {
-            if ($this->page->is_published) {
-                $this->updateStats();
-                session()->put('current_page', $this->page->id);
-                $view = 'livewire.page.show';
-                if ($this->slug == 'contact') {
-                    $view = 'livewire.page.contact';
-                }
-
-                return view($view, [
-                    'seo' => $this->page->seo,
-                ]);
-            } else {
-                session()->forget('current_page');
-                abort(404);
+        try {
+            if (is_null($this->page) || ! $this->page->is_published) {
+                throw new \Error('Page not found');
             }
-        } else {
+
+            $this->updateStats();
+            session()->put('current_page', $this->page->id);
+            $view = 'livewire.page.show';
+            if ($this->slug == 'contact') {
+                $view = 'livewire.page.contact';
+            }
+
+            return view($view, [
+                'seo' => $this->page->seo,
+            ]);
+        } catch (\Throwable $e) {
             session()->forget('current_page');
-            abort(404);
+            abort(404, $e instanceof \Error ? $e->getMessage() : 'An error occurred', [
+                'Cache-Control' => 'no-cache, no-store, max-age=0, must-revalidate',
+            ]);
         }
     }
 

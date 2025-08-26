@@ -20,6 +20,8 @@ use Spatie\Tags\Tag;
  * @property bool $is_default
  * @property bool $enabled
  * @property bool $protected
+ * @property string $setting_name
+ * @property string|null $description
  * @property Tag[] $tags
  */
 class Setting extends Model
@@ -33,7 +35,7 @@ class Setting extends Model
         'category',
         'is_default',
         'enabled',
-        'protected'
+        'protected',
     ];
 
     protected $casts = [
@@ -41,7 +43,7 @@ class Setting extends Model
         'category' => SettingCategoryEnum::class,
         'is_default' => 'boolean',
         'enabled' => 'boolean',
-        'protected' => 'boolean'
+        'protected' => 'boolean',
     ];
 
     /*
@@ -100,7 +102,29 @@ class Setting extends Model
             'under_maintenance' => 'Site en maintenance ?',
             'alert_box_message' => 'Message de la popup d\'alerte',
             'alert_box_enabled' => 'Popup d\'alerte activée ?',
+            'business_entity_enabled' => 'Entité commerciale ?',
+            'business_entity_name' => 'Raison sociale',
+            'business_entity_siret' => 'SIRET',
+            'business_entity_vat_number' => 'Numéro de TVA',
+            'business_entity_address' => 'Adresse',
+            'business_entity_city' => 'Ville',
+            'business_entity_zip' => 'Code postal',
+            'business_entity_country' => 'Pays',
+            'business_entity_phone_number' => 'Téléphone',
+            'business_entity_email_address' => 'Email',
+            'business_entity_owner' => 'Représentant légal',
             default => $this->name,
+        };
+    }
+
+    public function getDescriptionAttribute(): ?string
+    {
+        return match ($this->name) {
+            'website_description' => 'Description du site pour les moteurs de recherche',
+            'email_address' => 'Adresse email de contact du site',
+            'primary_color' => 'Couleur principale utilisée dans le thème du site',
+            'primary_color_dark' => 'Couleur principale foncée utilisée dans le thème du site',
+            default => null,
         };
     }
 

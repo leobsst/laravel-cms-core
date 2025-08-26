@@ -49,7 +49,8 @@ class SettingResource extends Resource
             ->columns([
                 TextColumn::make('setting_name')
                     ->searchable()
-                    ->label('Nom'),
+                    ->label('Nom')
+                    ->tooltip(fn (Setting $record): ?string => $record->description),
                 TextColumn::make('custom')
                     ->searchable(['value'])
                     ->label('Valeur')
@@ -94,7 +95,7 @@ class SettingResource extends Resource
                     ->label('Protégé')
                     ->boolean()
                     ->trueIcon('heroicon-o-shield-check')
-                    ->falseIcon(null)
+                    ->falseIcon('')
                     ->sortable(),
             ])
             ->recordActions([
