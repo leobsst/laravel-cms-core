@@ -135,9 +135,9 @@ class Show extends Component
 
             $this->updateStats();
             session()->put('current_page', $this->pageId);
-            $view = 'livewire.page.show';
-            if ($this->slug == 'contact') {
-                $view = 'livewire.page.contact';
+            $view = 'laravel-cms-core::livewire.page.show';
+            if ($this->page->slug == 'contact') {
+                $view = 'laravel-cms-core::livewire.page.contact';
             }
 
             return view($view, [
