@@ -109,7 +109,7 @@ class Show extends Component
                 session()->flash('error', 'Google thinks you are a bot, please refresh and try again');
             }
 
-            return redirect()->route('core.page.show', ['fallbackPlaceholder' => 'contact']);
+            return redirect()->route('core.pages.show', ['fallbackPlaceholder' => 'contact']);
         }
     }
 
