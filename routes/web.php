@@ -33,23 +33,6 @@ Route::name('core.')->group(function () {
 
     Route::group(['middleware' => Maintenance::class], function () {
         /* Get page */
-        Route::fallback(function () {
-            $path = request()->path();
-            $slug = null;
-            $folder = null;
-
-            if (\Illuminate\Support\Str::contains($path, '/')) {
-                $segments = explode('/', $path);
-                $folder = $segments[0];
-                $slug = end($segments);
-            } else {
-                $slug = $path;
-            }
-
-            return app(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class, [
-                'slug' => $slug,
-                'folder' => $folder,
-            ])->render();
-        })->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
+        Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
     });
 });

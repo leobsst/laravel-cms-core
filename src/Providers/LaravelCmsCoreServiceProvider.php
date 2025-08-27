@@ -18,6 +18,7 @@ use Leobsst\LaravelCmsCore\Console\Commands\Translation\AddTranslationToFile;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\NewTranslation;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\Translate;
 use Leobsst\LaravelCmsCore\Models\Features\Menus\Menu;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Leobsst\LaravelCmsCore\Services\ClientService;
 
@@ -30,6 +31,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->getConfigs();
         $this->getMigrations();
         $this->getSeedersAndFactories();
         $this->getRoutes();
@@ -62,6 +64,14 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $loader->alias('Setting', Setting::class);
         $loader->alias('ClientService', ClientService::class);
         $loader->alias('Menu', Menu::class);
+        $loader->alias('Page', Page::class);
+    }
+
+    private function getConfigs(): void
+    {
+        // Load config
+        $this->mergeConfigFrom(__DIR__.'/../../config/core.php', 'core');
+        $this->publishes(paths: [__DIR__.'/../../config/core.php' => config_path(path: 'core.php')], groups: 'laravel-cms-core-config');
     }
 
     /**

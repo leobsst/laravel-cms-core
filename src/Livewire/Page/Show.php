@@ -16,30 +16,28 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    public ?string $slug = null;
+    public ?Page $page = null;
 
-    public ?string $folder = null;
+    private ?int $pageId = null;
 
-    public $page;
+    private ?bool $isPublished = null;
 
     // Contact page properties
-    public $name;
+    public string $name = '';
 
-    public $email;
+    public string $email = '';
 
-    public $phone;
+    public string $phone = '';
 
-    public $message;
+    public string $message = '';
 
     public $captcha;
 
     public $response;
 
-    public $subject;
+    public string $subject = '';
 
-    public $data;
-
-    public $sent;
+    public bool $sent = false;
 
     public $messages = [
         'name.required' => 'Votre nom est requis.',
@@ -50,15 +48,9 @@ class Show extends Component
     ];
     // End of contact page properties
 
-    public function mount()
+    public function mount(): void
     {
-        $this->page = Page::where('slug', $this->slug)
-            ->when(filled($this->folder), function ($query) {
-                $query->whereHas('theme', function ($q) {
-                    $q->where('name', $this->folder);
-                });
-            })
-            ->first();
+        $this->definePage(request()->path());
         $this->sent = false;
     }
 
@@ -124,7 +116,7 @@ class Show extends Component
         }
     }
 
-    private function getReCaptchaResponse()
+    private function getReCaptchaResponse(): mixed
     {
         $response = Http::post('https://www.google.com/recaptcha/api/siteverify?secret='.env('RECAPTCHA_SITE_SECRET').'&response='.$this->captcha);
 
@@ -134,12 +126,12 @@ class Show extends Component
     public function render()
     {
         try {
-            if (is_null($this->page) || ! $this->page->is_published) {
+            if (is_null($this->page) || ! $this->isPublished) {
                 throw new \Error('Page not found');
             }
 
             $this->updateStats();
-            session()->put('current_page', $this->page->id);
+            session()->put('current_page', $this->pageId);
             $view = 'livewire.page.show';
             if ($this->slug == 'contact') {
                 $view = 'livewire.page.contact';
@@ -156,19 +148,33 @@ class Show extends Component
         }
     }
 
-    private function updateStats()
+    private function definePage(string $path): void
     {
-        $stats = $this->page->stats()->whereDate('created_at', Carbon::today());
-        $location = ClientService::getLocation();
-        $ip = ClientService::getIp();
+        $slug = null;
+        $folder = null;
 
-        if (blank($ip) || (filled($ip) && ! in_array($ip, $stats->pluck('ip')->toArray()))) {
-            $this->page->stats()->create([
-                'ip' => $ip,
-                'country' => $location->status == 'success' ? $location->country : 'N/A',
-                'city' => $location->status == 'success' ? $location->city : 'N/A',
-            ]);
-            $this->updateDeviceStats(ClientService::getOS());
+        if (\Illuminate\Support\Str::contains($path, '/')) {
+            $segments = explode('/', $path);
+            $folder = $segments[0];
+            $slug = end($segments);
+        } else {
+            $slug = $path;
+        }
+
+        $page = Page::where('slug', $slug)
+            ->with([
+                'seo:title,description,robots,og_image,og_type,og_locale,twitter_card,twitter_image',
+                'theme:name',
+            ])
+            ->when(filled($folder), function ($query) use ($folder) {
+                $query->whereHas('theme', function ($q) use ($folder) {
+                    $q->where('name', $folder);
+                });
+            });
+
+        if ($page->exists()) {
+            $this->pageId = $page->first()->id;
+            $this->page = $page->first(['title', 'title-content', 'slug', 'is_home', 'banner']);
         }
     }
 
@@ -177,23 +183,41 @@ class Show extends Component
      *
      * @return mixed
      */
-    public function updateDeviceStats($os)
+    public function updateDeviceStats($os): void
     {
+        $page = Page::find($this->pageId);
         switch ($os) {
             case 1:
-                $this->page->ios += 1;
-                $this->page->update();
+                $page->ios += 1;
+                $page->update();
                 break;
             case 2:
-                $this->page->android += 1;
-                $this->page->update();
+                $page->android += 1;
+                $page->update();
                 break;
             case 3:
-                $this->page->other += 1;
-                $this->page->update();
+                $page->other += 1;
+                $page->update();
                 break;
             default:
                 break;
+        }
+    }
+
+    private function updateStats(): void
+    {
+        $page = Page::with('stats')->find($this->pageId);
+        $stats = $page->stats()->whereDate('created_at', Carbon::today());
+        $location = ClientService::getLocation();
+        $ip = ClientService::getIp();
+
+        if (blank($ip) || (filled($ip) && ! in_array($ip, $stats->pluck('ip')->toArray()))) {
+            $page->stats()->create([
+                'ip' => $ip,
+                'country' => $location->status == 'success' ? $location->country : 'N/A',
+                'city' => $location->status == 'success' ? $location->city : 'N/A',
+            ]);
+            $this->updateDeviceStats(ClientService::getOS());
         }
     }
 }
