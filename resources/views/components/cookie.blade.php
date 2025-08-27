@@ -4,7 +4,7 @@
         x-cloak
         x-data="{cookie_consent: $persist(null).as('cookie_consent')}"
         x-show="cookie_consent == null">
-        <div class="bg-zinc-50 max-w-[30rem] h-fit rounded-md shadow-2xl p-4">
+        <div class="bg-zinc-50 max-w-lg h-fit rounded-md shadow-2xl p-4">
             <svg
                 class="w-16 h-16"
                 version="1.1"
