@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Filament\Tables\Columns\PageStatColumn;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\PageTheme;
 
 class PageResource extends Resource
 {
@@ -74,6 +75,7 @@ class PageResource extends Resource
                                                         ->maxLength(45)
                                                         ->unique('page_themes', 'name', ignoreRecord: true)
                                                         ->regex('/^[a-zA-Z0-9-_]+$/')
+                                                        ->notIn(PageTheme::FORBIDDEN_VALUES)
                                                         ->validationMessages([
                                                             'unique' => 'Ce thème existe déjà.',
                                                             'regex' => 'Le thème ne peut contenir que des lettres, chiffres, tirets et underscores.',
@@ -148,7 +150,7 @@ class PageResource extends Resource
                     ->label('Nom')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('themed_slug')
+                TextColumn::make('full_path')
                     ->label('Slug')
                     ->searchable(['theme', 'slug'])
                     ->copyable()

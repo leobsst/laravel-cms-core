@@ -1,6 +1,6 @@
-<x-laravel-cms-core::head_seo :seo="$seo" :page="$page" />
+<x-laravel-cms-core::head_seo :page="$this->page" />
 @section('title')
-{{ $page->title }}
+{{ $this->page->title }}
 @endsection
 @pushOnce('scripts')
 <script src="https://www.google.com/recaptcha/api.js?render={{config('core.RECAPTCHA_SITE_KEY')}}" async></script>
@@ -179,7 +179,7 @@
                 </p>
 
                 <div class="mt-8">
-                    {!! str(string: $page->content)->sanitizeHtml() !!}
+                    {!! str(string: $this->page->content)->sanitizeHtml() !!}
                 </div>
             </div>
 

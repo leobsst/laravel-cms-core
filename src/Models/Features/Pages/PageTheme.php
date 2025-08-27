@@ -18,6 +18,32 @@ class PageTheme extends Model
 {
     public $timestamps = false;
 
+    const FORBIDDEN_VALUES = [
+        'home',
+        'contact',
+        'blog',
+        'admin',
+        'api',
+        'dashboard',
+        'login',
+        'register',
+        'password',
+        'logout',
+        'media',
+        'css',
+        'js',
+        'fonts',
+        'vendor',
+        'storage',
+        'build',
+        'themes',
+        'assets',
+        'images',
+        'img',
+        'static',
+        'public',
+    ];
+
     protected $fillable = [
         'name',
         'banner',

@@ -17,9 +17,7 @@
         <div
             id="header_content"
             class="absolute flex flex-col top-0 w-11/12 xl:w-3/4 h-full text-white justify-center left-0 right-0 m-auto title">
-            <h2 class="text-6xl lg:text-8xl">Françoise</h2>
-            <h2 class="text-2xl lg:text-4xl">Fernandez</h2>
-            <h3 class="text-xl lg:text-2xl italic text-gray-100">accompagnements & soins énergétiques</h3>
+            <h2 class="text-6xl lg:text-8xl">Bienvenue !</h2>
         </div>
         <button
             id="scroll_down"

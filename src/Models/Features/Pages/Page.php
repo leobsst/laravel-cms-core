@@ -24,6 +24,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property bool $is_home
  * @property bool $is_default
  * @property ?string $published_at
+ * @property string $full_path
  * @property PagesSeo $seo
  * @property Collection|PageStat[] $stats
  * @property MenuChild $menu
@@ -72,7 +73,7 @@ class Page extends Model
         return $this->belongsTo(PageTheme::class, 'theme_id');
     }
 
-    public function getThemedSlugAttribute(): string
+    public function getFullPathAttribute(): string
     {
         return $this->theme ? $this->theme->name.'/'.$this->slug : $this->slug;
     }
