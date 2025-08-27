@@ -1,12 +1,13 @@
 <div>
-    <div class="flex items-center justify-center">
+    <div style="display: flex; align-items: center; justify-content: center;">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
             fill="currentColor"
             style="--c-400:var(--success-400);--c-500:var(--success-500);"
-            class="fi-color-custom text-custom-500 dark:text-custom-400 fi-color-success mr-1"
+            class="fi-color-custom text-custom-500 dark:text-custom-400 fi-color-success"
+            style="margin-right: 0.25rem;"
             viewBox="0 0 16 16"
         >
             <title>Android</title>
@@ -46,7 +47,8 @@
             width="17"
             height="17"
             fill="currentColor"
-            class="dark:text-white mr-1 mb-1.5"
+            class="dark:text-white"
+            style="margin-right: 0.25rem; margin-bottom: 0.375rem;"
             viewBox="0 0 16 16"
         >
             <title>Apple - IOS / IpadOS / OS X</title>
@@ -60,7 +62,8 @@
             width="18"
             height="18"
             fill="currentColor"
-            class="dark:text-white mr-1 ml-3"
+            class="dark:text-white"
+            style="margin-right: 0.25rem; margin-left: 0.75rem;"
             viewBox="0 0 16 16"
         >
             <title>Ordinateur</title>

@@ -174,7 +174,7 @@ class Show extends Component
 
         if ($page->exists()) {
             $this->pageId = $page->first()->id;
-            $this->page = $page->first(['title', 'title-content', 'slug', 'is_home', 'banner']);
+            $this->page = $page->first(['title', 'title_content', 'slug', 'is_home', 'banner']);
         }
     }
 
