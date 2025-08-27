@@ -139,7 +139,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     {
         // Load Blade directives
         Blade::directive('isHome', function () {
-            return "<?php if (session()->has('current_page') && \Leobsst\LaravelCmsCore\Models\Features\Page::find(session()->get('current_page'))->is_home) { ?>";
+            return "<?php if (session()->has('current_page') && \Leobsst\LaravelCmsCore\Models\Features\Pages\Page::find(session()->get('current_page'))->is_home) { ?>";
         });
 
         Blade::directive('endisHome', function () {
@@ -147,7 +147,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         });
 
         Blade::directive('isPage', function () {
-            return "<?php if (session()->has('current_page') && !\Leobsst\LaravelCmsCore\Models\Features\Page::find(session()->get('current_page'))->is_home) { ?>";
+            return "<?php if (session()->has('current_page') && !\Leobsst\LaravelCmsCore\Models\Features\Pages\Page::find(session()->get('current_page'))->is_home) { ?>";
         });
 
         Blade::directive('endisPage', function () {
