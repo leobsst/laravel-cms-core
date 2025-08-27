@@ -1,6 +1,6 @@
 <div>
     <div
-        class="fixed bg-black bg-opacity-40 w-full h-full z-50 top-0"
+        class="fixed bg-black/40 w-full h-full z-50 top-0"
         x-data="{displayAlertBox: $persist(true).as('displayAlertBox')}"
         x-show="displayAlertBox"
         x-cloak
