@@ -5,6 +5,7 @@ namespace Leobsst\LaravelCmsCore\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Laravel\Pennant\Feature;
@@ -38,6 +39,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->getViews();
         $this->getPackageInformations();
         $this->getCommands();
+        $this->getBladeDirectives();
 
         // Pennant Feature Flag global scope
         Feature::resolveScopeUsing(fn ($drive) => null);
@@ -67,6 +69,9 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $loader->alias('Page', Page::class);
     }
 
+    /**
+     * Get the configs for the package.
+     */
     private function getConfigs(): void
     {
         // Load config
@@ -125,6 +130,29 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->publishes(paths: [
             __DIR__.'/../../resources/views' => resource_path(path: 'views/vendor/courier'),
         ], groups: 'laravel-cms-core-views');
+    }
+
+    /**
+     * Get the Blade directives for the package.
+     */
+    private function getBladeDirectives(): void
+    {
+        // Load Blade directives
+        Blade::directive('isHome', function () {
+            return "<?php if (session()->has('current_page') && \App\Models\Page::find(session()->get('current_page'))->is_home) { ?>";
+        });
+
+        Blade::directive('endisHome', function () {
+            return '<?php } ?>';
+        });
+
+        Blade::directive('isPage', function () {
+            return "<?php if (session()->has('current_page') && !\App\Models\Page::find(session()->get('current_page'))->is_home) { ?>";
+        });
+
+        Blade::directive('endisPage', function () {
+            return '<?php } ?>';
+        });
     }
 
     /**
