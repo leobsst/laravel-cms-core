@@ -10,7 +10,7 @@
 @endsection
 @endif
 <div>
-    <div class="mb-8 w-full h-fit overflow-y-hidden overflow-x-hidden content p-2 mt-16" wire:key='page_{{uniqid()}}'>
+    <div class="mb-8 w-full h-fit overflow-y-hidden overflow-x-hidden content p-2" wire:key='page_{{uniqid()}}'>
         {!! str(string: $this->page->content)->sanitizeHtml() !!}
     </div>
 </div>

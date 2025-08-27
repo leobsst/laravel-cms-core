@@ -2,10 +2,8 @@
 
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
-use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 use Leobsst\LaravelCmsCore\Http\Controllers\Logout;
-use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +23,4 @@ Route::name('core.')->group(function () {
 
     // Sitemap
     Route::get('/sitemap.xml', [HomeController::class, 'getSiteMap'])->name('sitemap');
-
-    // Filemanager
-    // Route::group(['prefix' => 'dashboard/files/filemanager', 'middleware' => ['web', 'auth', Owner::class]], function () {
-    //    Lfm::routes();
-    // });
-
-    Route::group(['middleware' => Maintenance::class], function () {
-        /* Get page */
-        Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('page.show')->middleware(EnsureFeaturesAreActive::using('pages'));
-    });
 });

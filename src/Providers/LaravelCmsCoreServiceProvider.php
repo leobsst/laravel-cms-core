@@ -104,10 +104,12 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     {
         // Load routes
         $this->loadRoutesFrom(path: __DIR__.'/../../routes/web.php');
+        $this->loadRoutesFrom(path: __DIR__.'/../../routes/features/pages.php');
         $this->loadRoutesFrom(path: __DIR__.'/../../routes/api.php');
         $this->loadRoutesFrom(path: __DIR__.'/../../routes/console.php');
         $this->publishes([
             __DIR__.'/../../routes/web.php' => base_path(path: 'routes/web.php'),
+            __DIR__.'/../../routes/features/pages.php' => base_path(path: 'routes/features/pages.php'),
             __DIR__.'/../../routes/api.php' => base_path(path: 'routes/api.php'),
             __DIR__.'/../../routes/console.php' => base_path(path: 'routes/console.php'),
         ], groups: 'laravel-cms-core-routes');

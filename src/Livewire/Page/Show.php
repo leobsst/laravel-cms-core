@@ -142,7 +142,7 @@ class Show extends Component
                 'type' => LogType::ERROR->value,
                 'message' => 'Accessing page '.$this->page?->title.' failed',
                 'data' => $e->getMessage(),
-                'reference_id' => $this->pageId,
+                'reference_id' => $this->page?->id,
                 'status' => LogStatus::SUCCESS->value,
                 'ip_address' => ClientService::getIp(),
             ]);
@@ -178,7 +178,7 @@ class Show extends Component
                     $q->where('name', $folder);
                 });
             })
-            ->first(['id', 'title', 'title_content', 'slug', 'is_home', 'banner', 'is_published', 'theme_id']);
+            ->first();
     }
 
     /**
