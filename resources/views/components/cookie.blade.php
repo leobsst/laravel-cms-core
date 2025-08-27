@@ -139,7 +139,7 @@
                     Acceptez-vous l'utilisation de ces cookies ?
                 </p>
                 <div class="flex flex-col md:flex-row md:justify-between mt-2">
-                    <a href="{{route('core.page.show', ['slug' => 'politique-de-confidentialite'])}}"
+                    <a href="{{route('core.page.show', ['fallbackPlaceholder' => 'politique-de-confidentialite'])}}"
                         class="hover-opacity" style="color: {{Setting::get('primary_color')}}">
                         En savoir plus
                     </a>

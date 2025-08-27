@@ -15,16 +15,11 @@ use Leobsst\LaravelCmsCore\Models\HistoryMail;
 use Leobsst\LaravelCmsCore\Models\Log;
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Leobsst\LaravelCmsCore\Services\ClientService;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Show extends Component
 {
-    public ?Page $page = null;
-
-    private ?int $pageId = null;
-
-    private ?bool $isPublished = null;
-
     // Contact page properties
     public string $name = '';
 
@@ -53,7 +48,6 @@ class Show extends Component
 
     public function mount(): void
     {
-        $this->definePage(request()->path());
         $this->sent = false;
     }
 
@@ -115,7 +109,7 @@ class Show extends Component
                 session()->flash('error', 'Google thinks you are a bot, please refresh and try again');
             }
 
-            return redirect()->route('core.page.show', ['slug' => 'contact']);
+            return redirect()->route('core.page.show', ['fallbackPlaceholder' => 'contact']);
         }
     }
 
@@ -129,12 +123,12 @@ class Show extends Component
     public function render()
     {
         try {
-            if (is_null($this->page) || ! $this->isPublished) {
+            if (is_null($this->page) || ! $this->page->is_published) {
                 throw new \Error('Page not found');
             }
 
             $this->updateStats();
-            session()->put('current_page', $this->pageId);
+            session()->put('current_page', $this->page->id);
             $view = 'laravel-cms-core::livewire.page.show';
             if ($this->page->slug == 'contact') {
                 $view = 'laravel-cms-core::livewire.page.contact';
@@ -159,8 +153,10 @@ class Show extends Component
         }
     }
 
-    private function definePage(string $path): void
+    #[Computed(persist: true)]
+    public function page(): ?Page
     {
+        $path = request()->path();
         $slug = null;
         $folder = null;
 
@@ -172,23 +168,17 @@ class Show extends Component
             $slug = $path;
         }
 
-        $page = Page::where('slug', $slug)
+        return Page::where('slug', $slug)
             ->with([
-                'seo:title,description,robots,og_image,og_type,og_locale,twitter_card,twitter_image',
-                'theme:name',
+                'seo:page_id,title,description,robots,og_image,og_type,og_locale,twitter_card,twitter_image',
+                'theme:id,name',
             ])
             ->when(filled($folder), function ($query) use ($folder) {
                 $query->whereHas('theme', function ($q) use ($folder) {
                     $q->where('name', $folder);
                 });
-            });
-
-        if ($page->exists()) {
-            $states = $page->first(['id', 'is_published']);
-            $this->pageId = $states->id;
-            $this->isPublished = $states->is_published;
-            $this->page = $page->first(['title', 'title_content', 'slug', 'is_home', 'banner']);
-        }
+            })
+            ->first(['id', 'title', 'title_content', 'slug', 'is_home', 'banner', 'is_published', 'theme_id']);
     }
 
     /**
@@ -198,7 +188,7 @@ class Show extends Component
      */
     public function updateDeviceStats($os): void
     {
-        $page = Page::find($this->pageId);
+        $page = Page::find($this->page->id);
         switch ($os) {
             case 1:
                 $page->ios += 1;
@@ -219,7 +209,7 @@ class Show extends Component
 
     private function updateStats(): void
     {
-        $page = Page::with('stats')->find($this->pageId);
+        $page = Page::with('stats')->find($this->page->id);
         $stats = $page->stats()->whereDate('created_at', Carbon::today());
         $location = ClientService::getLocation();
         $ip = ClientService::getIp();
