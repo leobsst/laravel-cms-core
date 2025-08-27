@@ -6,10 +6,13 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Leobsst\LaravelCmsCore\Enums\LogStatus;
+use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Mail\ContactClient;
 use Leobsst\LaravelCmsCore\Mail\ContactCustomer;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 use Leobsst\LaravelCmsCore\Models\HistoryMail;
+use Leobsst\LaravelCmsCore\Models\Log;
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Leobsst\LaravelCmsCore\Services\ClientService;
 use Livewire\Component;
@@ -141,6 +144,14 @@ class Show extends Component
                 'seo' => $this->page->seo,
             ]);
         } catch (\Throwable $e) {
+            Log::create(attributes: [
+                'type' => LogType::ERROR->value,
+                'message' => 'Accessing page '.$this->page?->title.' failed',
+                'data' => $e->getMessage(),
+                'reference_id' => $this->pageId,
+                'status' => LogStatus::SUCCESS->value,
+                'ip_address' => ClientService::getIp(),
+            ]);
             session()->forget('current_page');
             abort(404, $e instanceof \Error ? $e->getMessage() : 'An error occurred', [
                 'Cache-Control' => 'no-cache, no-store, max-age=0, must-revalidate',
@@ -173,7 +184,9 @@ class Show extends Component
             });
 
         if ($page->exists()) {
-            $this->pageId = $page->first()->id;
+            $states = $page->first(['id', 'is_published']);
+            $this->pageId = $states->id;
+            $this->isPublished = $states->is_published;
             $this->page = $page->first(['title', 'title_content', 'slug', 'is_home', 'banner']);
         }
     }

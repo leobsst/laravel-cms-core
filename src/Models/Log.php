@@ -50,7 +50,7 @@ class Log extends Model
 
     public static function sendLogsToEmail()
     {
-        Mail::to([auth()->user()->email])->send(new ExportLogs(Log::orderByDesc('created_at')->get()));
+        Mail::to([auth()->user()->email])->send(new ExportLogs(Log::limit(200)->orderByDesc('created_at')->get()));
         auth()->user()->log(LogType::INFO, 'Logs exported to email', LogStatus::SUCCESS);
     }
 }

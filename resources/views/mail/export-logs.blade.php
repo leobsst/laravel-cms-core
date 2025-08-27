@@ -1,7 +1,7 @@
 <x-mail::message>
 # Export des logs
 
-Veuillez trouver ci-dessous tous les logs enregistrés dans l'application.
+Veuillez trouver ci-dessous tous les 200 derniers logs enregistrés dans le système.
 
 <x-mail::table>
 | Crée le       | Message       | Statut       |

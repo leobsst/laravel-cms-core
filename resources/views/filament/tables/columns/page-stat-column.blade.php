@@ -48,7 +48,7 @@
             height="17"
             fill="currentColor"
             class="dark:text-white"
-            style="margin-right: 0.25rem; margin-bottom: 0.375rem;"
+            style="margin-right: 0.25rem; margin-bottom: 0.15rem; margin-left: 0.75rem;"
             viewBox="0 0 16 16"
         >
             <title>Apple - IOS / IpadOS / OS X</title>
