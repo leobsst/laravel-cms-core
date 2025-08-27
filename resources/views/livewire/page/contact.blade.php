@@ -14,7 +14,7 @@
                 <h1 class="global-h1 text-xl lg:text-2xl whitespace-nowrap">Contactez-nous</h1>
 
                 <div class="flex flex-col w-full">
-                    <x-laravel-cms-core::input
+                    <x-laravel-cms-core::forms.input
                         id="name"
                         name="name"
                         label="Nom"
@@ -28,7 +28,7 @@
                 </div>
         
                 <div class="flex flex-col w-full">
-                    <x-laravel-cms-core::input
+                    <x-laravel-cms-core::forms.input
                         id="email"
                         name="email"
                         label="Email"
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <x-laravel-cms-core::input
+                    <x-laravel-cms-core::forms.input
                         id="phone"
                         name="phone"
                         label="Téléphone"
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <x-laravel-cms-core::input
+                    <x-laravel-cms-core::forms.input
                         id="subject"
                         name="subject"
                         label="Sujet"
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <x-laravel-cms-core::textarea
+                    <x-laravel-cms-core::forms.textarea
                         id="message"
                         type="text"
                         name="message"
