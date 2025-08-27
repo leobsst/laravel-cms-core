@@ -62,8 +62,8 @@ class NewPage extends Command
         $content .= "\n";
         $content .= "namespace Database\Seeders;\n";
         $content .= "\n";
-        $content .= "use App\Models\Page;\n";
-        $content .= "use App\Models\PagesSeo;\n";
+        $content .= "use Leobsst\LaravelCmsCore\Models\Features\Page;\n";
+        $content .= "use Leobsst\LaravelCmsCore\Models\Features\PagesSeo;\n";
         $content .= "use Illuminate\Database\Seeder;\n";
         $content .= "\n";
         $content .= 'class insert'.$fileName."PageSeeder extends Seeder\n";
