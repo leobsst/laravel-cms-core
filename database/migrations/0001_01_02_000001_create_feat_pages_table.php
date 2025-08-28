@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('title_content')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->foreignId('theme_id')->nullable()->constrained('page_themes')->nullOnDelete();
-            $table->longText('content');
+            $table->longText('content')->nullable();
+            $table->longText('draft');
             $table->boolean('is_published')->default(false);
             $table->boolean('is_home')->default(false);
             $table->boolean('is_default')->default(false);

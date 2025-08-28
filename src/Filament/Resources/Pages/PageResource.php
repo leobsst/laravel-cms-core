@@ -68,6 +68,7 @@ class PageResource extends Resource
                                                 ->hiddenLabel()
                                                 ->disabled(fn ($record) => $record->is_default ?? false)
                                                 ->searchable()
+                                                ->placeholder('Thème')
                                                 ->createOptionForm([
                                                     TextInput::make('name')
                                                         ->required()
@@ -92,8 +93,14 @@ class PageResource extends Resource
                                                 ]),
                                         ])
                                             ->columns(2)
-                                            ->label('Slug'),
-                                    ])->columns(2),
+                                            ->label('Thème (dossier) / Slug*'),
+                                    ])->columns([
+                                        'default' => 1,
+                                        'sm' => 1,
+                                        'md' => 2,
+                                        'lg' => 1,
+                                        'xl' => 2,
+                                    ]),
                                 Section::make('SEO')
                                     ->relationship('seo')
                                     ->schema([
@@ -135,8 +142,8 @@ class PageResource extends Resource
                             ]),
                     ])->columnSpanFull(),
                 TinyEditor::make('content')
-                    ->hiddenLabel()
                     ->required()
+                    ->hiddenLabel()
                     ->columnSpanFull()
                     ->columnSpan('full')
                     ->fileAttachmentsDisk('uploads')
@@ -225,7 +232,7 @@ class PageResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['title', 'slug'];
+        return ['title', 'slug', 'theme.name'];
     }
 
     public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
@@ -237,7 +244,8 @@ class PageResource extends Resource
     {
         return [
             'slug' => $record->slug,
-            'courte description' => mb_strimwidth($record->content, 0, 100, '...'),
+            'theme' => $record->theme?->name,
+            'courte description' => mb_strimwidth(strip_tags($record->content), 0, 100, '...'),
         ];
     }
 

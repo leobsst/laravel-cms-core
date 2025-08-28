@@ -11,6 +11,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Models\Feature;
 use Leobsst\LaravelCmsCore\Services\FilamentService;
+use Livewire\Component;
 
 class FeatureResource extends Resource
 {
@@ -47,8 +48,10 @@ class FeatureResource extends Resource
                     ->color(color: fn (Feature $record): string => $record->boolvalue ? 'danger' : 'primary')
                     ->modalHeading(heading: fn (Feature $record): string => 'Désactiver  '.$record->name.' ?')
                     ->modalSubmitActionLabel(label: 'Désactiver')
-                    ->action(action: function (Feature $record): Notification|bool {
+                    ->action(action: function (Feature $record, Component $livewire): Notification|bool {
                         if ($record->update(attributes: ['value' => $record->boolvalue ? 'false' : 'true'])) {
+                            $livewire->dispatch(event: 'refresh-sidebar');
+
                             return FilamentService::sendNotification(title: $record->boolvalue
                                 ? 'Fonctionnalité activée'
                                 : 'Fonctionnalité désactivée'
