@@ -18,8 +18,8 @@ class editor
     {
         if (Auth::check() && Auth::user()->hasRole('editor')) {
             return $next($request);
-        } else {
-            abort(404);
         }
+
+        abort(404);
     }
 }

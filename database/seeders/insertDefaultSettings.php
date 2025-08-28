@@ -71,13 +71,13 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'lat',
                 'value' => null,
-                'type' => SettingTypeEnum::NUMBER,
+                'type' => SettingTypeEnum::STRING,
                 'category' => SettingCategoryEnum::CONTACT,
             ],
             [
                 'name' => 'long',
                 'value' => null,
-                'type' => SettingTypeEnum::NUMBER,
+                'type' => SettingTypeEnum::STRING,
                 'category' => SettingCategoryEnum::CONTACT,
             ],
             [

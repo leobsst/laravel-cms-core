@@ -17,15 +17,13 @@ class Maintenance
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->hasRole('manager')) {
-            return $next($request);
-        } elseif (Setting::get('under_maintenance') == '0') {
-            return $next($request);
-        } else {
-            return response()
+        return match (true) {
+            Auth::check() && Auth::user()->hasRole('manager'),
+            Setting::get('under_maintenance') == '0' => $next($request),
+            default => response()
                 ->view('errors.503', [
                     'websiteName' => Setting::get('website_name'),
-                ], 503);
-        }
+                ], 503)
+        };
     }
 }

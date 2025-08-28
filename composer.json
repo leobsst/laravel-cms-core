@@ -26,7 +26,7 @@
     "require": {
         "php": "^8.2",
         "althinect/filament-spatie-roles-permissions": "3.x-dev",
-        "amidesfahani/filament-tinyeditor": "^2.0",
+        "amidesfahani/filament-tinyeditor": "^4.0",
         "laravel/framework": "^11.9",
         "nesbot/carbon": "^2.63|^3.0",
         "filament/filament": "^4.0",

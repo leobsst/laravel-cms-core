@@ -18,8 +18,8 @@ class Owner
     {
         if (Auth::check() && Auth::user()->hasRole('owner')) {
             return $next($request);
-        } else {
-            abort(404);
         }
+
+        abort(404);
     }
 }

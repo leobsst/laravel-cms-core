@@ -1,12 +1,8 @@
-<x-laravel-cms-core::head_seo :page="$this->page" />
-@section('title')
-{{ $this->page->title }}
-@endsection
 @pushOnce('scripts')
 <script src="https://www.google.com/recaptcha/api.js?render={{config('core.RECAPTCHA_SITE_KEY')}}" async></script>
 @endpushOnce
 <div>
-    <div class="mb-8 mt-24" wire:key='contact_{{uniqid()}}'>
+    <div class="mb-8 mt-24 p-4" wire:key='contact_{{uniqid()}}'>
         <div class="w-full flex lg:justify-between flex-col lg:flex-row">
 
             {{-- Contact form --}}
@@ -179,7 +175,7 @@
                 </p>
 
                 <div class="mt-8">
-                    {!! str(string: $this->page->content)->sanitizeHtml() !!}
+                    {!! str($content)->sanitizeHtml() !!}
                 </div>
             </div>
 
@@ -209,10 +205,4 @@
             @endif
         </div>
     </div>
-    @if (session()->has('success'))
-    <x-laravel-cms-core::alert.success message="{!! session('success') !!}" />
-    @endif
-    @if (session()->has('error'))
-    <x-laravel-cms-core::alert.error message="{!! session('error') !!}" />
-    @endif
 </div>

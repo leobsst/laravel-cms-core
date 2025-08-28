@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Providers;
 
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Http\Request;
@@ -18,10 +19,14 @@ use Leobsst\LaravelCmsCore\Console\Commands\TerminateLogs;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\AddTranslationToFile;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\NewTranslation;
 use Leobsst\LaravelCmsCore\Console\Commands\Translation\Translate;
+use Leobsst\LaravelCmsCore\Livewire\FlashMessage;
+use Leobsst\LaravelCmsCore\Livewire\Page\Partials\Contact;
+use Leobsst\LaravelCmsCore\Livewire\Page\Partials\Content;
 use Leobsst\LaravelCmsCore\Models\Features\Menus\Menu;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Leobsst\LaravelCmsCore\Services\ClientService;
+use Livewire\Livewire;
 
 class LaravelCmsCoreServiceProvider extends ServiceProvider
 {
@@ -40,13 +45,16 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->getPackageInformations();
         $this->getCommands();
         $this->getBladeDirectives();
+        $this->registerLivewireComponents();
 
         // Pennant Feature Flag global scope
         Feature::resolveScopeUsing(fn ($drive) => null);
         EnsureFeaturesAreActive::whenInactive(callback: fn (Request $request, array $features) => abort(404, 'Cette page est indisponible', [
             'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
-        ])
-        );
+        ]));
+
+        FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload
+            ->visibility('public'));
 
         // Passport
         Passport::enablePasswordGrant();
@@ -187,5 +195,15 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
                 FakerLog::class,
             ]);
         }
+    }
+
+    /**
+     * Register Livewire components
+     */
+    private function registerLivewireComponents(): void
+    {
+        Livewire::component('laravel-cms-core::page.partials.content', Content::class);
+        Livewire::component('laravel-cms-core::page.partials.contact', Contact::class);
+        Livewire::component('laravel-cms-core::flash-message', FlashMessage::class);
     }
 }

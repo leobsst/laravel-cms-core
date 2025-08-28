@@ -1,8 +1,8 @@
 <div
-        class="fixed top-28 right-10 z-[200] p-4 bg-red-100 rounded-md right-10"
-        x-transition:leave.duration.400ms
-        x-data="{ show: true }" x-show="show" x-on:click=" show = false"
-        x-init="setTimeout(() => show = false, 3000)"
+    class="fixed top-28 z-[200] p-4 bg-red-100 rounded-md right-10"
+    x-transition:leave.duration.400ms
+    x-data="{ show: true }" x-show="show" x-on:click=" show = false"
+    x-init="setTimeout(() => show = false, 3000)"
 >
     <div class="flex">
         <div class="flex-shrink-0">

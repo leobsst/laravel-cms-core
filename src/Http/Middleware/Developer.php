@@ -18,8 +18,8 @@ class Developer
     {
         if (Auth::check() && Auth::user()->hasRole('admin')) {
             return $next($request);
-        } else {
-            abort(404);
         }
+
+        abort(404);
     }
 }

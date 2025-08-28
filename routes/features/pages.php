@@ -15,7 +15,7 @@ use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
 |
 */
 
-Route::name('core.pages.')->group(function () {
+Route::middleware('web')->name('core.pages.')->group(function () {
     Route::middleware([Maintenance::class, EnsureFeaturesAreActive::using('pages')])->group(function () {
         /* Get page */
         Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('show');
