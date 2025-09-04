@@ -3,6 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Providers;
 
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Http\Request;
@@ -46,6 +47,10 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->getCommands();
         $this->getBladeDirectives();
         $this->registerLivewireComponents();
+
+        $this->app->afterResolving(Schedule::class, function (Schedule $schedule) {
+            $this->getSchedule(schedule: $schedule);
+        });
 
         // Pennant Feature Flag global scope
         Feature::resolveScopeUsing(fn ($drive) => null);
@@ -117,15 +122,50 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     {
         // Load routes
         $this->loadRoutesFrom(path: __DIR__.'/../../routes/web.php');
-        $this->loadRoutesFrom(path: __DIR__.'/../../routes/features/pages.php');
+
+        $features = [];
+        foreach (glob(__DIR__.'/../../routes/features/*.php') as $filename) {
+            $this->loadRoutesFrom(path: $filename);
+            $features[$filename] = base_path(path: 'routes/features/'.basename($filename).'.php');
+        }
+
         $this->loadRoutesFrom(path: __DIR__.'/../../routes/api.php');
-        $this->loadRoutesFrom(path: __DIR__.'/../../routes/console.php');
-        $this->publishes([
-            __DIR__.'/../../routes/web.php' => base_path(path: 'routes/web.php'),
-            __DIR__.'/../../routes/features/pages.php' => base_path(path: 'routes/features/pages.php'),
-            __DIR__.'/../../routes/api.php' => base_path(path: 'routes/api.php'),
-            __DIR__.'/../../routes/console.php' => base_path(path: 'routes/console.php'),
-        ], groups: 'laravel-cms-core-routes');
+        $this->publishes(paths: array_merge(
+            [__DIR__.'/../../routes/web.php' => base_path(path: 'routes/web.php')],
+            $features,
+            [__DIR__.'/../../routes/api.php' => base_path(path: 'routes/api.php')],
+        ), groups: 'laravel-cms-core-routes');
+    }
+
+    private function getSchedule(Schedule $schedule): void
+    {
+        $schedule->command('queue:work --queue=emails --stop-when-empty --tries=3 --backoff=5')
+            ->everySecond()
+            ->withoutOverlapping();
+
+        $schedule->command('queue:work --queue=high --stop-when-empty --tries=3 --backoff=5')
+            ->everySecond()
+            ->withoutOverlapping();
+
+        $schedule->command('queue:work --queue=default --stop-when-empty --tries=3 --backoff=5')
+            ->everyMinute()
+            ->withoutOverlapping();
+
+        $schedule->command('queue:flush --hours=48')
+            ->daily()
+            ->withoutOverlapping();
+
+        // Converts all images to webp format from /public/assets/img folder
+        $schedule->command('images:convert-to-webp')
+            ->dailyAt(time: '03:00')
+            ->withoutOverlapping()
+            ->onOneServer();
+
+        // Terminates all logs older than 24 hours
+        $schedule->command('logs:terminate')
+            ->dailyAt(time: '06:00')
+            ->withoutOverlapping()
+            ->onOneServer();
     }
 
     /**
