@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
 
 /*
@@ -15,9 +15,11 @@ use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
 |
 */
 
-Route::middleware('web')->name('core.pages.')->group(function () {
-    Route::middleware([Maintenance::class, EnsureFeaturesAreActive::using('pages')])->group(function () {
-        /* Get page */
-        Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('show');
+Feature::when('pages', function () {
+    Route::middleware('web')->name('core.pages.')->group(function () {
+        Route::middleware([Maintenance::class])->group(function () {
+            /* Get page */
+            Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('show');
+        });
     });
 });
