@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Models;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
@@ -48,9 +49,10 @@ class Log extends Model
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public static function sendLogsToEmail()
+    public static function sendLogsToEmail(User|Authenticatable|null $user = null)
     {
-        Mail::to([auth()->user()->email])->send(new ExportLogs(Log::limit(200)->orderByDesc('created_at')->get()));
-        auth()->user()->log(LogType::INFO, 'Logs exported to email', LogStatus::SUCCESS);
+        $user = ! is_null($user) ? $user : auth()->user();
+        Mail::to([$user->email])->send(new ExportLogs(self::limit(200)->orderByDesc('created_at')->get()));
+        $user->log(LogType::INFO, 'Logs exported to email', LogStatus::SUCCESS);
     }
 }
