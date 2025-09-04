@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Schedule;
 | Here is where queued tasks are defined for your application.
 |
 */
+
 Schedule::command('queue:work --queue=emails --stop-when-empty --tries=3 --backoff=5')
     ->everySecond()
     ->withoutOverlapping();
