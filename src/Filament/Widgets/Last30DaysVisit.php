@@ -58,4 +58,9 @@ class Last30DaysVisit extends BaseWidget
             'total' => array_sum($visitsPerInterval),
         ];
     }
+
+    public static function isDiscovered(): bool
+    {
+        return feature()->active('pages');
+    }
 }
