@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('creator_id')->unsigned()->index()->nullable();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('reference_table')->nullable();
-            $table->integer('reference_id')->unsigned()->nullable();
+            $table->string('reference_id')->nullable();
             $table->string('ip_address')->nullable();
             $table->json('data')->nullable();
             $table->string('status')->default(LogStatus::SUCCESS->value);

@@ -4,6 +4,7 @@ namespace Leobsst\LaravelCmsCore\Filament\Auth;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Auth\Http\Responses\Contracts\LoginResponse;
+use Filament\Auth\MultiFactor\Contracts\HasBeforeChallengeHook;
 use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Auth\SessionGuard;
