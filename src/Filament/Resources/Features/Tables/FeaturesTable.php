@@ -8,6 +8,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Leobsst\LaravelCmsCore\Jobs\DeployJob;
 use Leobsst\LaravelCmsCore\Models\Feature;
 use Leobsst\LaravelCmsCore\Services\FilamentService;
 use Livewire\Component;
@@ -42,6 +43,7 @@ class FeaturesTable
                     ->action(action: function (Feature $record, Component $livewire): Notification|bool {
                         if ($record->update(attributes: ['value' => $record->boolvalue ? 'false' : 'true'])) {
                             $livewire->dispatch(event: 'refresh-sidebar');
+                            DeployJob::dispatch()->withoutDelay();
 
                             return FilamentService::sendNotification(title: $record->boolvalue
                                 ? 'Fonctionnalité activée'
