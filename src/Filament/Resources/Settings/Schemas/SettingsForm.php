@@ -1,0 +1,91 @@
+<?php
+
+namespace Leobsst\LaravelCmsCore\Filament\Resources\Settings\Schemas;
+
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\CodeEditor;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Schemas\Components\Component;
+use Filament\Forms\Components\SpatieTagsInput;
+use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Filament\Forms\Components\CodeEditor\Enums\Language;
+
+class SettingsForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                self::getFormComponentForType($schema->getRecord(), true),
+                self::getFormComponentForType($schema->getRecord()),
+            ])->columns(1);
+    }
+
+    private static function getFormComponentForType(Model $record, bool $default = false): Component
+    {
+        $property = $default ? 'default_value' : 'value';
+        $label = $default ? 'Valeur par défaut' : $record->setting_name;
+
+        return match ($record->type) {
+            SettingTypeEnum::STRING => TextInput::make($property)
+                ->label($label)
+                ->disabled($default),
+            SettingTypeEnum::NUMBER => TextInput::make($property)
+                ->label('Valeur')
+                ->integer()
+                ->disabled($default),
+            SettingTypeEnum::BOOLEAN => Toggle::make($property)
+                ->label($label)
+                ->required()
+                ->disabled($default),
+            SettingTypeEnum::JSON => Textarea::make($property)
+                ->label($label)
+                ->disabled($default),
+            SettingTypeEnum::DATE => DatePicker::make($property)
+                ->label($label)
+                ->disabled($default),
+            SettingTypeEnum::URL => TextInput::make($property)
+                ->label($label)
+                ->url()
+                ->disabled($default),
+            SettingTypeEnum::EMAIL => TextInput::make($property)
+                ->label($label)
+                ->email()
+                ->disabled($default)
+                ->required(),
+            SettingTypeEnum::TEXTAREA => $record->name === 'custom_css'
+                ? CodeEditor::make($property)->label($label)->language(Language::Css)->disabled($default)
+                : Textarea::make($property)->label($label)->rows(10)->disabled($default),
+            SettingTypeEnum::COLOR => ColorPicker::make($property)
+                ->label($label)
+                ->hexColor()
+                ->disabled($default)
+                ->required(),
+            SettingTypeEnum::TAGS => SpatieTagsInput::make('tags')
+                ->label($label)
+                ->required(),
+            SettingTypeEnum::IMAGE => FileUpload::make($property)
+                ->label($default ? 'Bannière par défaut' : 'Bannière')
+                ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
+                ->maxSize('5120')
+                ->imageEditor()
+                ->disk('assets')
+                ->columnSpanFull()
+                ->imageEditorAspectRatios(['16:9', '1:1'])
+                ->imageEditorMode(3)
+                ->imageResizeMode('cover')
+                ->imageCropAspectRatio('1:1')
+                ->disabled($default),
+            default => TextInput::make($property)
+                ->label($default ? 'Valeur par défaut' : 'Valeur')
+                ->disabled($default)
+                ->required(),
+        };
+    }
+}
