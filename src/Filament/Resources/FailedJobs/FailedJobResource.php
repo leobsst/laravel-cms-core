@@ -7,7 +7,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Filament\Resources\FailedJobs\Pages\ListFailedJobs;
-use Leobsst\LaravelCmsCore\Filament\Resources\FailedJobs\Schemas\FailedJobForm;
+use Leobsst\LaravelCmsCore\Filament\Resources\FailedJobs\Schemas\FailedJobsForm;
 use Leobsst\LaravelCmsCore\Filament\Resources\FailedJobs\Tables\FailedJobsTable;
 use Leobsst\LaravelCmsCore\Models\FailedJob;
 
@@ -21,7 +21,7 @@ class FailedJobResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return FailedJobForm::configure($schema);
+        return FailedJobsForm::configure($schema);
     }
 
     public static function table(Table $table): Table

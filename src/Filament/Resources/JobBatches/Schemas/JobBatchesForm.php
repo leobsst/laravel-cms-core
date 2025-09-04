@@ -5,7 +5,7 @@ namespace Leobsst\LaravelCmsCore\Filament\Resources\JobBatches\Schemas;
 use Filament\Schemas\Schema;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
-class JobBatchForm
+class JobBatchesForm
 {
     public static function configure(Schema $schema): Schema
     {

@@ -7,7 +7,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Filament\Resources\JobBatches\Pages\ListJobBatches;
-use Leobsst\LaravelCmsCore\Filament\Resources\JobBatches\Schemas\JobBatchForm;
+use Leobsst\LaravelCmsCore\Filament\Resources\JobBatches\Schemas\JobBatchesForm;
 use Leobsst\LaravelCmsCore\Filament\Resources\JobBatches\Tables\JobBatchesTable;
 use Leobsst\LaravelCmsCore\Models\JobBatch;
 
@@ -23,7 +23,7 @@ class JobBatchResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return JobBatchForm::configure($schema);
+        return JobBatchesForm::configure($schema);
     }
 
     public static function table(Table $table): Table

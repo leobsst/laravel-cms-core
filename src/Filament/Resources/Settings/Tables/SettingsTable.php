@@ -2,13 +2,13 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\Settings\Tables;
 
-use Filament\Tables\Table;
 use Filament\Actions\EditAction;
-use Illuminate\Support\HtmlString;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Leobsst\LaravelCmsCore\Models\Setting;
+use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Models\Setting;
 
 class SettingsTable
 {

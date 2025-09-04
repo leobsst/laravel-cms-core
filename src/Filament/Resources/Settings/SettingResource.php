@@ -2,26 +2,11 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\Settings;
 
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\CodeEditor;
-use Filament\Forms\Components\CodeEditor\Enums\Language;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\SpatieTagsInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\HtmlString;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
 use Leobsst\LaravelCmsCore\Filament\Resources\Settings\Schemas\SettingsForm;
 use Leobsst\LaravelCmsCore\Filament\Resources\Settings\Tables\SettingsTable;
 use Leobsst\LaravelCmsCore\Models\Setting;
