@@ -19,7 +19,7 @@ class FailedJobsForm
                 JsonColumn::make('exception')
                     ->hiddenLabel()
                     ->viewerOnly()
-                    ->formatStateUsing(fn ($state) => nl2br($state))
+                    ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE))
                     ->columnSpanFull()
                     ->viewerHeight(400),
             ]);
