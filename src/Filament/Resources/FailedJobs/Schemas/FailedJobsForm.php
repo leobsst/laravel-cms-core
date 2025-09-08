@@ -2,8 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\FailedJobs\Schemas;
 
-use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Leobsst\LaravelCmsCore\Helpers\LogsHelper;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
 class FailedJobsForm
@@ -17,10 +17,12 @@ class FailedJobsForm
                     ->viewerOnly()
                     ->columnSpanFull()
                     ->viewerHeight(400),
-                Textarea::make('exception')
+                JsonColumn::make('exception')
                     ->hiddenLabel()
+                    ->viewerOnly()
+                    ->formatStateUsing(fn ($state): string => LogsHelper::convertToJson($state))
                     ->columnSpanFull()
-                    ->rows(30),
+                    ->viewerHeight(400),
             ]);
     }
 }

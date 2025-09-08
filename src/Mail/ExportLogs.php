@@ -34,7 +34,7 @@ class ExportLogs extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: view(view: 'laravel-cms-core::mail.export-logs'),
+            markdown: 'laravel-cms-core::mail.export-logs',
         );
     }
 
