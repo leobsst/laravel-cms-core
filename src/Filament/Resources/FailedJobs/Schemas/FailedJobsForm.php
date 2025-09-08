@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Resources\FailedJobs\Schemas;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
@@ -16,12 +17,10 @@ class FailedJobsForm
                     ->viewerOnly()
                     ->columnSpanFull()
                     ->viewerHeight(400),
-                JsonColumn::make('exception')
+                Textarea::make('exception')
                     ->hiddenLabel()
-                    ->viewerOnly()
-                    ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE))
                     ->columnSpanFull()
-                    ->viewerHeight(400),
+                    ->rows(30),
             ]);
     }
 }
