@@ -22,7 +22,7 @@ Route::name(value: 'api.core.')->group(callback: function (): void {
     });
 
     // Routes with Client Credentials
-    Route::middleware(['client_credientials'])->group(callback: function (): void {
+    Route::middleware(['client_credentials'])->group(callback: function (): void {
         //
     });
 });
