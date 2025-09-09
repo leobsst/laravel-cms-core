@@ -2,8 +2,9 @@
 
 namespace Leobsst\LaravelCmsCore;
 
-use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Filament\Contracts\Plugin;
+use Filament\Support\Assets\Css;
 
 class LaravelCmsCorePlugin implements Plugin
 {
@@ -23,7 +24,10 @@ class LaravelCmsCorePlugin implements Plugin
         $panel
             ->discoverResources(in: __DIR__.'/Filament/Resources', for: 'Leobsst\\LaravelCmsCore\\Filament\\Resources')
             ->discoverPages(in: __DIR__.'/Filament/Pages', for: 'Leobsst\\LaravelCmsCore\\Filament\\Pages')
-            ->discoverWidgets(in: __DIR__.'/Filament/Widgets', for: 'Leobsst\\LaravelCmsCore\\Filament\\Widgets');
+            ->discoverWidgets(in: __DIR__.'/Filament/Widgets', for: 'Leobsst\\LaravelCmsCore\\Filament\\Widgets')
+            ->assets([
+                Css::make('core', asset('css/filament/filament/core.css')),
+            ]);
     }
 
     /**
