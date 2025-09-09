@@ -16,6 +16,11 @@ You can install the package via composer:
 composer require leobsst/laravel-cms-core
 ```
 
+You must publish assets via:
+``` bash
+php artisan vendor:publish --tag=laravel-cms-core-assets
+```
+
 (optional) You can publish migrations via:
 ``` bash
 php artisan vendor:publish --tag=laravel-cms-core-migrations

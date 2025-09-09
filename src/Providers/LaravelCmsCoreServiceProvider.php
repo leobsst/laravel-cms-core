@@ -3,6 +3,8 @@
 namespace Leobsst\LaravelCmsCore\Providers;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -49,17 +51,16 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->registerLivewireComponents();
 
         $this->app->afterResolving(Schedule::class, function (Schedule $schedule) {
-            $this->getSchedule(schedule: $schedule);
+            $this->getSchedule($schedule);
         });
 
         // Pennant Feature Flag global scope
         Feature::resolveScopeUsing(fn ($drive) => null);
-        EnsureFeaturesAreActive::whenInactive(callback: fn (Request $request, array $features) => abort(404, 'Cette page est indisponible', [
+        EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => abort(404, 'Cette page est indisponible', [
             'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
         ]));
 
-        FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload
-            ->visibility('public'));
+        $this->restoreOldFileUploadConfig();
 
         // Passport
         Passport::enablePasswordGrant();
@@ -89,7 +90,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     {
         // Load config
         $this->mergeConfigFrom(__DIR__.'/../../config/core.php', 'core');
-        $this->publishes(paths: [__DIR__.'/../../config/core.php' => config_path(path: 'core.php')], groups: 'laravel-cms-core-config');
+        $this->publishes([__DIR__.'/../../config/core.php' => config_path('core.php')], 'laravel-cms-core-config');
     }
 
     /**
@@ -98,8 +99,8 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     private function getMigrations(): void
     {
         // Load migrations
-        $this->loadMigrationsFrom(paths: [__DIR__.'/../../database/migrations']);
-        $this->publishesMigrations(paths: [__DIR__.'/../../database/migrations' => database_path(path: 'migrations')], groups: 'laravel-cms-core-migrations');
+        $this->loadMigrationsFrom([__DIR__.'/../../database/migrations']);
+        $this->publishesMigrations([__DIR__.'/../../database/migrations' => database_path('migrations')], 'laravel-cms-core-migrations');
     }
 
     /**
@@ -108,11 +109,11 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     private function getSeedersAndFactories(): void
     {
         // Load factories and seeders
-        $this->publishes(paths: [
-            __DIR__.'/../../database/seeders' => database_path(path: 'seeders'),
-            __DIR__.'/../../database/factories' => database_path(path: 'factories'),
-            base_path('vendor/laravel/pennant/config/pennant.php') => config_path(path: 'pennant.php'),
-        ], groups: 'laravel-cms-core-database');
+        $this->publishes([
+            __DIR__.'/../../database/seeders' => database_path('seeders'),
+            __DIR__.'/../../database/factories' => database_path('factories'),
+            base_path('vendor/laravel/pennant/config/pennant.php') => config_path('pennant.php'),
+        ], 'laravel-cms-core-database');
     }
 
     /**
@@ -121,20 +122,20 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     private function getRoutes(): void
     {
         // Load routes
-        $this->loadRoutesFrom(path: __DIR__.'/../../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
 
         $features = [];
         foreach (glob(__DIR__.'/../../routes/features/*.php') as $filename) {
-            $this->loadRoutesFrom(path: $filename);
-            $features[$filename] = base_path(path: 'routes/features/'.basename($filename).'.php');
+            $this->loadRoutesFrom($filename);
+            $features[$filename] = base_path('routes/features/'.basename($filename).'.php');
         }
 
-        $this->loadRoutesFrom(path: __DIR__.'/../../routes/api.php');
-        $this->publishes(paths: array_merge(
-            [__DIR__.'/../../routes/web.php' => base_path(path: 'routes/web.php')],
+        $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
+        $this->publishes(array_merge(
+            [__DIR__.'/../../routes/web.php' => base_path('routes/web.php')],
             $features,
-            [__DIR__.'/../../routes/api.php' => base_path(path: 'routes/api.php')],
-        ), groups: 'laravel-cms-core-routes');
+            [__DIR__.'/../../routes/api.php' => base_path('routes/api.php')],
+        ), 'laravel-cms-core-routes');
     }
 
     private function getSchedule(Schedule $schedule): void
@@ -174,10 +175,30 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     private function getViews(): void
     {
         // Load views
-        $this->loadViewsFrom(path: __DIR__.'/../../resources/views', namespace: 'laravel-cms-core');
-        $this->publishes(paths: [
-            __DIR__.'/../../resources/views' => resource_path(path: 'views/vendor/courier'),
-        ], groups: 'laravel-cms-core-views');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'laravel-cms-core');
+        $this->publishes([
+            __DIR__.'/../../resources/views' => resource_path('views/vendor/laravel-cms-core'),
+        ], 'laravel-cms-core-views');
+
+        // Publish assets
+        $this->publishes([
+            __DIR__.'/../../resources/assets' => asset('css/filament/filament'),
+        ], 'laravel-cms-core-assets');
+    }
+
+    /**
+     * Restore old FileUpload configuration
+     */
+    private function restoreOldFileUploadConfig(): void
+    {
+        FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload
+            ->visibility('uploads'));
+
+        ImageColumn::configureUsing(fn (ImageColumn $imageColumn) => $imageColumn
+            ->visibility('uploads'));
+
+        ImageEntry::configureUsing(fn (ImageEntry $imageEntry) => $imageEntry
+            ->visibility('uploads'));
     }
 
     /**
@@ -224,7 +245,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
     {
         // Load commands
         if ($this->app->runningInConsole()) {
-            $this->commands(commands: [
+            $this->commands([
                 addChangeLog::class,
                 ConvertToWebp::class,
                 DeployCommand::class,
