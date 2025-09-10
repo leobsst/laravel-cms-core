@@ -5,6 +5,7 @@ namespace Leobsst\LaravelCmsCore\Filament\Resources\Menus;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Filament\Resources\Menus\Schemas\MenusForm;
 use Leobsst\LaravelCmsCore\Filament\Resources\Menus\Tables\MenusTable;
 use Leobsst\LaravelCmsCore\Models\Features\Menus\Menu;
@@ -41,6 +42,6 @@ class MenuResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->hasRole('manager') && feature()->active('menus');
+        return auth()->user()->hasRole('manager') && Feature::active('menus');
     }
 }

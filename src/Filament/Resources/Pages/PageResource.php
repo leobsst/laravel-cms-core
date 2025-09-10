@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Filament\Resources\Pages\Schemas\PagesForm;
 use Leobsst\LaravelCmsCore\Filament\Resources\Pages\Tables\PagesTable;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
@@ -62,6 +63,6 @@ class PageResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->hasRole('editor') && feature()->active('pages');
+        return auth()->user()->hasRole('editor') && Feature::active('pages');
     }
 }

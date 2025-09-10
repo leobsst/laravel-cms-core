@@ -2,8 +2,8 @@
 
 namespace Leobsst\LaravelCmsCore;
 
-use Filament\Panel;
 use Filament\Contracts\Plugin;
+use Filament\Panel;
 use Filament\Support\Assets\Css;
 
 class LaravelCmsCorePlugin implements Plugin

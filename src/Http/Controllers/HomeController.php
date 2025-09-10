@@ -2,6 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Http\Controllers;
 
+use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 class HomeController extends CoreController
@@ -27,7 +28,7 @@ class HomeController extends CoreController
     {
         $pages = [];
 
-        if (feature()->active('pages')) {
+        if (Feature::active('pages')) {
             $pages = Page::where('is_published', true)
                 ->where('is_home', false)
                 ->with('theme:id,name')
