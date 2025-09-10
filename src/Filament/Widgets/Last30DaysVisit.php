@@ -5,7 +5,6 @@ namespace Leobsst\LaravelCmsCore\Filament\Widgets;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Pennant\Feature;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\PageStat;
 
 class Last30DaysVisit extends BaseWidget
@@ -62,6 +61,6 @@ class Last30DaysVisit extends BaseWidget
 
     public static function isDiscovered(): bool
     {
-        return Feature::active('pages');
+        return feature()->active('pages');
     }
 }
