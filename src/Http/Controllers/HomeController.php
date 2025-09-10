@@ -27,7 +27,7 @@ class HomeController extends CoreController
     {
         $pages = [];
 
-        if (feature()->active('pages')) {
+        if (\Illuminate\Support\Facades\Schema::hasTable('features') && feature()->active('pages')) {
             $pages = Page::where('is_published', true)
                 ->where('is_home', false)
                 ->with('theme:id,name')

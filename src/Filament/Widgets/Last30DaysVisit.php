@@ -61,6 +61,6 @@ class Last30DaysVisit extends BaseWidget
 
     public static function isDiscovered(): bool
     {
-        return feature()->active('pages');
+        return \Illuminate\Support\Facades\Schema::hasTable('features') && feature()->active('pages');
     }
 }

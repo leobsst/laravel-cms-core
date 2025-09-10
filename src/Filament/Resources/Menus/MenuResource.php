@@ -41,6 +41,6 @@ class MenuResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->hasRole('manager') && feature()->active('menus');
+        return auth()->user()->hasRole('manager') && (\Illuminate\Support\Facades\Schema::hasTable('features') && feature()->active('menus'));
     }
 }

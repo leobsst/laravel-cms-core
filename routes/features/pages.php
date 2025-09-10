@@ -15,11 +15,13 @@ use Leobsst\LaravelCmsCore\Http\Middleware\Maintenance;
 |
 */
 
-Feature::when('pages', function () {
-    Route::middleware('web')->name('core.pages.')->group(function () {
-        Route::middleware([Maintenance::class])->group(function () {
-            /* Get page */
-            Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('show');
+if (\Illuminate\Support\Facades\Schema::hasTable('features')) {
+    Feature::when('pages', function () {
+        Route::middleware('web')->name('core.pages.')->group(function () {
+            Route::middleware([Maintenance::class])->group(function () {
+                /* Get page */
+                Route::fallback(\Leobsst\LaravelCmsCore\Livewire\Page\Show::class)->name('show');
+            });
         });
     });
-});
+}

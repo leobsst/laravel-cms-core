@@ -62,6 +62,6 @@ class PageResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->hasRole('editor') && feature()->active('pages');
+        return auth()->user()->hasRole('editor') && (\Illuminate\Support\Facades\Schema::hasTable('features') && feature()->active('pages'));
     }
 }
