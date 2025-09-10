@@ -17,6 +17,7 @@ class CreatePage extends CreateRecord
         $data['slug'] = Page::cleanSlug($data['slug']);
         if (isset($data['content'])) {
             $data['content'] = Page::cleanContent($data['content']);
+            $data['draft'] = $data['content'];
         }
 
         return $data;

@@ -116,7 +116,6 @@ class PagesForm
                             ]),
                     ])->columnSpanFull(),
                 TinyEditor::make('content')
-                    ->required()
                     ->hiddenLabel()
                     ->columnSpanFull()
                     ->columnSpan('full')

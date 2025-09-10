@@ -31,6 +31,7 @@ class EditPage extends EditRecord
         }
         if (isset($data['content'])) {
             $data['content'] = Page::cleanContent($data['content']);
+            $data['draft'] = $data['content'];
         }
 
         return $data;
