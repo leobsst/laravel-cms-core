@@ -17,6 +17,8 @@ class ConvertToWebp extends Command
         'jpg',
         'jpeg',
         'png',
+        'gif',
+        'svg',
     ];
 
     /**
@@ -38,7 +40,7 @@ class ConvertToWebp extends Command
      */
     public function handle(): void
     {
-        $publicPath = $this->argument(key: 'path') ?? public_path(path: 'assets/img');
+        $publicPath = $this->argument(key: 'path') ?? public_path(path: 'uploads');
         if (file_exists(filename: $publicPath) && is_dir(filename: $publicPath)) {
             $this->info(string: 'Converting images to webp...');
             $this->newLine();

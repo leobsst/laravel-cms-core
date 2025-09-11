@@ -2,9 +2,6 @@
 
 namespace Leobsst\LaravelCmsCore\Providers;
 
-use Filament\Forms\Components\FileUpload;
-use Filament\Infolists\Components\ImageEntry;
-use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -60,10 +57,10 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
             'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
         ]));
 
-        $this->restoreOldFileUploadConfig();
-
         // Passport
         Passport::enablePasswordGrant();
+
+        require_once __DIR__.'/../Support/helpers.php';
     }
 
     /**
@@ -184,21 +181,6 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../resources/assets' => asset('css/filament/filament'),
         ], 'laravel-cms-core-assets');
-    }
-
-    /**
-     * Restore old FileUpload configuration
-     */
-    private function restoreOldFileUploadConfig(): void
-    {
-        FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload
-            ->visibility('uploads'));
-
-        ImageColumn::configureUsing(fn (ImageColumn $imageColumn) => $imageColumn
-            ->visibility('uploads'));
-
-        ImageEntry::configureUsing(fn (ImageEntry $imageEntry) => $imageEntry
-            ->visibility('uploads'));
     }
 
     /**

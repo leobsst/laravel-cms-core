@@ -38,8 +38,8 @@ class DeployCommand extends Command
             'events' => fn () => $this->callSilent('event:clear') == 0,
             'routes' => fn () => $this->callSilent('route:clear') == 0,
             'views' => fn () => $this->callSilent('view:clear') == 0,
+            'filament' => fn () => $this->callSilent('filament:optimize-clear') == 0,
         ])->each(fn ($task, $description) => $this->components->task($description, $task));
-
         $this->newLine();
 
         $this->components->info('Building assets.');
@@ -48,7 +48,6 @@ class DeployCommand extends Command
             $this->output->write('  '.$line);
         }
         pclose($vite);
-
         $this->newLine(2);
 
         $this->components->info('Caching framework bootstrap, configuration, and metadata.');
@@ -57,8 +56,11 @@ class DeployCommand extends Command
             'config' => fn () => $this->callSilent('config:cache') == 0,
             'events' => fn () => $this->callSilent('event:cache') == 0,
             'routes' => fn () => $this->callSilent('route:cache') == 0,
+            'filament' => fn () => $this->callSilent('filament:optimize') == 0,
         ])->each(fn ($task, $description) => $this->components->task($description, $task));
+        $this->newLine();
 
+        $this->components->task('Linking storage directory', fn () => $this->callSilent('storage:link') === 0);
         $this->newLine();
     }
 }

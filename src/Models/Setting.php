@@ -4,6 +4,7 @@ namespace Leobsst\LaravelCmsCore\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
 use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
 use Spatie\Tags\HasTags;
@@ -68,14 +69,9 @@ class Setting extends Model
     /**
      * Get website tags
      */
-    public function getWebsiteTagsAttribute(): string
+    public function scopeWebsiteTags(): Collection
     {
-        $tags = [];
-        self::firstWhere('name', 'website_keywords')->tags->each(function ($tag) use (&$tags) {
-            $tags[] = $tag->name;
-        });
-
-        return implode(', ', $tags);
+        return self::firstWhere('name', 'website_keywords')->tags()->pluck('name');
     }
 
     public function getSettingNameAttribute(): string

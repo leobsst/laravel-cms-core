@@ -2,9 +2,29 @@
 
 namespace Leobsst\LaravelCmsCore;
 
+use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\Auth\MultiFactor\Email\EmailAuthentication;
 use Filament\Contracts\Plugin;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\Support\Assets\Css;
+use Filament\Support\Colors\Color;
+use Filament\Widgets\AccountWidget;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leobsst\LaravelCmsCore\Filament\Auth\EditProfile;
+use Leobsst\LaravelCmsCore\Filament\Auth\Login;
+use Leobsst\LaravelCmsCore\Filament\Auth\RequestPasswordReset;
+use Leobsst\LaravelCmsCore\Services\FilamentService;
 
 class LaravelCmsCorePlugin implements Plugin
 {
@@ -22,12 +42,48 @@ class LaravelCmsCorePlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->discoverResources(in: __DIR__.'/Filament/Resources', for: 'Leobsst\\LaravelCmsCore\\Filament\\Resources')
-            ->discoverPages(in: __DIR__.'/Filament/Pages', for: 'Leobsst\\LaravelCmsCore\\Filament\\Pages')
-            ->discoverWidgets(in: __DIR__.'/Filament/Widgets', for: 'Leobsst\\LaravelCmsCore\\Filament\\Widgets')
+            ->login(Login::class)
+            ->multiFactorAuthentication([
+                AppAuthentication::make()
+                    ->recoverable()
+                    ->regenerableRecoveryCodes(false),
+                EmailAuthentication::make(),
+            ])
+            ->passwordReset(RequestPasswordReset::class)
+            ->profile(EditProfile::class, false)
+            ->colors([
+                'primary' => FilamentService::getPrimaryColor(),
+                'yellow' => Color::Amber,
+            ])
+            ->discoverResources(__DIR__.'/Filament/Resources', 'Leobsst\\LaravelCmsCore\\Filament\\Resources')
+            ->discoverPages(__DIR__.'/Filament/Pages', 'Leobsst\\LaravelCmsCore\\Filament\\Pages')
+            ->discoverWidgets(__DIR__.'/Filament/Widgets', 'Leobsst\\LaravelCmsCore\\Filament\\Widgets')
+            ->pages([
+                Dashboard::class,
+            ])
+            ->widgets([
+                AccountWidget::class,
+            ])
+            ->middleware(middleware: [
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
+            ])
+            ->spa()
+            ->globalSearch()
             ->assets([
                 Css::make('core', asset('css/filament/filament/core.css')),
-            ]);
+            ])
+            ->navigationItems($this->registerNavigationItems());
     }
 
     /**
@@ -43,6 +99,17 @@ class LaravelCmsCorePlugin implements Plugin
      */
     public static function make(): static
     {
-        return app(abstract: static::class);
+        return app(static::class);
+    }
+
+    private function registerNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('go_to_website')
+                ->label('Voir mon site')
+                ->url('/', true)
+                ->icon('heroicon-o-globe-alt')
+                ->sort(0),
+        ];
     }
 }

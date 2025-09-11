@@ -3,6 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Models\Features\Pages;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
 
@@ -84,8 +85,8 @@ class PagesSeo extends Model
     /**
      * Get website tags
      */
-    public function getTagsFormattedAttribute(): string
+    public function getTagsFormattedAttribute(): Collection
     {
-        return $this->tags()->pluck('name')->implode(', ');
+        return $this->tags()->pluck('name');
     }
 }

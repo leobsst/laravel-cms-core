@@ -25,6 +25,18 @@ class PagesForm
             ->components([
                 Tabs::make()
                     ->tabs([
+                        Tab::make('Contenu')
+                            ->icon('heroicon-o-document-text')
+                            ->schema([
+                                TinyEditor::make('content')
+                                    ->hiddenLabel()
+                                    ->columnSpanFull()
+                                    ->columnSpan('full')
+                                    ->fileAttachmentsDirectory('pages/content')
+                                    ->minHeight(720)
+                                    ->profile('custom')
+                                    ->showMenuBar(),
+                            ]),
                         Tab::make('Informations générales')
                             ->icon('heroicon-o-information-circle')
                             ->schema([
@@ -106,7 +118,7 @@ class PagesForm
                                             ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
                                             ->maxSize('5120')
                                             ->imageEditor()
-                                            ->disk('uploads')
+                                            ->directory('pages/banners')
                                             ->columnSpanFull()
                                             ->imageEditorAspectRatios(['16:9'])
                                             ->imageEditorMode(3)
@@ -114,14 +126,7 @@ class PagesForm
                                             ->imageCropAspectRatio('16:9'),
                                     ]),
                             ]),
-                    ])->columnSpanFull(),
-                TinyEditor::make('content')
-                    ->hiddenLabel()
-                    ->columnSpanFull()
-                    ->columnSpan('full')
-                    ->fileAttachmentsDisk('uploads')
-                    ->profile('custom')
-                    ->showMenuBar(),
+                    ])->columnSpanFull()->contained(false),
             ]);
     }
 }

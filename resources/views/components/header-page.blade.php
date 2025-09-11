@@ -11,7 +11,7 @@
         <div class="relative w-full h-full">
             <span class="absolute left-0 top-0 w-full h-full bg-black"></span>
             <img
-                src="{{asset('public/uploads/files/1/'.$info->banner)}}"
+                src="/uploads/{{$info->banner}}"
                 id="header_bg"
                 alt="main-bg"
                 class="w-full h-full object-cover opacity-50 z-10 scale-[1.30]" />
