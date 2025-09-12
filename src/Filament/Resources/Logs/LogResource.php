@@ -19,6 +19,8 @@ class LogResource extends Resource
 
     protected static ?string $title = 'Logs';
 
+    protected static ?int $navigationSort = 71;
+
     public static function form(Schema $schema): Schema
     {
         return LogsForm::configure($schema);

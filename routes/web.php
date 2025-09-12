@@ -4,6 +4,7 @@ use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 use Leobsst\LaravelCmsCore\Http\Controllers\Logout;
+use Leobsst\LaravelCmsCore\Http\Controllers\FileExplorer\OpenFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,10 @@ Route::name('core.')->group(function () {
     // Session
     Route::get('/login', fn () => redirect(Filament::getPanel('dashboard')->getLoginUrl()))->name('login');
     Route::get('/logout', [Logout::class, 'logout'])->name('logout');
+
+    // File Explorer
+    Route::get('/files/open', OpenFileController::class)
+        ->name('file-explorer.open');
 
     // Sitemap
     Route::get('/sitemap.xml', [HomeController::class, 'getSiteMap'])->name('sitemap');

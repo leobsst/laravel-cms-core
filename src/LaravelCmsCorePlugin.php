@@ -2,30 +2,30 @@
 
 namespace Leobsst\LaravelCmsCore;
 
-use Filament\Panel;
-use Filament\Pages\Dashboard;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\Auth\MultiFactor\Email\EmailAuthentication;
 use Filament\Contracts\Plugin;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
+use Filament\Pages\Dashboard;
+use Filament\Panel;
 use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
-use Filament\Navigation\NavigationItem;
-use Filament\Http\Middleware\Authenticate;
-use Illuminate\Session\Middleware\StartSession;
-use Leobsst\LaravelCmsCore\Filament\Auth\Login;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Auth\MultiFactor\App\AppAuthentication;
-use Leobsst\LaravelCmsCore\Services\FilamentService;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Leobsst\LaravelCmsCore\Filament\Auth\EditProfile;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Auth\MultiFactor\Email\EmailAuthentication;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leobsst\LaravelCmsCore\Filament\Auth\EditProfile;
+use Leobsst\LaravelCmsCore\Filament\Auth\Login;
 use Leobsst\LaravelCmsCore\Filament\Auth\RequestPasswordReset;
 use Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\FileExplorer;
+use Leobsst\LaravelCmsCore\Services\FilamentService;
 
 class LaravelCmsCorePlugin implements Plugin
 {

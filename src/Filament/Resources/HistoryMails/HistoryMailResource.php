@@ -21,6 +21,8 @@ class HistoryMailResource extends Resource
 
     protected static ?string $navigationLabel = 'Mails';
 
+    protected static ?int $navigationSort = 70;
+
     public static function form(Schema $schema): Schema
     {
         return HistoryMailsForm::configure($schema);

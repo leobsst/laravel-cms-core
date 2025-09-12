@@ -8,4 +8,5 @@ enum FileExplorerItemTypeEnum: string
     case FILE = 'file';
     case FOLDER = 'folder';
     case ACTION = 'action';
+    case INDEX = 'index';
 }

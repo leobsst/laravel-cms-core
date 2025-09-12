@@ -30,14 +30,31 @@ final class FileExplorerItemDTO
     }
 
     /**
-     * Create a new FileExplorerItemDTO instance from an storage item.
+     * Create a new FileExplorerItemDTO instance from a filesystem item.
      */
-    public static function fromItem($item): self
+    public static function fromItem(string $item, string $disk, bool $isDirectory = false): self
     {
+        $name = basename($item);
+
+        if ($isDirectory) {
+            return new self(
+                type: FileExplorerItemTypeEnum::FOLDER,
+                name: $name,
+                disk: $disk,
+                path: $item,
+            );
+        }
+
+        $mime = \Storage::disk($disk)->mimeType($item) ?? null;
+        $size = \Storage::disk($disk)->size($item) ?? null;
+
         return new self(
             type: FileExplorerItemTypeEnum::FILE,
-            name: $item['name'],
-            disk: $item['disk'] ?? null,
+            name: $name,
+            disk: $disk,
+            path: $item,
+            mime: $mime,
+            size: is_numeric($size) ? (int) $size : null,
         );
     }
 

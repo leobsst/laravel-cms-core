@@ -7,15 +7,20 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables\FileExplorerTable;
+use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
 
 class FileExplorer extends Page implements HasTable
 {
     use InteractsWithTable;
+    use CanNavigateThroughFileExplorer;
+
     protected string $view = 'laravel-cms-core::filament.pages.file-explorer.file-explorer';
+
+    protected static ?int $navigationSort = 99;
 
     public static function canAccess(): bool
     {
-        return \Illuminate\Support\Facades\Schema::hasTable('features') && feature()->active('file_explorer');
+        return auth()->user()->hasRole('editor') && (\Illuminate\Support\Facades\Schema::hasTable('features') && feature()->active('file_explorer'));
     }
 
     public static function table(Table $table): Table

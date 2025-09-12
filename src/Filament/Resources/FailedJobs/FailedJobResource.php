@@ -15,9 +15,11 @@ class FailedJobResource extends Resource
 {
     protected static ?string $model = FailedJob::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Historique';
+    protected static string|\UnitEnum|null $navigationGroup = 'Jobs';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-exclamation-circle';
+
+    protected static ?int $navigationSort = 82;
 
     public static function form(Schema $schema): Schema
     {

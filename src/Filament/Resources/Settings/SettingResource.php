@@ -21,7 +21,7 @@ class SettingResource extends Resource
 
     protected static ?string $label = 'Paramètres';
 
-    protected static ?int $navigationSort = 99;
+    protected static ?int $navigationSort = 999;
 
     public static function form(Schema $schema): Schema
     {

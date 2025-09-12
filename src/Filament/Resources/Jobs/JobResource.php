@@ -15,11 +15,13 @@ class JobResource extends Resource
 {
     protected static ?string $model = Job::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Historique';
+    protected static string|\UnitEnum|null $navigationGroup = 'Jobs';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $recordTitleAttribute = 'id';
+
+    protected static ?int $navigationSort = 80;
 
     public static function form(Schema $schema): Schema
     {
