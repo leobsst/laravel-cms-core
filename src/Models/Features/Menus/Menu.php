@@ -23,8 +23,9 @@ class Menu extends Model
 
     public static function getHeaderMenu()
     {
-        return self::firstWhere('name', 'header')
+        return self::where('name', 'header')
             ->with('children')
+            ->first()
             ->children()
             ->orderBy('order')
             ->get();
@@ -32,8 +33,9 @@ class Menu extends Model
 
     public static function getFooterMenuBetweenPos(int $start, int $end)
     {
-        return self::firstWhere('name', 'footer')
+        return self::where('name', 'footer')
             ->with('children')
+            ->first()
             ->children()
             ->whereBetween('order', [$start, $end])
             ->orderBy('order')
