@@ -179,7 +179,7 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
         // Publish assets
         $this->publishes([
-            __DIR__.'/../../resources/assets' => asset('css/filament/filament'),
+            __DIR__.'/../../resources/css' => asset('css/filament/filament'),
         ], 'laravel-cms-core-assets');
     }
 
