@@ -11,7 +11,7 @@ return new class extends PennantMigration
     {
         \DB::table('features')->updateOrInsert([
             'name' => 'file_explorer',
-            'value' => true,
+            'value' => 'true',
         ]);
     }
 
