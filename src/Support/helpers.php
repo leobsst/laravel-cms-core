@@ -4,8 +4,8 @@ if (! function_exists('optimized')) {
     /**
      * Check if the asset has a optimized version (webp) and return it, otherwise return the original asset
      *
-     * @param  string  $path  // path of the asset, example: 'pages/content/image.jpg'
-     * @param  string  $disk  // 'public' or 'uploads
+     * @param  string  $path  path of the asset, example: 'pages/content/image.jpg'
+     * @param  string  $disk  'public' or 'uploads
      */
     function optimized(string $path, string $disk = 'public'): string
     {

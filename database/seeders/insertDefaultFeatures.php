@@ -33,6 +33,10 @@ class insertDefaultFeatures extends Seeder
                 'name' => 'payments',
                 'value' => false,
             ],
+            [
+                'name' => 'file_explorer',
+                'value' => true,
+            ],
         ];
 
         foreach ($features as $feature) {

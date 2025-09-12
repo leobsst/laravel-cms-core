@@ -5,9 +5,12 @@ namespace Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
+use Leobsst\LaravelCmsCore\Services\Features\FileExplorerService;
 
 class FileExplorerTable
 {
+    public static ?string $disk = null;
+    public static ?string $path = null;
     public static function configure(Table $table): Table
     {
         return $table
@@ -22,16 +25,16 @@ class FileExplorerTable
                     ->searchable()
                     ->sortable()
                     ->wrap(),
+                TextColumn::make('type')
+                    ->label('Type')
+                    ->badge()
             ]);
     }
 
     private static function getRecords(?string $search = null): Collection
     {
-        return collect([
-            1 => ['name' => 'Fichier 1', 'size' => 45145, 'mime' => 'image/png', 'path' => 'uploads/pages/content/file1.png'],
-            2 => ['name' => 'Fichier 2', 'size' => 12545, 'mime' => 'image/jpg', 'path' => 'uploads/pages/content/file2.jpg'],
-            3 => ['name' => 'Fichier 3', 'size' => 7845, 'mime' => 'application/pdf', 'path' => 'uploads/pages/content/file3.pdf'],
-        ])
+        $instance = new FileExplorerService(self::$disk);
+        return collect(blank(self::$disk) ? $instance->getIndex() : $instance->getFinder(self::$path))
             ->when(filled($search), fn (Collection $data): Collection => $data->filter(
                 fn (array $record): bool => str_contains(
                     strtolower($record['name']),

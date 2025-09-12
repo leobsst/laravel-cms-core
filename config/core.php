@@ -35,5 +35,15 @@ return [
             'content_view' => 'laravel-cms-core::livewire.page.partials.content',
             'contact_view' => 'laravel-cms-core::livewire.page.partials.contact',
         ],
+
+        /**
+         * DEFAULT DISKS FOR FILE EXPLORER
+         */
+        'file_explorer' => [
+            'disks' => [
+                'public',
+                'uploads',
+            ],
+        ],
     ],
 ];
