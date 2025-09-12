@@ -19,7 +19,7 @@ class MenuResource extends Resource
 
     protected static ?string $title = 'Menus';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 97;
 
     public static function form(Schema $schema): Schema
     {
