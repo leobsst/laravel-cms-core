@@ -8,6 +8,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables\FileExplorerTable;
 use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
+use Illuminate\Support\Collection;
+use Leobsst\LaravelCmsCore\Services\Features\FileExplorerService;
 
 class FileExplorer extends Page implements HasTable
 {
@@ -17,6 +19,8 @@ class FileExplorer extends Page implements HasTable
     protected string $view = 'laravel-cms-core::filament.pages.file-explorer.file-explorer';
 
     protected static ?int $navigationSort = 99;
+
+    public string $viewMode = 'list'; // 'list' | 'grid'
 
     public static function canAccess(): bool
     {
@@ -46,5 +50,26 @@ class FileExplorer extends Page implements HasTable
     public static function getNavigationGroup(): ?string
     {
         return config('core.file_explorer.navigation_group', 'Personnalisation');
+    }
+
+    public function setListView(): void
+    {
+        $this->viewMode = 'list';
+    }
+
+    public function setGridView(): void
+    {
+        $this->viewMode = 'grid';
+    }
+
+    public function getGridRecords(): Collection
+    {
+        $service = new FileExplorerService($this->getCurrentDisk());
+
+        $items = blank($this->getCurrentDisk())
+            ? $service->getIndex()
+            : $service->getFinder($this->getCurrentDirectoryPath());
+
+        return collect($items);
     }
 }
