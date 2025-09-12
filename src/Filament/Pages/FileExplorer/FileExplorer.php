@@ -6,15 +6,15 @@ use Filament\Pages\Page;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-use Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables\FileExplorerTable;
-use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
 use Illuminate\Support\Collection;
+use Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables\FileExplorerTable;
 use Leobsst\LaravelCmsCore\Services\Features\FileExplorerService;
+use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
 
 class FileExplorer extends Page implements HasTable
 {
-    use InteractsWithTable;
     use CanNavigateThroughFileExplorer;
+    use InteractsWithTable;
 
     protected string $view = 'laravel-cms-core::filament.pages.file-explorer.file-explorer';
 

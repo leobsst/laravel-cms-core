@@ -17,6 +17,28 @@ class Show extends Component
     public function mount(): void
     {
         $this->getPage();
+
+        try {
+            if (is_null($this->page) || ! $this->page->is_published) {
+                throw new \Error('Page not found');
+            }
+
+            $this->updateStats();
+            session()->put('current_page', $this->page->id);
+        } catch (\Throwable $e) {
+            Log::create(attributes: [
+                'type' => LogType::ERROR->value,
+                'message' => 'Accessing page '.$this->page?->title.' failed',
+                'data' => $e->getMessage(),
+                'reference_id' => $this->page?->id,
+                'status' => LogStatus::SUCCESS->value,
+                'ip_address' => ClientService::getIp(),
+            ]);
+            session()->forget('current_page');
+            abort(404, $e instanceof \Error ? $e->getMessage() : 'An error occurred', [
+                'Cache-Control' => 'no-cache, no-store, max-age=0, must-revalidate',
+            ]);
+        }
     }
 
     /**
@@ -34,6 +56,10 @@ class Show extends Component
             $slug = end($segments);
         } else {
             $slug = $path;
+        }
+
+        if (blank($slug)) {
+            $slug = null;
         }
 
         $this->page = Page::where('slug', $slug)
@@ -101,28 +127,6 @@ class Show extends Component
      */
     public function render()
     {
-        try {
-            if (is_null($this->page) || ! $this->page->is_published) {
-                throw new \Error('Page not found');
-            }
-
-            $this->updateStats();
-            session()->put('current_page', $this->page->id);
-
-            return view(config('core.features.pages.router_view', 'laravel-cms-core::livewire.page.show'));
-        } catch (\Throwable $e) {
-            Log::create(attributes: [
-                'type' => LogType::ERROR->value,
-                'message' => 'Accessing page '.$this->page?->title.' failed',
-                'data' => $e->getMessage(),
-                'reference_id' => $this->page?->id,
-                'status' => LogStatus::SUCCESS->value,
-                'ip_address' => ClientService::getIp(),
-            ]);
-            session()->forget('current_page');
-            abort(404, $e instanceof \Error ? $e->getMessage() : 'An error occurred', [
-                'Cache-Control' => 'no-cache, no-store, max-age=0, must-revalidate',
-            ]);
-        }
+        return view(config('core.features.pages.router_view', 'laravel-cms-core::livewire.page.show'));
     }
 }

@@ -2,18 +2,18 @@
 
 namespace Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables;
 
-use Livewire\Component;
-use Filament\Tables\Table;
 use Filament\Actions\Action;
-use Filament\Support\Colors\Color;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Collection;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Support\Facades\Storage;
+use Filament\Tables\Table;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Leobsst\LaravelCmsCore\Services\Features\FileExplorerService;
 use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
+use Livewire\Component;
 
 class FileExplorerTable
 {
@@ -36,6 +36,7 @@ class FileExplorerTable
             )
             ->recordAction(function ($record) {
                 $type = is_array($record) ? ($record['type'] ?? null) : ($record->type ?? null);
+
                 return $type === 'file' ? null : 'see';
             })
             ->recordUrl(function ($record) {
@@ -57,9 +58,10 @@ class FileExplorerTable
                 if (method_exists($adapter, 'temporaryUrl')) {
                     try {
                         return $adapter->temporaryUrl($path, now()->addMinutes(5));
-                    } catch (\Throwable) {}
+                    } catch (\Throwable) {
+                    }
                 }
-                
+
                 try {
                     return $adapter->url($path);
                 } catch (\Throwable) {
@@ -137,6 +139,7 @@ class FileExplorerTable
                     ->icon('heroicon-o-pencil-square')
                     ->visible(function ($record): bool {
                         $type = is_array($record) ? ($record['type'] ?? null) : ($record->type ?? null);
+
                         return $type === 'file';
                     })
                     ->form([
@@ -148,11 +151,13 @@ class FileExplorerTable
                             ->suffix(function ($record) {
                                 $name = is_array($record) ? ($record['name'] ?? '') : ($record->name ?? '');
                                 $ext = pathinfo((string) $name, PATHINFO_EXTENSION);
+
                                 return $ext !== '' ? '.'.$ext : '';
                             })
                             ->default(function ($record) {
                                 $name = is_array($record) ? ($record['name'] ?? '') : ($record->name ?? '');
                                 $base = pathinfo((string) $name, PATHINFO_FILENAME);
+
                                 return $base;
                             }),
                     ])
@@ -164,12 +169,14 @@ class FileExplorerTable
 
                         if (blank($disk) || blank($path) || blank($name) || blank($newName)) {
                             Notification::make()->title('Paramètres manquants')->danger()->send();
+
                             return;
                         }
 
                         // Empêche les chemins
                         if (str_contains($newName, '/')) {
                             Notification::make()->title('Le nom ne doit pas contenir de "/"')->warning()->send();
+
                             return;
                         }
 
@@ -181,6 +188,7 @@ class FileExplorerTable
                         $finalBase = trim($providedBase);
                         if ($finalBase === '') {
                             Notification::make()->title('Le nom ne peut pas être vide')->warning()->send();
+
                             return;
                         }
 
@@ -191,11 +199,13 @@ class FileExplorerTable
 
                         if ($newPath === $path) {
                             Notification::make()->title('Aucune modification à appliquer')->info()->send();
+
                             return;
                         }
 
                         if (Storage::disk($disk)->exists($newPath)) {
                             Notification::make()->title('Un fichier avec ce nom existe déjà')->warning()->send();
+
                             return;
                         }
 
@@ -214,6 +224,7 @@ class FileExplorerTable
                     ->color('danger')
                     ->visible(function ($record): bool {
                         $type = is_array($record) ? ($record['type'] ?? null) : ($record->type ?? null);
+
                         return $type === 'file';
                     })
                     ->requiresConfirmation()
@@ -222,6 +233,7 @@ class FileExplorerTable
                         $path = is_array($record) ? ($record['path'] ?? null) : ($record->path ?? null);
                         if (blank($disk) || blank($path)) {
                             Notification::make()->title('Paramètres manquants')->danger()->send();
+
                             return;
                         }
 

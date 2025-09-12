@@ -10,7 +10,7 @@
 @endsection
 @endif
 
-<div>
+<div class="h-full">
     @if($page->slug === 'contact')
         <livewire:laravel-cms-core::page.partials.contact
             :content="$page->content"

@@ -2,9 +2,9 @@
 
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
+use Leobsst\LaravelCmsCore\Http\Controllers\FileExplorer\OpenFileController;
 use Leobsst\LaravelCmsCore\Http\Controllers\HomeController;
 use Leobsst\LaravelCmsCore\Http\Controllers\Logout;
-use Leobsst\LaravelCmsCore\Http\Controllers\FileExplorer\OpenFileController;
 
 /*
 |--------------------------------------------------------------------------

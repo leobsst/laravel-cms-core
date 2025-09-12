@@ -2,11 +2,11 @@
 
 namespace Leobsst\LaravelCmsCore\Http\Controllers\FileExplorer;
 
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Filesystem\FilesystemAdapter;
 
 class OpenFileController extends Controller
 {
@@ -30,5 +30,3 @@ class OpenFileController extends Controller
         return $adapter->response($path);
     }
 }
-
-

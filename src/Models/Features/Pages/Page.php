@@ -75,7 +75,11 @@ class Page extends Model
 
     public function getFullPathAttribute(): string
     {
-        return $this->theme ? $this->theme->name.'/'.$this->slug : $this->slug;
+        if ($this->slug) {
+            return $this->theme ? $this->theme->name.'/'.$this->slug : $this->slug;
+        }
+
+        return '/';
     }
 
     public static function cleanContent(string $content): string

@@ -1,3 +1,3 @@
-<div class="mb-8 w-full h-fit overflow-y-hidden overflow-x-hidden content p-4">
+<div class="mb-8 h-full w-full content p-4">
     {!! str($content)->sanitizeHtml() !!}
 </div>
