@@ -20,10 +20,7 @@ class Maintenance
         return match (true) {
             Auth::check() && Auth::user()->hasRole('manager'),
             Setting::get('under_maintenance') == '0' => $next($request),
-            default => response()
-                ->view('errors.503', [
-                    'websiteName' => Setting::get('website_name'),
-                ], 503)
+            default => abort(503, 'Site is under maintenance. Please try again later.'),
         };
     }
 }
