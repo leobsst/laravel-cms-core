@@ -9,6 +9,8 @@
 {{ $page->title_content }}
 @endsection
 @endif
+@section('container-class', $page->no_content ? '' : null)
+@section('content-class', $page->no_content ? '' : null)
 
 <div class="h-full">
     @if($page->slug === 'contact')

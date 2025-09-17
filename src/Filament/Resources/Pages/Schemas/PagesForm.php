@@ -8,6 +8,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Slider;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -167,6 +168,7 @@ class PagesForm
                     ->createItemButtonLabel('Ajouter une donnée')
                     ->addable(auth()->user()->hasRole('admin'))
                     ->deletable(auth()->user()->hasRole('admin'))
+                    ->itemLabel(fn ($state): ?string => $state['name'] ?? null)
                     ->collapsible()
                     ->schema([
                         TextInput::make('key')
@@ -184,6 +186,7 @@ class PagesForm
                             ->label('Type')
                             ->required()
                             ->disablePlaceholderSelection()
+                            ->default(SettingTypeEnum::STRING->value)
                             ->options(SettingTypeEnum::asSelectArray(['password', 'tags', 'json', 'serialized']))
                             ->default('string')
                             ->live()
@@ -262,6 +265,17 @@ class PagesForm
                 ->imageEditorMode(3)
                 ->imageResizeMode('cover')
                 ->imageCropAspectRatio('1:1'),
+            SettingTypeEnum::RANGE_INT->value => Slider::make('value')
+                ->label('Valeur')
+                ->range(0, 100)
+                ->tooltips()
+                ->step(1),
+            SettingTypeEnum::RANGE_FLOAT->value => Slider::make('value')
+                ->label('Valeur')
+                ->range(0, 1)
+                ->tooltips()
+                ->decimalPlaces(1)
+                ->step(0.1),
             default => TextInput::make('value')
                 ->label('Valeur'),
         };

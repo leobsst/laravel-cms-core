@@ -17,6 +17,8 @@ enum SettingTypeEnum: string
     case JSON = 'json';
     case SERIALIZED = 'serialized';
     case DATE = 'date';
+    case RANGE_INT = 'range_int';
+    case RANGE_FLOAT = 'range_float';
 
     public function title(): string
     {
@@ -34,6 +36,8 @@ enum SettingTypeEnum: string
             self::SERIALIZED => 'Sérialisé',
             self::DATE => 'Date',
             self::TEXTAREA => 'Zone de texte',
+            self::RANGE_INT => 'Plage de nombres entiers',
+            self::RANGE_FLOAT => 'Plage de nombres décimaux',
             default => $this,
         };
     }
