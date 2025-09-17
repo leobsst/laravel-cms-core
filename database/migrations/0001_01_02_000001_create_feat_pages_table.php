@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreignId('theme_id')->nullable()->constrained('page_themes')->nullOnDelete();
             $table->longText('content')->nullable();
             $table->longText('draft')->nullable();
+            $table->json('additional_data')->nullable();
             $table->boolean('is_published')->default(false);
             $table->boolean('is_home')->default(false);
             $table->boolean('is_default')->default(false);

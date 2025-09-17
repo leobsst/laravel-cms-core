@@ -3,18 +3,25 @@
 namespace Leobsst\LaravelCmsCore\Filament\Resources\Pages\Schemas;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\FusedGroup;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\PageTheme;
 
 class PagesForm
@@ -25,108 +32,237 @@ class PagesForm
             ->components([
                 Tabs::make()
                     ->tabs([
-                        Tab::make('Contenu')
-                            ->icon('heroicon-o-document-text')
-                            ->schema([
-                                TinyEditor::make('content')
-                                    ->hiddenLabel()
-                                    ->columnSpanFull()
-                                    ->columnSpan('full')
-                                    ->fileAttachmentsDirectory('pages/content')
-                                    ->minHeight(720)
-                                    ->profile('custom')
-                                    ->showMenuBar(),
-                            ]),
-                        Tab::make('Informations générales')
-                            ->icon('heroicon-o-information-circle')
-                            ->schema([
-                                Section::make()
-                                    ->schema([
-                                        TextInput::make('title')
-                                            ->label('Nom')
-                                            ->required(fn ($record) => ! $record?->is_default)
-                                            ->placeholder('Nom de la page')
-                                            ->maxLength(45)
-                                            ->disabled(fn ($record) => $record->is_default ?? false),
-                                        FusedGroup::make([
-                                            Select::make('theme_id')
-                                                ->relationship('theme', 'name')
-                                                ->hiddenLabel()
-                                                ->disabled(fn ($record) => $record->is_default ?? false)
-                                                ->searchable()
-                                                ->placeholder('Thème')
-                                                ->createOptionForm([
-                                                    TextInput::make('name')
-                                                        ->required()
-                                                        ->placeholder('Thème (dossier public)')
-                                                        ->maxLength(45)
-                                                        ->unique('page_themes', 'name', ignoreRecord: true)
-                                                        ->regex('/^[a-zA-Z0-9-_]+$/')
-                                                        ->notIn(PageTheme::FORBIDDEN_VALUES)
-                                                        ->validationMessages([
-                                                            'unique' => 'Ce thème existe déjà.',
-                                                            'regex' => 'Le thème ne peut contenir que des lettres, chiffres, tirets et underscores.',
-                                                        ]),
-                                                ]),
-                                            TextInput::make('slug')
-                                                ->hiddenLabel()
-                                                ->required(fn ($record) => ! $record?->is_default)
-                                                ->placeholder(fn ($record) => filled($record) && $record->is_default ? '' : 'Slug de la page')
-                                                ->disabled(fn ($record) => $record->is_default ?? false)
-                                                ->unique('pages', 'slug', ignoreRecord: true)
-                                                ->validationMessages([
-                                                    'unique' => 'Ce slug est déjà utilisé.',
-                                                ]),
-                                        ])
-                                            ->columns(2)
-                                            ->label('Thème (dossier) / Slug*'),
-                                    ])->columns([
-                                        'default' => 1,
-                                        'sm' => 1,
-                                        'md' => 2,
-                                        'lg' => 1,
-                                        'xl' => 2,
-                                    ]),
-                                Section::make('SEO')
-                                    ->relationship('seo')
-                                    ->schema([
-                                        SpatieTagsInput::make('tags')
-                                            ->label('Mot-clés')
-                                            ->placeholder('Ajouter des mots-clés')
-                                            ->splitKeys([' '])
-                                            ->required(),
-                                        Textarea::make('description')
-                                            ->label('Description')
-                                            ->placeholder('Description de la page')
-                                            ->rows(3)
-                                            ->required(),
-                                    ])->Columns(2),
-                                Toggle::make('is_published')
-                                    ->label('Publiée ?')
-                                    ->default(true)
-                                    ->columnSpanFull()
-                                    ->disabled(fn ($record) => $record->is_default ?? false),
-                            ]),
-                        Tab::make('Bannière')
-                            ->hidden(fn ($record) => filled($record) && $record->is_home)
-                            ->icon('heroicon-o-photo')
-                            ->schema([
-                                Grid::make()
-                                    ->schema([
-                                        FileUpload::make('banner')
-                                            ->label('Bannière')
-                                            ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
-                                            ->maxSize('5120')
-                                            ->imageEditor()
-                                            ->directory('pages/banners')
-                                            ->columnSpanFull()
-                                            ->imageEditorAspectRatios(['16:9'])
-                                            ->imageEditorMode(3)
-                                            ->imageResizeMode('cover')
-                                            ->imageCropAspectRatio('16:9'),
-                                    ]),
-                            ]),
+                        self::getContentTab(),
+                        self::getMetadataTab(),
+                        self::getBannerTab(),
+                        self::getAdvancedDataTab(),
                     ])->columnSpanFull()->contained(false),
             ]);
+    }
+
+    private static function getContentTab(): Tab
+    {
+        return Tab::make('Contenu')
+            ->icon('heroicon-o-document-text')
+            ->schema([
+                TinyEditor::make('content')
+                    ->hiddenLabel()
+                    ->columnSpanFull()
+                    ->columnSpan('full')
+                    ->fileAttachmentsDirectory('pages/content')
+                    ->minHeight(720)
+                    ->profile('custom')
+                    ->showMenuBar(),
+            ]);
+    }
+
+    private static function getMetadataTab(): Tab
+    {
+        return Tab::make('Informations générales')
+            ->icon('heroicon-o-information-circle')
+            ->schema([
+                Section::make()
+                    ->schema([
+                        TextInput::make('title')
+                            ->label('Nom')
+                            ->required(fn ($record) => ! $record?->is_default)
+                            ->placeholder('Nom de la page')
+                            ->maxLength(45)
+                            ->disabled(fn ($record) => $record->is_default ?? false),
+                        FusedGroup::make([
+                            Select::make('theme_id')
+                                ->relationship('theme', 'name')
+                                ->hiddenLabel()
+                                ->disabled(fn ($record) => $record->is_default ?? false)
+                                ->searchable()
+                                ->placeholder('Thème')
+                                ->createOptionForm([
+                                    TextInput::make('name')
+                                        ->required()
+                                        ->placeholder('Thème (dossier public)')
+                                        ->maxLength(45)
+                                        ->unique('page_themes', 'name', ignoreRecord: true)
+                                        ->regex('/^[a-zA-Z0-9-_]+$/')
+                                        ->notIn(PageTheme::FORBIDDEN_VALUES)
+                                        ->validationMessages([
+                                            'unique' => 'Ce thème existe déjà.',
+                                            'regex' => 'Le thème ne peut contenir que des lettres, chiffres, tirets et underscores.',
+                                        ]),
+                                ]),
+                            TextInput::make('slug')
+                                ->hiddenLabel()
+                                ->required(fn ($record) => ! $record?->is_default)
+                                ->placeholder(fn ($record) => filled($record) && $record->is_default ? '' : 'Slug de la page')
+                                ->disabled(fn ($record) => $record->is_default ?? false)
+                                ->unique('pages', 'slug', ignoreRecord: true)
+                                ->validationMessages([
+                                    'unique' => 'Ce slug est déjà utilisé.',
+                                ]),
+                        ])
+                            ->columns(2)
+                            ->label('Thème (dossier) / Slug*')
+                            ->hidden(fn ($record) => filled($record) && $record->is_default),
+                    ])->columns([
+                        'default' => 1,
+                        'sm' => 1,
+                        'md' => 2,
+                        'lg' => 1,
+                        'xl' => 2,
+                    ]),
+                Section::make('SEO')
+                    ->relationship('seo')
+                    ->schema([
+                        SpatieTagsInput::make('tags')
+                            ->label('Mot-clés')
+                            ->placeholder('Ajouter des mots-clés')
+                            ->splitKeys([' '])
+                            ->required(),
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->placeholder('Description de la page')
+                            ->rows(3)
+                            ->required(),
+                    ])->Columns(2),
+                Toggle::make('is_published')
+                    ->label('Publiée ?')
+                    ->default(true)
+                    ->columnSpanFull()
+                    ->disabled(fn ($record) => $record->is_default ?? false),
+            ]);
+    }
+
+    private static function getBannerTab(): Tab
+    {
+        return Tab::make('Bannière')
+            ->hidden(fn ($record) => filled($record) && $record->is_home)
+            ->icon('heroicon-o-photo')
+            ->schema([
+                Grid::make()
+                    ->schema([
+                        FileUpload::make('banner')
+                            ->label('Bannière')
+                            ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
+                            ->maxSize('5120')
+                            ->imageEditor()
+                            ->directory('pages/banners')
+                            ->columnSpanFull()
+                            ->imageEditorAspectRatios(['16:9'])
+                            ->imageEditorMode(3)
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('16:9'),
+                    ]),
+            ]);
+    }
+
+    private static function getAdvancedDataTab(): Tab
+    {
+        return Tab::make('Avancé')
+            ->icon('heroicon-o-cog')
+            ->visible(fn (?Page $record): bool => self::canViewAdditionalDataTab($record))
+            ->schema([
+                Repeater::make('additional_data')
+                    ->label('Données additionnelles')
+                    ->columns(2)
+                    ->createItemButtonLabel('Ajouter une donnée')
+                    ->addable(auth()->user()->hasRole('admin'))
+                    ->deletable(auth()->user()->hasRole('admin'))
+                    ->collapsible()
+                    ->schema([
+                        TextInput::make('key')
+                            ->label('Clé')
+                            ->required()
+                            ->placeholder('Clé')
+                            ->disabled(! auth()->user()->hasRole('admin'))
+                            ->maxLength(45),
+                        TextInput::make('name')
+                            ->label('Nom')
+                            ->required()
+                            ->disabled(! auth()->user()->hasRole('admin'))
+                            ->maxLength(100),
+                        Select::make('type')
+                            ->label('Type')
+                            ->required()
+                            ->disablePlaceholderSelection()
+                            ->options(SettingTypeEnum::asSelectArray(['password', 'tags', 'json', 'serialized']))
+                            ->default('string')
+                            ->live()
+                            ->disabled(! auth()->user()->hasRole('admin'))
+                            ->afterStateUpdated(function (Select $component, string $state, Get $get) {
+                                $component = $component
+                                    ->getContainer()
+                                    ->getComponent('dynamicTypeFields')
+                                    ->getChildSchema();
+
+                                if ($state === SettingTypeEnum::IMAGE->value) {
+                                    $component = $component->fill();
+                                } elseif (is_array($get('value'))) {
+                                    $component = $component->fill();
+                                }
+
+                                return $component;
+                            }),
+                        Grid::make(1)
+                            ->schema(fn (Get $get): array => [
+                                self::getFormComponentForType($get('type')),
+                            ])
+                            ->key('dynamicTypeFields')
+                            ->hidden(fn (Get $get) => blank($get('type')))
+                            ->columnSpan(2),
+                    ])->columnSpanFull(),
+            ]);
+    }
+
+    private static function canViewAdditionalDataTab(?Page $record = null): bool
+    {
+        return match (true) {
+            blank($record) && auth()->user()->hasRole('admin') => true,
+            filled($record) && blank($record->additional_data) && auth()->user()->hasRole('admin') => true,
+            filled($record) && filled($record->additional_data) => true,
+            default => false,
+        };
+    }
+
+    private static function getFormComponentForType(?string $type = null): Component
+    {
+        return match ($type) {
+            SettingTypeEnum::STRING->value => TextInput::make('value')
+                ->label('Valeur'),
+            SettingTypeEnum::NUMBER->value => TextInput::make('value')
+                ->label('Valeur')
+                ->integer(),
+            SettingTypeEnum::BOOLEAN->value => Toggle::make('value')
+                ->label('Valeur'),
+            SettingTypeEnum::JSON->value => Textarea::make('value')
+                ->label('Valeur'),
+            SettingTypeEnum::DATE->value => DatePicker::make('value')
+                ->label('Valeur'),
+            SettingTypeEnum::URL->value => TextInput::make('value')
+                ->label('Valeur')
+                ->url(),
+            SettingTypeEnum::EMAIL->value => TextInput::make('value')
+                ->label('Valeur')
+                ->email(),
+            SettingTypeEnum::TEXTAREA->value => Textarea::make('value')
+                ->label('Valeur')
+                ->rows(10),
+            SettingTypeEnum::COLOR->value => ColorPicker::make('value')
+                ->label('Valeur')
+                ->hexColor(),
+            SettingTypeEnum::TAGS->value => SpatieTagsInput::make('value')
+                ->label('Valeur'),
+            SettingTypeEnum::IMAGE->value => FileUpload::make('value')
+                ->label('Valeur')
+                ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
+                ->maxSize('5120')
+                ->imageEditor()
+                ->disk('assets')
+                ->columnSpanFull()
+                ->imageEditorAspectRatios(['16:9', '1:1'])
+                ->imageEditorMode(3)
+                ->imageResizeMode('cover')
+                ->imageCropAspectRatio('1:1'),
+            default => TextInput::make('value')
+                ->label('Valeur'),
+        };
     }
 }

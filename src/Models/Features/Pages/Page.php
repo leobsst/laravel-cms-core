@@ -15,11 +15,13 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  *
  * @property int $id
  * @property string $title
- * @property ?string $title-content
+ * @property ?string $title_content
  * @property ?string $slug
  * @property ?int $theme_id
  * @property ?string $content
+ * @property ?string $draft
  * @property ?string $banner
+ * @property ?array $additional_data
  * @property bool $is_published
  * @property bool $is_home
  * @property bool $is_default
@@ -34,10 +36,12 @@ class Page extends Model
 {
     protected $fillable = [
         'title',
-        'title-content',
+        'title_content',
         'slug',
         'content',
+        'draft',
         'banner',
+        'additional_data',
         'is_published',
         'is_home',
         'is_default',
@@ -45,6 +49,7 @@ class Page extends Model
     ];
 
     protected $casts = [
+        'additional_data' => 'array',
         'is_published' => 'boolean',
         'is_home' => 'boolean',
         'is_default' => 'boolean',
