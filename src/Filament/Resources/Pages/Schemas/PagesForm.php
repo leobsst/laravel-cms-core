@@ -44,11 +44,13 @@ class PagesForm
     {
         return Tab::make('Contenu')
             ->icon('heroicon-o-document-text')
+            ->hidden(fn ($record) => filled($record) && $record->no_content)
             ->schema([
                 TinyEditor::make('content')
                     ->hiddenLabel()
                     ->columnSpanFull()
                     ->columnSpan('full')
+                    ->fileAttachmentsDirectory('uploads')
                     ->fileAttachmentsDirectory('pages/content')
                     ->minHeight(720)
                     ->profile('custom')
@@ -134,7 +136,6 @@ class PagesForm
     private static function getBannerTab(): Tab
     {
         return Tab::make('Bannière')
-            ->hidden(fn ($record) => filled($record) && $record->is_home)
             ->icon('heroicon-o-photo')
             ->schema([
                 Grid::make()

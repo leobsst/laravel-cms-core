@@ -1,5 +1,5 @@
 <x-laravel-cms-core::head_seo :page="$page" />
-@if($page->is_home == 0)
+@if(! $page->is_home)
 @section('title')
 {{ $page->title }}
 @endsection
@@ -17,7 +17,7 @@
             :columns="Setting::get('lat') && Setting::get('long') ? 3 : 2"
             wire:key="page_contact_{{ uniqid() }}"
             lazy="on-load" />
-    @else
+    @elseif(! $page->no_content)
         <livewire:laravel-cms-core::page.partials.content
             :content="$page->content"
             wire:key="page_content_{{ uniqid() }}"
