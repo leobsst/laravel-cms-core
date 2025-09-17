@@ -18,6 +18,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property ?string $title_content
  * @property ?string $slug
  * @property ?int $theme_id
+ * @property bool $no_content
  * @property ?string $content
  * @property ?string $draft
  * @property ?string $banner
@@ -38,6 +39,8 @@ class Page extends Model
         'title',
         'title_content',
         'slug',
+        'theme_id',
+        'no_content',
         'content',
         'draft',
         'banner',
@@ -50,6 +53,7 @@ class Page extends Model
 
     protected $casts = [
         'additional_data' => 'array',
+        'no_content' => 'boolean',
         'is_published' => 'boolean',
         'is_home' => 'boolean',
         'is_default' => 'boolean',
