@@ -26,10 +26,11 @@
             style="backdrop-filter: blur({{ $additionalData->background_blur ?? '8' }}px);"></span>
         <div
             id="header_content"
-            class="absolute flex flex-col top-32 lg:top-24 w-11/12 xl:w-3/4 h-full text-white justify-center left-0 right-0 m-auto title">
+            class="absolute flex flex-col lg:top-28 w-11/12 xl:w-3/4 h-full text-white justify-center left-0 right-0 m-auto title"
+            style="top: calc(var(--spacing) * {{ $additionalData->header_content_top ?? 38 }});">
             <h2 class="md:text-center text-5xl lg:text-7xl">{{ $additionalData->title ?? 'Bienvenue !' }}</h2>
 @if(isset($additionalData->subtitle))
-            <h3 class="md:text-center text-2xl lg:text-4xl">{{ $additionalData->subtitle }}</h3>
+            <h3 class="mt-2 md:text-center text-2xl lg:text-4xl">{{ $additionalData->subtitle }}</h3>
 @endif
         </div>
 @if(isset($additionalData->discover_link))
