@@ -20,10 +20,10 @@
             id="header_bg"
             alt="main-bg"
             class="w-full h-screen object-cover z-10 transform object-center"
-            style="opacity: {{ $additionalData->background_opacity ?? '0.8' }}; transform: scale(1.25);" />
+            style="opacity: {{ $additionalData->background_opacity ?? 0.8 }}; transform: scale(1.25);" />
         <span
             class="absolute left-0 top-0 w-full h-screen"
-            style="backdrop-filter: blur({{ $additionalData->background_blur ?? '8' }}px);"></span>
+            style="backdrop-filter: blur({{ $additionalData->background_blur ?? 8 }}px);"></span>
         <div
             id="header_content"
             class="absolute flex flex-col lg:top-28 w-11/12 xl:w-3/4 h-full text-white justify-center left-0 right-0 m-auto title"
