@@ -1,10 +1,3 @@
-@php
-    $page = \Leobsst\LaravelCmsCore\Models\Features\Pages\Page::where('is_home', true)->first(['banner', 'additional_data']);
-    $additionalData = (object) collect($page->additional_data ?? [])
-        ->pluck('value', 'key')
-        ->toArray();
-@endphp
-
 <div
     class="w-full min-h-screen"
     x-data="{offset: 0}"
@@ -20,21 +13,21 @@
             id="header_bg"
             alt="main-bg"
             class="w-full h-screen object-cover z-10 transform object-center"
-            style="opacity: {{ $additionalData->background_opacity ?? 0.8 }}; transform: scale(1.25);" />
+            style="opacity: @pageOption($page->slug, 'background_opacity', 0.8); transform: scale(1.25);" />
         <span
             class="absolute left-0 top-0 w-full h-screen"
-            style="backdrop-filter: blur({{ $additionalData->background_blur ?? 8 }}px);"></span>
+            style="backdrop-filter: blur(@pageOption($page->slug, 'background_blur', 8)px);"></span>
         <div
             id="header_content"
             class="absolute flex flex-col lg:top-28 w-11/12 xl:w-3/4 h-full text-white justify-center left-0 right-0 m-auto title"
-            style="top: calc(var(--spacing) * {{ $additionalData->header_content_top ?? 38 }});">
-            <h2 class="md:text-center text-5xl lg:text-7xl">{{ $additionalData->title ?? 'Bienvenue !' }}</h2>
-@if(isset($additionalData->subtitle))
-            <h3 class="mt-2 md:text-center text-2xl lg:text-4xl">{{ $additionalData->subtitle }}</h3>
-@endif
+            style="top: calc(var(--spacing) * @pageOption($page->slug, 'header_content_top', 38));">
+            <h2 class="md:text-center text-5xl lg:text-7xl">@pageOption($page->slug, 'title', 'Bienvenue !')</h2>
+@pageOptionExists($page->slug, 'subtitle')
+            <h3 class="mt-2 md:text-center text-2xl lg:text-4xl">@pageOption($page->slug, 'subtitle')</h3>
+@endpageOptionExists
         </div>
-@if(isset($additionalData->discover_link))
-        <a href="{{ $additionalData->discover_link }}" rel="follow">
+@pageOptionExists($page->slug, 'discover_link')
+        <a href="@pageOption($page->slug, 'discover_link')" rel="follow">
             <button
                 id="scroll_down"
                 x-cloak
@@ -44,9 +37,9 @@
                 x-bind:style="{ 'background-color': bgColor, 'color': textColor}"
                 class="absolute bottom-12 w-fit left-0 right-0 m-auto opacity-75 hover:opacity-100 transition duration-300 ease-in-out rounded-xl
                 text-md lg:text-xl px-4 py-3 uppercase whitespace-nowrap anim-reveal-bottom">
-                {{ $additionalData->discover_text ?? 'En savoir plus' }}
+                @pageOption($page->slug, 'discover_text', 'En savoir plus')
             </button>
         </a>
-@endif
+@endpageOptionExists
     </div>
 </div>

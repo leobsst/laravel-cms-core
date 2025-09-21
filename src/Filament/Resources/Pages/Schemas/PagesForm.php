@@ -21,7 +21,7 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\PageTheme;
 
@@ -162,8 +162,9 @@ class PagesForm
             ->icon('heroicon-o-cog')
             ->visible(fn (?Page $record): bool => self::canViewAdditionalDataTab($record))
             ->schema([
-                Repeater::make('additional_data')
-                    ->label('Données additionnelles')
+                Repeater::make('options')
+                    ->relationship('options')
+                    ->hiddenLabel()
                     ->columns(2)
                     ->createItemButtonLabel('Ajouter une donnée')
                     ->addable(auth()->user()->hasRole('admin'))
@@ -176,6 +177,7 @@ class PagesForm
                             ->required()
                             ->placeholder('Clé')
                             ->disabled(! auth()->user()->hasRole('admin'))
+                            ->unique(table: 'page_options', column: 'key', ignoreRecord: true, modifyRuleUsing: fn ($rule) => $rule->where('page_id', request()->route('record')))
                             ->maxLength(45),
                         TextInput::make('name')
                             ->label('Nom')
@@ -186,8 +188,8 @@ class PagesForm
                             ->label('Type')
                             ->required()
                             ->disablePlaceholderSelection()
-                            ->default(SettingTypeEnum::STRING->value)
-                            ->options(SettingTypeEnum::asSelectArray(['password', 'tags', 'json', 'serialized']))
+                            ->default(FieldTypeEnum::STRING->value)
+                            ->options(FieldTypeEnum::asSelectArray(['password', 'tags', 'json', 'serialized']))
                             ->default('string')
                             ->live()
                             ->disabled(! auth()->user()->hasRole('admin'))
@@ -197,7 +199,7 @@ class PagesForm
                                     ->getComponent('dynamicTypeFields')
                                     ->getChildSchema();
 
-                                if ($state === SettingTypeEnum::IMAGE->value) {
+                                if ($state === FieldTypeEnum::IMAGE->value) {
                                     $component = $component->fill();
                                 } elseif (is_array($get('value'))) {
                                     $component = $component->fill();
@@ -220,8 +222,8 @@ class PagesForm
     {
         return match (true) {
             blank($record) && auth()->user()->hasRole('admin') => true,
-            filled($record) && blank($record->additional_data) && auth()->user()->hasRole('admin') => true,
-            filled($record) && filled($record->additional_data) => true,
+            filled($record) && blank($record->options) && auth()->user()->hasRole('admin') => true,
+            filled($record) && filled($record->options) => true,
             default => false,
         };
     }
@@ -229,32 +231,32 @@ class PagesForm
     private static function getFormComponentForType(?string $type = null): Component
     {
         return match ($type) {
-            SettingTypeEnum::STRING->value => TextInput::make('value')
+            FieldTypeEnum::STRING->value => TextInput::make('value')
                 ->label('Valeur'),
-            SettingTypeEnum::NUMBER->value => TextInput::make('value')
+            FieldTypeEnum::NUMBER->value => TextInput::make('value')
                 ->label('Valeur')
                 ->integer(),
-            SettingTypeEnum::BOOLEAN->value => Toggle::make('value')
+            FieldTypeEnum::BOOLEAN->value => Toggle::make('value')
                 ->label('Valeur'),
-            SettingTypeEnum::JSON->value => Textarea::make('value')
+            FieldTypeEnum::JSON->value => Textarea::make('value')
                 ->label('Valeur'),
-            SettingTypeEnum::DATE->value => DatePicker::make('value')
+            FieldTypeEnum::DATE->value => DatePicker::make('value')
                 ->label('Valeur'),
-            SettingTypeEnum::URL->value => TextInput::make('value')
+            FieldTypeEnum::URL->value => TextInput::make('value')
                 ->label('Valeur')
                 ->url(),
-            SettingTypeEnum::EMAIL->value => TextInput::make('value')
+            FieldTypeEnum::EMAIL->value => TextInput::make('value')
                 ->label('Valeur')
                 ->email(),
-            SettingTypeEnum::TEXTAREA->value => Textarea::make('value')
+            FieldTypeEnum::TEXTAREA->value => Textarea::make('value')
                 ->label('Valeur')
                 ->rows(10),
-            SettingTypeEnum::COLOR->value => ColorPicker::make('value')
+            FieldTypeEnum::COLOR->value => ColorPicker::make('value')
                 ->label('Valeur')
                 ->hexColor(),
-            SettingTypeEnum::TAGS->value => SpatieTagsInput::make('value')
+            FieldTypeEnum::TAGS->value => SpatieTagsInput::make('value')
                 ->label('Valeur'),
-            SettingTypeEnum::IMAGE->value => FileUpload::make('value')
+            FieldTypeEnum::IMAGE->value => FileUpload::make('value')
                 ->label('Valeur')
                 ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
                 ->maxSize('5120')
@@ -265,12 +267,12 @@ class PagesForm
                 ->imageEditorMode(3)
                 ->imageResizeMode('cover')
                 ->imageCropAspectRatio('1:1'),
-            SettingTypeEnum::RANGE_INT->value => Slider::make('value')
+            FieldTypeEnum::RANGE_INT->value => Slider::make('value')
                 ->label('Valeur')
                 ->range(0, 100)
                 ->tooltips()
                 ->step(1),
-            SettingTypeEnum::RANGE_FLOAT->value => Slider::make('value')
+            FieldTypeEnum::RANGE_FLOAT->value => Slider::make('value')
                 ->label('Valeur')
                 ->range(0, 1)
                 ->tooltips()

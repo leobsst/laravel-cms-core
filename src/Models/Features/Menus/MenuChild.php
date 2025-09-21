@@ -3,6 +3,8 @@
 namespace Leobsst\LaravelCmsCore\Models\Features\Menus;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 
 /**
@@ -17,7 +19,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
  * @property bool $is_active
  * @property bool $is_default
  * @property Menu $menu
- * @property MenuChildrenItem[] $children
+ * @property MenuChild[] $children
  * @property Page $page
  */
 class MenuChild extends Model
@@ -33,17 +35,17 @@ class MenuChild extends Model
         'is_default',
     ];
 
-    public function menu()
+    public function menu(): BelongsTo
     {
         return $this->belongsTo(Menu::class, 'menu_id');
     }
 
-    public function children()
+    public function children(): HasMany
     {
-        return $this->hasMany(MenuChildrenItem::class, 'parent_id')->orderBy('order');
+        return $this->hasMany(self::class, 'parent_id')->orderBy('order');
     }
 
-    public function page()
+    public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class, 'page_id');
     }

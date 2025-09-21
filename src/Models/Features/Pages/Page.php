@@ -22,12 +22,13 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property ?string $content
  * @property ?string $draft
  * @property ?string $banner
- * @property ?array $additional_data
  * @property bool $is_published
  * @property bool $is_home
  * @property bool $is_default
+ * @property bool $no_footer
  * @property ?string $published_at
  * @property string $full_path
+ * @property PageOption[] $options
  * @property PagesSeo $seo
  * @property Collection|PageStat[] $stats
  * @property MenuChild $menu
@@ -44,23 +45,28 @@ class Page extends Model
         'content',
         'draft',
         'banner',
-        'additional_data',
         'is_published',
         'is_home',
         'is_default',
+        'no_footer',
         'published_at',
     ];
 
     protected $casts = [
-        'additional_data' => 'array',
         'no_content' => 'boolean',
         'is_published' => 'boolean',
         'is_home' => 'boolean',
         'is_default' => 'boolean',
+        'no_footer' => 'boolean',
         'published_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function options(): HasMany
+    {
+        return $this->hasMany(PageOption::class, 'page_id');
+    }
 
     public function seo(): HasOne
     {

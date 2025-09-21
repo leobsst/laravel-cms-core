@@ -2,7 +2,7 @@
 
 namespace Leobsst\LaravelCmsCore\Enums;
 
-enum SettingTypeEnum: string
+enum FieldTypeEnum: string
 {
     case STRING = 'string';
     case URL = 'url';

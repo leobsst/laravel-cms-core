@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
 use Leobsst\LaravelCmsCore\Models\Setting;
 
 class insertDefaultSettings extends Seeder
@@ -23,21 +23,21 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'website_url',
                 'value' => 'https://localhost.test',
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'protected' => true,
             ],
             [
                 'name' => 'website_logo',
                 'value' => null,
                 'enabled' => false,
-                'type' => SettingTypeEnum::IMAGE,
+                'type' => FieldTypeEnum::IMAGE,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
                 'name' => 'website_header_image',
                 'value' => null,
                 'enabled' => false,
-                'type' => SettingTypeEnum::IMAGE,
+                'type' => FieldTypeEnum::IMAGE,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
@@ -71,13 +71,13 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'lat',
                 'value' => null,
-                'type' => SettingTypeEnum::STRING,
+                'type' => FieldTypeEnum::STRING,
                 'category' => SettingCategoryEnum::CONTACT,
             ],
             [
                 'name' => 'long',
                 'value' => null,
-                'type' => SettingTypeEnum::STRING,
+                'type' => FieldTypeEnum::STRING,
                 'category' => SettingCategoryEnum::CONTACT,
             ],
             [
@@ -88,25 +88,25 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'email_address',
                 'value' => in_array(config('app.env'), ['dev', 'local']) ? 'support@leobsst.fr' : 'support@leobsst.fr',
-                'type' => SettingTypeEnum::EMAIL,
+                'type' => FieldTypeEnum::EMAIL,
                 'category' => SettingCategoryEnum::CONTACT,
             ],
             [
                 'name' => 'primary_color',
                 'value' => '#e3903e',
-                'type' => SettingTypeEnum::COLOR,
+                'type' => FieldTypeEnum::COLOR,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
                 'name' => 'primary_color_dark',
                 'value' => '#de6849',
-                'type' => SettingTypeEnum::COLOR,
+                'type' => FieldTypeEnum::COLOR,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
                 'name' => 'business_entity_enabled',
                 'value' => 0,
-                'type' => SettingTypeEnum::BOOLEAN,
+                'type' => FieldTypeEnum::BOOLEAN,
                 'category' => SettingCategoryEnum::GENERAL,
             ],
             [
@@ -152,7 +152,7 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'business_entity_email_address',
                 'value' => null,
-                'type' => SettingTypeEnum::EMAIL,
+                'type' => FieldTypeEnum::EMAIL,
                 'category' => SettingCategoryEnum::BUSINESS,
             ],
             [
@@ -163,67 +163,67 @@ class insertDefaultSettings extends Seeder
             [
                 'name' => 'facebook',
                 'value' => null,
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'category' => SettingCategoryEnum::SOCIAL,
             ],
             [
                 'name' => 'twitter',
                 'value' => null,
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'category' => SettingCategoryEnum::SOCIAL,
             ],
             [
                 'name' => 'instagram',
                 'value' => null,
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'category' => SettingCategoryEnum::SOCIAL,
             ],
             [
                 'name' => 'youtube',
                 'value' => null,
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'category' => SettingCategoryEnum::SOCIAL,
             ],
             [
                 'name' => 'twitch',
                 'value' => null,
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'category' => SettingCategoryEnum::SOCIAL,
             ],
             [
                 'name' => 'github',
                 'value' => null,
-                'type' => SettingTypeEnum::URL,
+                'type' => FieldTypeEnum::URL,
                 'category' => SettingCategoryEnum::SOCIAL,
             ],
             [
                 'name' => 'custom_css',
                 'value' => null,
-                'type' => SettingTypeEnum::TEXTAREA,
+                'type' => FieldTypeEnum::TEXTAREA,
                 'category' => SettingCategoryEnum::CUSTOMIZATION,
             ],
             [
                 'name' => 'under_maintenance',
                 'value' => 1,
-                'type' => SettingTypeEnum::BOOLEAN,
+                'type' => FieldTypeEnum::BOOLEAN,
                 'category' => SettingCategoryEnum::SECURITY,
             ],
             [
                 'name' => 'alert_box_message',
                 'value' => null,
-                'type' => SettingTypeEnum::TEXTAREA,
+                'type' => FieldTypeEnum::TEXTAREA,
                 'category' => SettingCategoryEnum::SECURITY,
             ],
             [
                 'name' => 'alert_box_enabled',
                 'value' => 0,
-                'type' => SettingTypeEnum::BOOLEAN,
+                'type' => FieldTypeEnum::BOOLEAN,
                 'category' => SettingCategoryEnum::SECURITY,
             ],
             [
                 'name' => 'website_closed',
                 'value' => 0,
-                'type' => SettingTypeEnum::BOOLEAN,
+                'type' => FieldTypeEnum::BOOLEAN,
                 'category' => SettingCategoryEnum::SECURITY,
                 'protected' => true,
             ],
@@ -234,7 +234,7 @@ class insertDefaultSettings extends Seeder
                 Setting::updateOrCreate([
                     'name' => $configuration['name'],
                 ], [
-                    'type' => SettingTypeEnum::TAGS,
+                    'type' => FieldTypeEnum::TAGS,
                     'category' => SettingCategoryEnum::GENERAL,
                     'is_default' => true,
                     'tags' => [
@@ -248,7 +248,7 @@ class insertDefaultSettings extends Seeder
                 ], [
                     'value' => $configuration['value'],
                     'default_value' => $configuration['default_value'] ?? $configuration['value'],
-                    'type' => $configuration['type'] ?? SettingTypeEnum::STRING,
+                    'type' => $configuration['type'] ?? FieldTypeEnum::STRING,
                     'enabled' => $configuration['enabled'] ?? true,
                     'category' => $configuration['category'] ?? SettingCategoryEnum::GENERAL,
                     'is_default' => true,

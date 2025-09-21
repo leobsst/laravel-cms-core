@@ -198,11 +198,23 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
         });
 
         Blade::directive('isPage', function () {
-            return "<?php if (session()->has('current_page') && !\Leobsst\LaravelCmsCore\Models\Features\Pages\Page::find(session()->get('current_page'))->is_home) { ?>";
+            return "<?php if (session()->has('current_page') && ! \Leobsst\LaravelCmsCore\Models\Features\Pages\Page::find(session()->get('current_page'))->is_home) { ?>";
         });
 
         Blade::directive('endisPage', function () {
             return '<?php } ?>';
+        });
+
+        Blade::directive('pageOptionExists', function (string $expression) {
+            return "<?php if (page_option_exists({$expression})) { ?>";
+        });
+
+        Blade::directive('endpageOptionExists', function () {
+            return '<?php } ?>';
+        });
+
+        Blade::directive('pageOption', function (string $expression) {
+            return "<?php echo page_option({$expression}); ?>";
         });
     }
 

@@ -19,7 +19,8 @@ return new class extends Migration
 
         Schema::create('menu_children', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
+            $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('menu_children')->onDelete('cascade');
             $table->string('name');
             $table->string('url')->nullable();
             $table->foreignId('page_id')->nullable()->constrained('pages')->onDelete('cascade');
@@ -29,18 +30,6 @@ return new class extends Migration
             $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
-
-        Schema::create('menu_children_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('parent_id')->nullable()->constrained('menu_children')->onDelete('cascade');
-            $table->string('name');
-            $table->string('url')->nullable();
-            $table->foreignId('page_id')->nullable()->constrained('pages')->onDelete('cascade');
-            $table->integer('order');
-            $table->string('icon')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-        });
     }
 
     /**
@@ -48,7 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_children_items');
         Schema::dropIfExists('menu_children');
         Schema::dropIfExists('menus');
     }

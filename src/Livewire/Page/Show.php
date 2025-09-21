@@ -66,6 +66,7 @@ class Show extends Component
             ->with([
                 'seo:page_id,title,description,robots,og_image,og_type,og_locale,twitter_card,twitter_image',
                 'theme:id,name',
+                'options:page_id,name,value',
             ])
             ->when(value: filled(value: $folder),
                 callback: function ($query) use ($folder): void {

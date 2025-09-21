@@ -5,8 +5,8 @@ namespace Leobsst\LaravelCmsCore\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 use Leobsst\LaravelCmsCore\Enums\SettingCategoryEnum;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
 use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
 
@@ -17,7 +17,7 @@ use Spatie\Tags\Tag;
  * @property string $name
  * @property ?string $value
  * @property ?string $default_value
- * @property SettingTypeEnum $type
+ * @property FieldTypeEnum $type
  * @property SettingCategoryEnum $category
  * @property bool $is_default
  * @property bool $enabled
@@ -42,7 +42,7 @@ class Setting extends Model
     ];
 
     protected $casts = [
-        'type' => SettingTypeEnum::class,
+        'type' => FieldTypeEnum::class,
         'category' => SettingCategoryEnum::class,
         'is_default' => 'boolean',
         'enabled' => 'boolean',

@@ -147,6 +147,7 @@
                     <span>
                         {{Setting::get('country')}}
                     </span>
+                    @if(Setting::get('phone_number'))
                     <span class="text-xl flex">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -164,6 +165,8 @@
                             {{Setting::get('phone_number')}}
                         </span>
                     </span>
+                    @endif
+                    @if(! page_option('contact', 'hide_email', false))
                     <span class="text-xl flex">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-2">
                             <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
@@ -172,6 +175,7 @@
                         Email: <span class="italic ml-2">
                             {{Setting::get('email_address')}}
                     </span>
+                    @endif
                 </p>
 
                 <div class="mt-8">

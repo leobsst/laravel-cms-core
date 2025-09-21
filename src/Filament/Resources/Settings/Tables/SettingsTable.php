@@ -7,7 +7,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 use Leobsst\LaravelCmsCore\Models\Setting;
 
 class SettingsTable
@@ -25,14 +25,14 @@ class SettingsTable
                     ->label('Valeur')
                     ->toggleable()
                     ->default(fn ($record): mixed => match ($record->type) {
-                        SettingTypeEnum::TAGS => $record->tags->pluck('name')->toArray(),
-                        SettingTypeEnum::COLOR => new HtmlString('
+                        FieldTypeEnum::TAGS => $record->tags->pluck('name')->toArray(),
+                        FieldTypeEnum::COLOR => new HtmlString('
                             <span style="border-radius: 100%; width: 1.5rem; height: 1.5rem; display: block; background-color: '.$record->value.';">&nbsp;</span>
                         '),
-                        SettingTypeEnum::IMAGE => filled($record->value) ? new HtmlString('
+                        FieldTypeEnum::IMAGE => filled($record->value) ? new HtmlString('
                             <img src="'.$record->value.'" alt="'.$record->name.'" style="width: 3rem; height: 3rem; border-radius: 0.375rem;">
                         ') : null,
-                        SettingTypeEnum::BOOLEAN => (bool) $record->value
+                        FieldTypeEnum::BOOLEAN => (bool) $record->value
                             ? new HtmlString('
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1.5rem; height: 2rem;">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -45,15 +45,15 @@ class SettingsTable
                             '),
                         default => $record->value,
                     })
-                    ->badge(fn (Setting $record): bool => $record->type === SettingTypeEnum::TAGS)
-                    ->wrap(fn (Setting $record): bool => $record->type === SettingTypeEnum::TAGS)
+                    ->badge(fn (Setting $record): bool => $record->type === FieldTypeEnum::TAGS)
+                    ->wrap(fn (Setting $record): bool => $record->type === FieldTypeEnum::TAGS)
                     ->color(fn (Setting $record): ?string => match ($record->type) {
-                        SettingTypeEnum::BOOLEAN => (bool) $record->value ? 'success' : 'danger',
+                        FieldTypeEnum::BOOLEAN => (bool) $record->value ? 'success' : 'danger',
                         default => null
                     })
                     ->limit(fn (Setting $record): ?int => in_array($record->type, [
-                        SettingTypeEnum::STRING,
-                        SettingTypeEnum::TEXTAREA,
+                        FieldTypeEnum::STRING,
+                        FieldTypeEnum::TEXTAREA,
                     ]) ? 80 : null),
                 TextColumn::make('type')
                     ->label('Type')

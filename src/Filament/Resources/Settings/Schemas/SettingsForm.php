@@ -14,7 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
-use Leobsst\LaravelCmsCore\Enums\SettingTypeEnum;
+use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 
 class SettingsForm
 {
@@ -33,44 +33,44 @@ class SettingsForm
         $label = $default ? 'Valeur par défaut' : $record->setting_name;
 
         return match ($record->type) {
-            SettingTypeEnum::STRING => TextInput::make($property)
+            FieldTypeEnum::STRING => TextInput::make($property)
                 ->label($label)
                 ->disabled($default),
-            SettingTypeEnum::NUMBER => TextInput::make($property)
+            FieldTypeEnum::NUMBER => TextInput::make($property)
                 ->label('Valeur')
                 ->integer()
                 ->disabled($default),
-            SettingTypeEnum::BOOLEAN => Toggle::make($property)
+            FieldTypeEnum::BOOLEAN => Toggle::make($property)
                 ->label($label)
                 ->required()
                 ->disabled($default),
-            SettingTypeEnum::JSON => Textarea::make($property)
+            FieldTypeEnum::JSON => Textarea::make($property)
                 ->label($label)
                 ->disabled($default),
-            SettingTypeEnum::DATE => DatePicker::make($property)
+            FieldTypeEnum::DATE => DatePicker::make($property)
                 ->label($label)
                 ->disabled($default),
-            SettingTypeEnum::URL => TextInput::make($property)
+            FieldTypeEnum::URL => TextInput::make($property)
                 ->label($label)
                 ->url()
                 ->disabled($default),
-            SettingTypeEnum::EMAIL => TextInput::make($property)
+            FieldTypeEnum::EMAIL => TextInput::make($property)
                 ->label($label)
                 ->email()
                 ->disabled($default)
                 ->required(),
-            SettingTypeEnum::TEXTAREA => $record->name === 'custom_css'
+            FieldTypeEnum::TEXTAREA => $record->name === 'custom_css'
                 ? CodeEditor::make($property)->label($label)->language(Language::Css)->disabled($default)
                 : Textarea::make($property)->label($label)->rows(10)->disabled($default),
-            SettingTypeEnum::COLOR => ColorPicker::make($property)
+            FieldTypeEnum::COLOR => ColorPicker::make($property)
                 ->label($label)
                 ->hexColor()
                 ->disabled($default)
                 ->required(),
-            SettingTypeEnum::TAGS => SpatieTagsInput::make('tags')
+            FieldTypeEnum::TAGS => SpatieTagsInput::make('tags')
                 ->label($label)
                 ->required(),
-            SettingTypeEnum::IMAGE => FileUpload::make($property)
+            FieldTypeEnum::IMAGE => FileUpload::make($property)
                 ->label($default ? 'Bannière par défaut' : 'Bannière')
                 ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
                 ->maxSize('5120')
