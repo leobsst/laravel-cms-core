@@ -29,6 +29,7 @@ class MenuChild extends Model
         'url',
         'page_id',
         'menu_id',
+        'parent_id',
         'order',
         'icon',
         'is_active',

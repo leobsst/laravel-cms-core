@@ -18,7 +18,7 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany(MenuChild::class, 'menu_id');
+        return $this->hasMany(MenuChild::class, 'menu_id')->whereNull('parent_id');
     }
 
     public static function getHeaderMenu()
