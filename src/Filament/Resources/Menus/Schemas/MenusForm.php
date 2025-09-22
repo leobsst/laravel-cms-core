@@ -44,12 +44,12 @@ class MenusForm
                         ->searchable(fn (Get $get) => blank($get('url')))
                         ->placeHolder('Sélectionner une page')
                         ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('url')))
-                        ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
+                        ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->children->count() > 0),
                     TextInput::make('url')
                         ->label('URL')
                         ->live()
                         ->disabled(fn ($record, Get $get) => (filled($record) && $record->is_default) || filled($get('page_id')))
-                        ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->childrens->count() > 0),
+                        ->hidden(fn ($record) => filled($record) && blank($record->page_id) && blank($record->url) && $record->children->count() > 0),
                     Repeater::make('children')
                         ->defaultItems(0)
                         ->hiddenLabel()

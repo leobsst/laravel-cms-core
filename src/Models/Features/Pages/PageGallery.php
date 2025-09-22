@@ -2,13 +2,13 @@
 
 namespace Leobsst\LaravelCmsCore\Models\Features\Pages;
 
-use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryAlignment;
 use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryOrientation;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class PageGallery

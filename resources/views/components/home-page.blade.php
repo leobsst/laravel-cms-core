@@ -21,9 +21,9 @@
             id="header_content"
             class="absolute flex flex-col lg:top-28 w-11/12 xl:w-3/4 h-full text-white justify-center left-0 right-0 m-auto title"
             style="top: calc(var(--spacing) * @pageOption($page->slug, 'header_content_top', 38));">
-            <h2 class="md:text-center text-5xl lg:text-7xl">@pageOption($page->slug, 'title', 'Bienvenue !')</h2>
+            <h2 class="md:text-center text-4xl lg:text-6xl">@pageOption($page->slug, 'title', 'Bienvenue !')</h2>
 @pageOptionExists($page->slug, 'subtitle')
-            <h3 class="mt-2 md:text-center text-2xl lg:text-4xl">@pageOption($page->slug, 'subtitle')</h3>
+            <h3 class="mt-2 md:text-center text-xl lg:text-3xl">@pageOption($page->slug, 'subtitle')</h3>
 @endpageOptionExists
         </div>
 @pageOptionExists($page->slug, 'discover_link')
@@ -35,7 +35,7 @@
                 x-on:mouseover="bgColor = '{{Setting::get('primary_color')}}'; textColor = '#fff'"
                 x-on:mouseleave="bgColor = '#fff'; textColor = '#000'"
                 x-bind:style="{ 'background-color': bgColor, 'color': textColor}"
-                class="absolute bottom-10 md:bottom-12 w-fit left-0 right-0 m-auto opacity-75 hover:opacity-100 transition duration-300 ease-in-out rounded-xl
+                class="absolute bottom-8 md:bottom-12 w-fit left-0 right-0 m-auto opacity-75 hover:opacity-100 transition duration-300 ease-in-out rounded-xl
                 text-md lg:text-xl px-4 py-3 uppercase whitespace-nowrap anim-reveal-bottom">
                 @pageOption($page->slug, 'discover_text', 'En savoir plus')
             </button>
