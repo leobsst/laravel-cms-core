@@ -3,6 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Livewire\Page\Partials;
 
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Leobsst\LaravelCmsCore\Mail\ContactClient;
@@ -11,13 +12,16 @@ use Leobsst\LaravelCmsCore\Models\HistoryMail;
 use Leobsst\LaravelCmsCore\Models\Setting;
 use Leobsst\LaravelCmsCore\Services\ClientService;
 use Leobsst\LaravelCmsCore\Traits\CanFlashMessage;
+use Leobsst\LaravelCmsCore\Traits\Features\Pages\HasGalleryComponent;
 use Livewire\Component;
 
 class Contact extends Component
 {
-    use CanFlashMessage;
+    use CanFlashMessage, HasGalleryComponent;
 
     public ?string $content = null;
+
+    public ?Collection $galleries = null;
 
     public int $columns = 2;
 
@@ -59,6 +63,7 @@ class Contact extends Component
     public function mount(): void
     {
         $this->sent = false;
+        $this->content = $this->getGalleryComponent($this->content, $this->galleries);
     }
 
     /**

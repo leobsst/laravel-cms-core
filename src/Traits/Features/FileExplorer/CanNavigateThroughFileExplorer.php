@@ -1,6 +1,6 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Traits\FileExplorer;
+namespace Leobsst\LaravelCmsCore\Traits\Features\FileExplorer;
 
 trait CanNavigateThroughFileExplorer
 {

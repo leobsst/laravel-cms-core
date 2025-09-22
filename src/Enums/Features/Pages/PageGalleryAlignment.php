@@ -4,18 +4,20 @@ namespace Leobsst\LaravelCmsCore\Enums\Features\Pages;
 
 use Leobsst\LaravelCmsCore\Traits\Enums\CanBeSelectableEnum;
 
-enum PageGalleryOrientation: string
+enum PageGalleryAlignment: string
 {
     use CanBeSelectableEnum;
 
-    case HORIZONTAL = 'horizontal';
-    case VERTICAL = 'vertical';
+    case LEFT = 'left';
+    case CENTER = 'center';
+    case RIGHT = 'right';
 
     public function title(): string
     {
         return match ($this) {
-            self::HORIZONTAL => 'Horizontal',
-            self::VERTICAL => 'Vertical',
+            self::LEFT => 'Gauche',
+            self::CENTER => 'Centre',
+            self::RIGHT => 'Droite',
         };
     }
 }

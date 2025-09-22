@@ -3,7 +3,6 @@
 namespace Leobsst\LaravelCmsCore\Livewire\Page;
 
 use Carbon\Carbon;
-use Leobsst\LaravelCmsCore\Components\Features\Pages\PageGalleryComponent;
 use Leobsst\LaravelCmsCore\Enums\LogStatus;
 use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
@@ -80,17 +79,8 @@ class Show extends Component
             )
             ->first();
 
-        if ($this->page->galleries->count() > 0 && str_contains($this->page->content, '[[gallery:')) {
+        if ($this->page->galleries->count() > 0) {
             $this->page->galleries->load('media:id,model_id,collection_name,name,file_name,mime_type,disk,size,manipulations,custom_properties,order_column');
-
-            /* We search [[gallery:identifier]] tag and replace it with PageGalleryComponent */
-            foreach ($this->page->galleries as $gallery) {
-                $this->page->content = str_replace(
-                    '[[gallery:'.$gallery->identifier.']]',
-                    (new PageGalleryComponent($gallery))->render(),
-                    $this->page->content
-                );
-            }
         }
     }
 

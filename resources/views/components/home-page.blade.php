@@ -35,7 +35,7 @@
                 x-on:mouseover="bgColor = '{{Setting::get('primary_color')}}'; textColor = '#fff'"
                 x-on:mouseleave="bgColor = '#fff'; textColor = '#000'"
                 x-bind:style="{ 'background-color': bgColor, 'color': textColor}"
-                class="absolute bottom-12 w-fit left-0 right-0 m-auto opacity-75 hover:opacity-100 transition duration-300 ease-in-out rounded-xl
+                class="absolute bottom-10 md:bottom-12 w-fit left-0 right-0 m-auto opacity-75 hover:opacity-100 transition duration-300 ease-in-out rounded-xl
                 text-md lg:text-xl px-4 py-3 uppercase whitespace-nowrap anim-reveal-bottom">
                 @pageOption($page->slug, 'discover_text', 'En savoir plus')
             </button>

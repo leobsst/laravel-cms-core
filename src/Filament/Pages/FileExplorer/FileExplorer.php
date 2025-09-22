@@ -9,7 +9,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 use Leobsst\LaravelCmsCore\Filament\Pages\FileExplorer\Tables\FileExplorerTable;
 use Leobsst\LaravelCmsCore\Services\Features\FileExplorerService;
-use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
+use Leobsst\LaravelCmsCore\Traits\Features\FileExplorer\CanNavigateThroughFileExplorer;
 
 class FileExplorer extends Page implements HasTable
 {

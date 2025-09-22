@@ -2,11 +2,22 @@
 
 namespace Leobsst\LaravelCmsCore\Livewire\Page\Partials;
 
+use Illuminate\Database\Eloquent\Collection;
+use Leobsst\LaravelCmsCore\Traits\Features\Pages\HasGalleryComponent;
 use Livewire\Component;
 
 class Content extends Component
 {
+    use HasGalleryComponent;
+
     public ?string $content = null;
+
+    public ?Collection $galleries = null;
+
+    public function mount(): void
+    {
+        $this->content = $this->getGalleryComponent($this->content, $this->galleries);
+    }
 
     /**
      * placeholder view

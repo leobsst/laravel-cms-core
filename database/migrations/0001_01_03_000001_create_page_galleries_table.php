@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryAlignment;
 use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryOrientation;
 
 return new class extends Migration
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->foreignId('page_id')->constrained('pages')->onDelete('cascade');
             $table->string('identifier');
             $table->string('orientation')->default(PageGalleryOrientation::HORIZONTAL->value);
+            $table->string('alignment')->default(PageGalleryAlignment::LEFT->value);
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();

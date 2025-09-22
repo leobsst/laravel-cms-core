@@ -22,12 +22,14 @@
 @if($page->slug === 'contact')
     <livewire:laravel-cms-core::page.partials.contact
         :content="$page->content"
+        :galleries="$page->galleries"
         :columns="Setting::get('lat') && Setting::get('long') ? 3 : 2"
         wire:key="page_contact_{{ uniqid() }}"
         lazy="on-load" />
 @elseif(! $page->no_content)
     <livewire:laravel-cms-core::page.partials.content
         :content="$page->content"
+        :galleries="$page->galleries"
         wire:key="page_content_{{ uniqid() }}"
         lazy="on-load" />
 @endif

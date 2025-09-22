@@ -12,7 +12,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Leobsst\LaravelCmsCore\Services\Features\FileExplorerService;
-use Leobsst\LaravelCmsCore\Traits\FileExplorer\CanNavigateThroughFileExplorer;
+use Leobsst\LaravelCmsCore\Traits\Features\FileExplorer\CanNavigateThroughFileExplorer;
 use Livewire\Component;
 
 class FileExplorerTable
