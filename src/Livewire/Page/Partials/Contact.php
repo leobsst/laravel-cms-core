@@ -73,7 +73,7 @@ class Contact extends Component
      */
     public function placeholder()
     {
-        return view('laravel-cms-core::components.pages.contact.placeholder');
+        return view('laravel-cms-core::components.features.pages.contact.placeholder');
     }
 
     public function sendMail()

@@ -26,7 +26,7 @@ class Content extends Component
      */
     public function placeholder()
     {
-        return view('laravel-cms-core::components.pages.content.placeholder');
+        return view('laravel-cms-core::components.features.pages.content.placeholder');
     }
 
     /**
