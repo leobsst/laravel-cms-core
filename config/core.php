@@ -34,6 +34,9 @@ return [
             'router_view' => 'laravel-cms-core::livewire.page.show',
             'content_view' => 'laravel-cms-core::livewire.page.partials.content',
             'contact_view' => 'laravel-cms-core::livewire.page.partials.contact',
+            'components' => [
+                'gallery' => 'laravel-cms-core::components.features.pages.page-gallery-component',
+            ],
         ],
 
         /**

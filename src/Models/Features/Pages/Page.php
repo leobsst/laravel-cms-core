@@ -33,6 +33,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property Collection|PageStat[] $stats
  * @property MenuChild $menu
  * @property ?PageTheme $theme
+ * @property Collection|PageGallery[] $galleries
  */
 class Page extends Model
 {
@@ -86,6 +87,11 @@ class Page extends Model
     public function theme(): BelongsTo
     {
         return $this->belongsTo(PageTheme::class, 'theme_id');
+    }
+
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(PageGallery::class, 'page_id');
     }
 
     public function getFullPathAttribute(): string

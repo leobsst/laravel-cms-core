@@ -2,8 +2,12 @@
 
 namespace Leobsst\LaravelCmsCore\Enums;
 
+use Leobsst\LaravelCmsCore\Traits\Enums\CanBeSelectableEnum;
+
 enum FieldTypeEnum: string
 {
+    use CanBeSelectableEnum;
+
     case STRING = 'string';
     case URL = 'url';
     case EMAIL = 'email';
@@ -40,18 +44,5 @@ enum FieldTypeEnum: string
             self::RANGE_FLOAT => 'Plage de nombres décimaux',
             default => $this,
         };
-    }
-
-    public static function asSelectArray(array $excluded = []): array
-    {
-        $options = [];
-        foreach (self::cases() as $case) {
-            if (in_array($case->value, $excluded)) {
-                continue;
-            }
-            $options[$case->value] = $case->title();
-        }
-
-        return $options;
     }
 }

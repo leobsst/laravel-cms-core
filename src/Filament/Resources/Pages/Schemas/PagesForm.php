@@ -6,9 +6,11 @@ use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Slider;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -21,6 +23,8 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Support\HtmlString;
+use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryOrientation;
 use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\Page;
 use Leobsst\LaravelCmsCore\Models\Features\Pages\PageTheme;
@@ -32,10 +36,12 @@ class PagesForm
         return $schema
             ->components([
                 Tabs::make()
+                    ->persistTabInQueryString()
                     ->tabs([
                         self::getContentTab(),
                         self::getMetadataTab(),
                         self::getBannerTab(),
+                        self::getGalleryTab(),
                         self::getAdvancedDataTab(),
                     ])->columnSpanFull()->contained(false),
             ]);
@@ -51,7 +57,6 @@ class PagesForm
                     ->hiddenLabel()
                     ->columnSpanFull()
                     ->columnSpan('full')
-                    ->fileAttachmentsDirectory('uploads')
                     ->fileAttachmentsDirectory('pages/content')
                     ->minHeight(720)
                     ->profile('custom')
@@ -144,7 +149,7 @@ class PagesForm
                         FileUpload::make('banner')
                             ->label('Bannière')
                             ->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/webp', 'image/gif', 'image/png'])
-                            ->maxSize('5120')
+                            ->maxSize(5120)
                             ->imageEditor()
                             ->directory('pages/banners')
                             ->columnSpanFull()
@@ -153,6 +158,64 @@ class PagesForm
                             ->imageResizeMode('cover')
                             ->imageCropAspectRatio('16:9'),
                     ]),
+            ]);
+    }
+
+    private static function getGalleryTab(): Tab
+    {
+        return Tab::make('Galeries')
+            ->icon('heroicon-o-rectangle-stack')
+            ->schema([
+                Section::make('Conseil')
+                    ->icon('heroicon-o-light-bulb')
+                    ->iconColor('yellow')
+                    ->collapsible()
+                    ->schema([
+                        Placeholder::make('advice')
+                            ->hiddenLabel()
+                            ->content(new HtmlString("
+                                Pour insérer une galerie d'images dans le contenu de votre page,<br>
+                                insérez le shortcode correspondant dans le contenu, par exemple : <strong>[[gallery:identifiant_de_la_galerie]]</strong>
+                            "))
+                            ->columnSpanFull(),
+                    ]),
+                Repeater::make('galleries')
+                    ->relationship('galleries')
+                    ->hiddenLabel()
+                    ->columns(2)
+                    ->createItemButtonLabel('Ajouter une galerie')
+                    ->itemLabel(fn ($state): ?string => $state['identifier'] ?? null)
+                    ->defaultItems(0)
+                    ->collapsible()
+                    ->schema([
+                        TextInput::make('identifier')
+                            ->label('Identifiant')
+                            ->required()
+                            ->prefix('[[gallery:')
+                            ->suffix(']]')
+                            ->placeholder('Identifiant de la galerie')
+                            ->maxLength(100)
+                            ->unique(table: 'page_galleries', column: 'identifier', ignoreRecord: true, modifyRuleUsing: fn ($rule) => $rule->where('page_id', request()->route('record')))
+                            ->copyable(copyMessage: 'Identifiant copié !'),
+                        Select::make('orientation')
+                            ->label('Orientation')
+                            ->disablePlaceholderSelection()
+                            ->options(PageGalleryOrientation::asSelectArray())
+                            ->default(PageGalleryOrientation::HORIZONTAL)
+                            ->required(),
+                        SpatieMediaLibraryFileUpload::make('images')
+                            ->label('Images')
+                            ->multiple()
+                            ->enableReordering()
+                            ->collection('images')
+                            ->downloadable()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([null, '16:9', '1:1'])
+                            ->imageEditorMode(3)
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('16:9')
+                            ->columnSpanFull(),
+                    ])->columnSpanFull(),
             ]);
     }
 
@@ -170,6 +233,7 @@ class PagesForm
                     ->addable(auth()->user()->hasRole('admin'))
                     ->deletable(auth()->user()->hasRole('admin'))
                     ->itemLabel(fn ($state): ?string => $state['name'] ?? null)
+                    ->defaultItems(0)
                     ->collapsible()
                     ->schema([
                         TextInput::make('key')
