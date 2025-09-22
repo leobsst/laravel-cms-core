@@ -2,12 +2,13 @@
 
 namespace Leobsst\LaravelCmsCore\Models\Features\Pages;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryOrientation;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryAlignment;
+use Leobsst\LaravelCmsCore\Enums\Features\Pages\PageGalleryOrientation;
 
 /**
  * Class PageGallery
@@ -16,6 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int $page_id
  * @property string $identifier
  * @property PageGalleryOrientation $orientation
+ * @property PageGalleryAlignment $alignment
  * @property ?string $name
  * @property ?string $description
  * @property Media[] $media
@@ -29,12 +31,14 @@ class PageGallery extends Model implements HasMedia
         'page_id',
         'identifier',
         'orientation',
+        'alignment',
         'name',
         'description',
     ];
 
     protected $casts = [
         'orientation' => PageGalleryOrientation::class,
+        'alignment' => PageGalleryAlignment::class,
     ];
 
     public function page(): BelongsTo
