@@ -22,6 +22,8 @@ class FailedJobsForm
                 Section::make('raw')
                     ->columns(1)
                     ->collapsible()
+                    ->columnSpanFull()
+                    ->contained(false)
                     ->schema([
                         Textarea::make('exception')
                             ->disabled()
@@ -32,6 +34,8 @@ class FailedJobsForm
                     ->columns(1)
                     ->collapsible()
                     ->collapsed()
+                    ->columnSpanFull()
+                    ->contained(false)
                     ->schema([
                         JsonColumn::make('exception')
                             ->hiddenLabel()
