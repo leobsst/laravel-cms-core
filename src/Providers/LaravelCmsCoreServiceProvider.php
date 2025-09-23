@@ -137,17 +137,18 @@ class LaravelCmsCoreServiceProvider extends ServiceProvider
 
     private function getSchedule(Schedule $schedule): void
     {
-        $schedule->command('queue:work --queue=emails --stop-when-empty --tries=3 --backoff=5')
-            ->everySecond()
-            ->withoutOverlapping();
+        // Better to run the queue worker with a process manager like Supervisor
+        // $schedule->command('queue:work --queue=emails --stop-when-empty --tries=3 --backoff=5')
+        //     ->everySecond()
+        //     ->withoutOverlapping();
 
-        $schedule->command('queue:work --queue=high --stop-when-empty --tries=3 --backoff=5')
-            ->everySecond()
-            ->withoutOverlapping();
+        // $schedule->command('queue:work --queue=high --stop-when-empty --tries=3 --backoff=5')
+        //     ->everySecond()
+        //     ->withoutOverlapping();
 
-        $schedule->command('queue:work --queue=default --stop-when-empty --tries=3 --backoff=5')
-            ->everyMinute()
-            ->withoutOverlapping();
+        // $schedule->command('queue:work --queue=default --stop-when-empty --tries=3 --backoff=5')
+        //     ->everyMinute()
+        //     ->withoutOverlapping();
 
         $schedule->command('queue:flush --hours=48')
             ->daily()
