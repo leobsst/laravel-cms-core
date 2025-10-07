@@ -1,0 +1,104 @@
+{
+    "name": "leobsst/laravel-cms-core",
+    "description": "Here's the core of my CMS for my use case",
+    "homepage": "https://github.com/leobsst/laravel-cms-core",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "LEOBSST",
+        "laravel",
+        "BLAM PRODUCTION",
+        "laravel-cms-core"
+    ],
+    "support": {
+        "issues": "https://github.com/leobsst/laravel-cms-core/issues",
+        "source": "https://github.com/leobsst/laravel-cms-core"
+    },
+    "autoload": {
+        "psr-4": {
+            "Leobsst\\LaravelCmsCore\\": "src/"
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "LEOBSST",
+            "email": "contact@leobsst.fr",
+            "homepage": "https://www.linksly.fr/LEOBSST",
+            "role": "Developer"
+        },
+        {
+            "name": "B.L.A.M. PRODUCTION",
+            "email": "contact@blam-prod.fr",
+            "homepage": "https://blam-prod.fr",
+            "role": "Provider"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "althinect/filament-spatie-roles-permissions": "3.x-dev",
+        "amidesfahani/filament-tinyeditor": "^4.0.1",
+        "filament/filament": "^4.0",
+        "filament/spatie-laravel-media-library-plugin": "^4.0",
+        "filament/spatie-laravel-tags-plugin": "^4.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "intervention/image": "^3.10",
+        "laravel/framework": "^11.9",
+        "laravel/passport": "^12.0",
+        "laravel/pennant": "^1.18",
+        "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.29",
+        "league/flysystem-sftp-v3": "^3.29",
+        "leobsst/filament-log-manager": "^1.0",
+        "livewire/livewire": "*",
+        "maatwebsite/excel": "^3.1",
+        "saloonphp/xml-wrangler": "^1.4",
+        "spatie/laravel-package-tools": "^1.0",
+        "spatie/laravel-pdf": "^1.5",
+        "timwassenburg/laravel-service-generator": "^1.0",
+        "valentin-morice/filament-json-column": "dev-dev",
+        "wire-elements/modal": "^2.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.1",
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.14",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.8",
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leobsst\\LaravelCmsCore\\Providers\\LaravelCmsCoreServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    }
+}
