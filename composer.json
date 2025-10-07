@@ -16,6 +16,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Leobsst\\LaravelCmsCore\\Tests\\": "tests/",
             "Leobsst\\LaravelCmsCore\\": "src/"
         },
         "files": [

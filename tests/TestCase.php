@@ -3,6 +3,7 @@
 namespace Leobsst\LaravelCmsCore\Tests;
 
 use Leobsst\LaravelCmsCore\Providers\LaravelCmsCoreServiceProvider;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -37,6 +38,7 @@ class TestCase extends Orchestra
     {
         return [
             LaravelCmsCoreServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
@@ -65,11 +67,5 @@ class TestCase extends Orchestra
         config()->set('laravel-cms-core.log_dirs', [storage_path('logs')]);
         config()->set('laravel-cms-core.max_file_size', 1024 * 1024); // 1MB
         config()->set('laravel-cms-core.limit', 1000);
-
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
     }
 }
