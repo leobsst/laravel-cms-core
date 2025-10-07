@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Leobsst\LaravelCmsCore\Enums\FieldTypeEnum;
 
+/**
+ * @property string $name
+ * @property FieldTypeEnum $type
+ * @property mixed $value
+ * @property mixed $default_value
+ * @property int $page_id
+ */
 class PageOption extends Model
 {
     protected $fillable = [

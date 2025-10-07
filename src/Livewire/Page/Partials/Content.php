@@ -36,6 +36,6 @@ class Content extends Component
      */
     public function render()
     {
-        return view(config('core.features.pages.content_view', 'laravel-cms-core::livewire.page.partials.content'));
+        return view(config('cms-core.features.pages.content_view', 'laravel-cms-core::livewire.page.partials.content'));
     }
 }

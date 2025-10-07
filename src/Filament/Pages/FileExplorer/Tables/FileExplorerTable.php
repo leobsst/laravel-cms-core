@@ -66,7 +66,7 @@ class FileExplorerTable
                 try {
                     return $adapter->url($path);
                 } catch (\Throwable) {
-                    return route('file-explorer.open', ['disk' => $disk, 'path' => $path]);
+                    return route('core.file-explorer.open', ['disk' => $disk, 'path' => $path]);
                 }
             })
             ->openRecordUrlInNewTab()

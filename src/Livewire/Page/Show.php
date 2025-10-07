@@ -80,7 +80,7 @@ class Show extends Component
             )
             ->first();
 
-        if ($this->page->galleries->count() > 0) {
+        if ($this->page?->galleries->count() > 0) {
             $this->page->galleries->load('media:id,model_id,collection_name,name,file_name,mime_type,disk,size,manipulations,custom_properties,order_column');
         }
     }
@@ -137,6 +137,6 @@ class Show extends Component
      */
     public function render()
     {
-        return view(config('core.features.pages.router_view', 'laravel-cms-core::livewire.page.show'));
+        return view(config('cms-core.features.pages.router_view', 'laravel-cms-core::livewire.page.show'));
     }
 }

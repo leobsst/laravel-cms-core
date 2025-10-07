@@ -26,7 +26,7 @@ class FileExplorerService
                 type: FileExplorerItemTypeEnum::INDEX,
                 name: $disk
             )->toArray();
-        }, config('core.features.file_explorer.disks'));
+        }, config('cms-core.features.file_explorer.disks'));
     }
 
     public function getFinder(?string $path = null): array

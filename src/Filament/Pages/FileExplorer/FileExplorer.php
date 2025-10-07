@@ -34,7 +34,7 @@ class FileExplorer extends Page implements HasTable
 
     public static function getNavigationIcon(): string
     {
-        return config('core.file_explorer.navigation_icon', 'heroicon-o-folder');
+        return config('cms-core.file_explorer.navigation_icon', 'heroicon-o-folder');
     }
 
     public static function getNavigationLabel(): string
@@ -49,7 +49,7 @@ class FileExplorer extends Page implements HasTable
 
     public static function getNavigationGroup(): ?string
     {
-        return config('core.file_explorer.navigation_group', 'Personnalisation');
+        return config('cms-core.file_explorer.navigation_group', 'Personnalisation');
     }
 
     public function setListView(): void

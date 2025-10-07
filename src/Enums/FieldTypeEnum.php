@@ -42,7 +42,6 @@ enum FieldTypeEnum: string
             self::TEXTAREA => 'Zone de texte',
             self::RANGE_INT => 'Plage de nombres entiers',
             self::RANGE_FLOAT => 'Plage de nombres décimaux',
-            default => $this,
         };
     }
 }

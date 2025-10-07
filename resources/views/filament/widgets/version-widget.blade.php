@@ -5,7 +5,7 @@
                 {{ Setting::get('website_name') }}
             </h2>
             <p class="fi-account-widget-user-name">
-                v{{ config('core.APP_VERSION') }}
+                v{{ config('cms-core.APP_VERSION') }}
             </p>
         </div>
         <form class="fi-account-widget-logout-form">

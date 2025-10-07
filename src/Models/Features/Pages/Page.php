@@ -28,7 +28,7 @@ use Leobsst\LaravelCmsCore\Models\Features\Menus\MenuChild;
  * @property bool $no_footer
  * @property ?string $published_at
  * @property string $full_path
- * @property PageOption[] $options
+ * @property \Illuminate\Database\Eloquent\Collection<int, PageOption> $options
  * @property PagesSeo $seo
  * @property Collection|PageStat[] $stats
  * @property MenuChild $menu

@@ -17,7 +17,7 @@ class PageGalleryComponent extends Component
      */
     public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
-        return view(config('core.features.pages.components.gallery', 'laravel-cms-core::components.features.pages.gallery.page-gallery-component'), [
+        return view(config('cms-core.features.pages.components.gallery', 'laravel-cms-core::components.features.pages.gallery.page-gallery-component'), [
             'gallery' => $this->gallery,
             'media' => $this->gallery->getMedia('images')->sortByDesc('order_column'),
         ]);

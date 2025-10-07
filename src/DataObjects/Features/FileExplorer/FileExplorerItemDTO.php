@@ -45,8 +45,8 @@ final class FileExplorerItemDTO
             );
         }
 
-        $mime = \Storage::disk($disk)->mimeType($item) ?? null;
-        $size = \Storage::disk($disk)->size($item) ?? null;
+        $mime = \Storage::disk($disk)->mimeType($item);
+        $size = \Storage::disk($disk)->size($item);
 
         return new self(
             type: FileExplorerItemTypeEnum::FILE,
@@ -54,7 +54,7 @@ final class FileExplorerItemDTO
             disk: $disk,
             path: $item,
             mime: $mime,
-            size: is_numeric($size) ? (int) $size : null,
+            size: $size !== false ? $size : null,
         );
     }
 

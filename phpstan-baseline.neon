@@ -1,0 +1,568 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Strict comparison using \=\=\= between \(array\<string\>\|string\) and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Console/Commands/Translation/AddTranslationToFile.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between \(array\<string\>\|string\) and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Console/Commands/Translation/Translate.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between int and false will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/DataObjects/Features/FileExplorer/FileExplorerItemDTO.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/DataObjects/Features/Pages/PageDTO.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Auth/EditProfile.php
+
+		-
+			message: '#^Access to an undefined property Filament\\Models\\Contracts\\FilamentUser&Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Auth/Login.php
+
+		-
+			message: '#^Call to an undefined method Filament\\Models\\Contracts\\FilamentUser&Illuminate\\Contracts\\Auth\\Authenticatable\:\:log\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Auth/Login.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Filament/Auth/Login.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Pages/FileExplorer/FileExplorer.php
+
+		-
+			message: '''
+				#^Call to deprecated method actions\(\) of class Filament\\Tables\\Table\:
+				Use `recordActions\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: src/Filament/Pages/FileExplorer/Tables/FileExplorerTable.php
+
+		-
+			message: '''
+				#^Call to deprecated method form\(\) of class Filament\\Actions\\Action\:
+				Use `schema\(\) instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: src/Filament/Pages/FileExplorer/Tables/FileExplorerTable.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/Filament/Pages/FileExplorer/Tables/FileExplorerTable.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \*NEVER\* and ''resetTable'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/Filament/Pages/FileExplorer/Tables/FileExplorerTable.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Illuminate\\Filesystem\\FilesystemAdapter and ''temporaryUrl'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Filament/Pages/FileExplorer/Tables/FileExplorerTable.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$livewire contains unresolvable type\.$#'
+			identifier: varTag.unresolvableType
+			count: 6
+			path: src/Filament/Pages/FileExplorer/Tables/FileExplorerTable.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/FailedJobs/FailedJobResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Features/FeatureResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/HistoryMails/HistoryMailResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/JobBatches/JobBatchResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Jobs/JobResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Logs/LogResource.php
+
+		-
+			message: '#^Parameter \#1 \$user of job class Leobsst\\LaravelCmsCore\\Jobs\\SendLogs constructor expects Illuminate\\Auth\\Authenticatable\|Leobsst\\LaravelCmsCore\\Models\\User in Leobsst\\LaravelCmsCore\\Jobs\\SendLogs\:\:dispatch\(\), Illuminate\\Foundation\\Auth\\User\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Filament/Resources/Logs/Tables/LogsTable.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Menus/MenuResource.php
+
+		-
+			message: '#^Cannot access property \$name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Menus/Pages/EditMenu.php
+
+		-
+			message: '#^Cannot access property \$id on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Menus/Schemas/MenusForm.php
+
+		-
+			message: '#^Cannot access property \$name on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Menus/Schemas/MenusForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/PageResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/PageResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$theme\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/PageResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/PageResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/PageResource.php
+
+		-
+			message: '#^Cannot access property \$is_default on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/EditPage.php
+
+		-
+			message: '#^Cannot access property \$is_default on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/ViewPage.php
+
+		-
+			message: '#^Cannot access property \$title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/ViewPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 7
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '''
+				#^Call to deprecated method createItemButtonLabel\(\) of class Filament\\Forms\\Components\\Repeater\:
+				Use `addActionLabel\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '''
+				#^Call to deprecated method disablePlaceholderSelection\(\) of class Filament\\Forms\\Components\\Select\:
+				Use `selectablePlaceholder\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '''
+				#^Call to deprecated method enableReordering\(\) of class Filament\\Forms\\Components\\BaseFileUpload\:
+				Use `reorderable\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '''
+				#^Call to method content\(\) of deprecated class Filament\\Forms\\Components\\Placeholder\:
+				Use `TextEntry` with the `state\(\)` method instead\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '''
+				#^Call to static method make\(\) on deprecated class Filament\\Forms\\Components\\Placeholder\:
+				Use `TextEntry` with the `state\(\)` method instead\.$#
+			'''
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '#^Parameter \#1 \$size of method Filament\\Forms\\Components\\BaseFileUpload\:\:maxSize\(\) expects Closure\|int\|null, ''5120'' given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Filament/Resources/Pages/Schemas/PagesForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Settings/Schemas/SettingsForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$setting_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Settings/Schemas/SettingsForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Settings/Schemas/SettingsForm.php
+
+		-
+			message: '#^Parameter \#1 \$size of method Filament\\Forms\\Components\\BaseFileUpload\:\:maxSize\(\) expects Closure\|int\|null, ''5120'' given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Filament/Resources/Settings/Schemas/SettingsForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Settings/SettingResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$value\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Settings/SettingResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Settings/SettingResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Filament/Resources/Settings/Tables/SettingsTable.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Users/Schemas/UsersForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Filament/Resources/Users/Schemas/UsersForm.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: mixed$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Filament/Resources/Users/Tables/UsersTable.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Users/UserResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Users/UserResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Users/UserResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Widgets/Last30DaysVisit.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$avatar_url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$bio\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:emails\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Middleware/Developer.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Middleware/Editor.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Middleware/Maintenance.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Foundation\\Auth\\User\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Middleware/Owner.php
+
+		-
+			message: '#^Parameter \$user of method Leobsst\\LaravelCmsCore\\Jobs\\SendLogs\:\:__construct\(\) has invalid type Illuminate\\Auth\\Authenticatable\.$#'
+			identifier: parameter.trait
+			count: 1
+			path: src/Jobs/SendLogs.php
+
+		-
+			message: '#^Property Leobsst\\LaravelCmsCore\\Jobs\\SendLogs\:\:\$user has invalid type Illuminate\\Auth\\Authenticatable\.$#'
+			identifier: property.trait
+			count: 1
+			path: src/Jobs/SendLogs.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 3
+			path: src/Livewire/Page/Partials/Contact.php
+
+		-
+			message: '#^Instanceof between Illuminate\\Contracts\\View\\View and Illuminate\\Contracts\\View\\View will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Livewire/Page/Partials/Contact.php
+
+		-
+			message: '#^Instanceof between Illuminate\\Contracts\\View\\View and Illuminate\\Contracts\\View\\View will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Livewire/Page/Partials/Content.php
+
+		-
+			message: '#^Access to an undefined property Leobsst\\LaravelCmsCore\\Models\\Features\\Pages\\Page\:\:\$android\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Livewire/Page/Show.php
+
+		-
+			message: '#^Access to an undefined property Leobsst\\LaravelCmsCore\\Models\\Features\\Pages\\Page\:\:\$ios\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Livewire/Page/Show.php
+
+		-
+			message: '#^Access to an undefined property Leobsst\\LaravelCmsCore\\Models\\Features\\Pages\\Page\:\:\$other\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Livewire/Page/Show.php
+
+		-
+			message: '#^PHPDoc type mixed of property Leobsst\\LaravelCmsCore\\Mail\\ContactClient\:\:\$subject is not covariant with PHPDoc type string of overridden property Illuminate\\Mail\\Mailable\:\:\$subject\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Mail/ContactClient.php
+
+		-
+			message: '#^PHPDoc type mixed of property Leobsst\\LaravelCmsCore\\Mail\\ContactCustomer\:\:\$subject is not covariant with PHPDoc type string of overridden property Illuminate\\Mail\\Mailable\:\:\$subject\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Mail/ContactCustomer.php
+
+		-
+			message: '#^Relation ''children'' is not found in Leobsst\\LaravelCmsCore\\Models\\Features\\Menus\\Menu model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: src/Models/Features/Menus/Menu.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:withResponsiveImages\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Models/Features/Pages/PageGallery.php
+
+		-
+			message: '#^Access to property \$email on an unknown class Illuminate\\Auth\\Authenticatable\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Models/Log.php
+
+		-
+			message: '#^Call to method log\(\) on an unknown class Illuminate\\Auth\\Authenticatable\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Models/Log.php
+
+		-
+			message: '#^Parameter \$user of method Leobsst\\LaravelCmsCore\\Models\\Log\:\:sendLogsToEmail\(\) has invalid type Illuminate\\Auth\\Authenticatable\.$#'
+			identifier: parameter.trait
+			count: 1
+			path: src/Models/Log.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Leobsst\\LaravelCmsCore\\Models\\User\:\:\$app_authentication_recovery_codes\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Leobsst\\LaravelCmsCore\\Models\\User\:\:\$app_authentication_secret\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Leobsst\\LaravelCmsCore\\Models\\User\:\:\$has_email_authentication\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/User.php
+
+		-
+			message: '#^PHPDoc type array\<int, string\> of property Leobsst\\LaravelCmsCore\\Models\\User\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^PHPDoc type array\<int, string\> of property Leobsst\\LaravelCmsCore\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$value\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/helpers.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 1
+			path: src/Validators/ReCaptcha.php

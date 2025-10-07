@@ -22,7 +22,6 @@ enum SettingCategoryEnum: string
             self::PAYMENT => 'Paiement',
             self::SECURITY => 'Administration',
             self::BUSINESS => 'Entreprise',
-            default => 'Unknown',
         };
     }
 }

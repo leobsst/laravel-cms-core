@@ -22,8 +22,6 @@ class AddTranslationToFile extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param  string  $path
      */
     public function handle()
     {
@@ -57,10 +55,10 @@ class AddTranslationToFile extends Command
         }
 
         $translations = [];
-        $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
+        $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction') ?? '');
 
-        while (trim(strlen($newKey)) === 0 || is_null($newKey)) {
-            $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
+        while (trim($newKey) === '' || $newKey === null) {
+            $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction') ?? '');
         }
 
         while ($this->confirm('Confirmer la clé de traduction ' . $newKey . ' ?', true) === false) {
@@ -71,12 +69,16 @@ class AddTranslationToFile extends Command
             $newPath = $path . '/' . $language . '/' . implode('/', $fileName);
 
             if (! is_dir($newPath)) {
-                return $this->error('Le dossier ' . $newPath . ' n\'existe pas.');
+                $this->error('Le dossier ' . $newPath . ' n\'existe pas.');
+
+                return 1;
             }
 
             $file = $newPath . '/' . $name . '.php';
             if (! file_exists($file)) {
-                return $this->error('Le fichier ' . $file . ' n\'existe pas.');
+                $this->error('Le fichier ' . $file . ' n\'existe pas.');
+
+                return 1;
             } else {
                 $translations[$language] = require $file;
                 $translations[$language][$newKey] = str_replace("\'", "'", $this->ask('Entrer la traduction pour ' . $language));

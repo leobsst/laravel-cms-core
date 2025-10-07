@@ -1,5 +1,5 @@
 @pushOnce('scripts')
-<script src="https://www.google.com/recaptcha/api.js?render={{config('core.RECAPTCHA_SITE_KEY')}}" async></script>
+<script src="https://www.google.com/recaptcha/api.js?render={{config('cms-core.RECAPTCHA_SITE_KEY')}}" async></script>
 @endpushOnce
 <div>
     <div class="mb-8 mt-24 p-4" wire:key='contact_{{uniqid()}}'>
@@ -100,10 +100,10 @@
                     <button
                         x-show="consent"
                         x-bind:disabled="!consent"
-                        @if(filled(config('core.RECAPTCHA_SITE_KEY')) && filled(config('core.RECAPTCHA_SECRET_KEY')))
+                        @if(filled(config('cms-core.RECAPTCHA_SITE_KEY')) && filled(config('cms-core.RECAPTCHA_SECRET_KEY')))
                         x-on:click="() => {
                             grecaptcha.ready(() => {
-                                grecaptcha.execute('{{config('core.RECAPTCHA_SITE_KEY')}}').then((token) => {
+                                grecaptcha.execute('{{config('cms-core.RECAPTCHA_SITE_KEY')}}').then((token) => {
                                     @this.set('captcha', token);
                                     @this.call('sendMail');
                                 });
@@ -200,7 +200,7 @@
                             frameborder="0"
                             loading="lazy"
                             title="{{Setting::get('website_name')}} GPS"
-                            src="https://www.google.com/maps/embed/v1/place?q={{Setting::get('lat')}},{{Setting::get('long')}}&key={{config('core.GOOGLE_MAPS_API_KEY')}}"
+                            src="https://www.google.com/maps/embed/v1/place?q={{Setting::get('lat')}},{{Setting::get('long')}}&key={{config('cms-core.GOOGLE_MAPS_API_KEY')}}"
                         >
                         </iframe>
                     </div>

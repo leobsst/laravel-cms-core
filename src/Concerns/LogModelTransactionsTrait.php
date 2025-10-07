@@ -13,7 +13,7 @@ trait LogModelTransactionsTrait
     protected function log(Model $model, string $message, $table = null, $id = null)
     {
         $table = $table ?: $model->getTable();
-        $id = $id ?: $model->id;
+        $id = $id ?: ($model->getKey() ?? null);
 
         LogModel::create(attributes: [
             'creator_id' => auth()->id(),

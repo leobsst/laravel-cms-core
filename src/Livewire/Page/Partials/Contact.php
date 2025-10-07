@@ -152,6 +152,6 @@ class Contact extends Component
      */
     public function render()
     {
-        return view(config('core.features.pages.conttact_view', 'laravel-cms-core::livewire.page.partials.contact'));
+        return view(config('cms-core.features.pages.conttact_view', 'laravel-cms-core::livewire.page.partials.contact'));
     }
 }

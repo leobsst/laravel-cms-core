@@ -22,18 +22,16 @@ class Translate extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param  string  $languages  (default: fr,es)
      */
     public function handle()
     {
         $languages = explode(',', $this->argument('languages'));
         $path = base_path('lang');
 
-        $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
+        $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction') ?? '');
 
-        while (trim(strlen($newKey)) === 0 || is_null($newKey)) {
-            $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction'));
+        while (trim($newKey) === '' || $newKey === null) {
+            $newKey = str_replace("\'", "'", $this->ask('Entrer la nouvelle clé de traduction') ?? '');
         }
 
         while ($this->confirm('Confirmer la clé de traduction ' . $newKey . ' ?', true) === false) {

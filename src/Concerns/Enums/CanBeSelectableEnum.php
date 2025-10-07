@@ -12,13 +12,7 @@ trait CanBeSelectableEnum
                 continue;
             }
 
-            if (method_exists($case, 'title')) {
-                $options[$case->value] = $case->title();
-
-                continue;
-            }
-
-            $options[$case->value] = $case->value;
+            $options[$case->value] = $case->title();
         }
 
         return $options;

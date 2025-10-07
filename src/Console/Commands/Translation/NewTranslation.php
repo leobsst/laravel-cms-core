@@ -22,9 +22,6 @@ class NewTranslation extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param  string  $name
-     * @param  string  $languages  (default: fr,es)
      */
     public function handle()
     {

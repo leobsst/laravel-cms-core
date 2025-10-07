@@ -35,7 +35,7 @@ class Login extends \Filament\Auth\Pages\Login
         /** @var SessionGuard $authGuard */
         $authGuard = Filament::auth();
 
-        $authProvider = $authGuard->getProvider(); /** @phpstan-ignore-line */
+        $authProvider = $authGuard->getProvider();
         $credentials = array_merge($this->getCredentialsFromFormData([
             'email' => $userEmails->first()?->user?->email ?? $data['email'],
             'password' => $data['password'],

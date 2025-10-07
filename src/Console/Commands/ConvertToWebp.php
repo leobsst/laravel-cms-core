@@ -94,8 +94,8 @@ class ConvertToWebp extends Command
                 $log->type = LogType::CRON->value;
                 $log->status = LogStatus::SUCCESS->value;
                 $log->message = $message;
-                $log->updated_at = now();
-                $log->data = json_encode(value: $formatedArray);
+                $log->touch(); // Updates updated_at
+                $log->data = $formatedArray;
                 $log->update();
 
                 dump(vars: $formatedArray);

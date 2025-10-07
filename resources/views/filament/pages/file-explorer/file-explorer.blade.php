@@ -37,7 +37,7 @@
                                 $url = $adapter->url($path);
                             }
                         } catch (\Throwable $e) {
-                            $url = route('file-explorer.open', ['disk' => $disk, 'path' => $path]);
+                            $url = route('core.file-explorer.open', ['disk' => $disk, 'path' => $path]);
                         }
                     }
                 @endphp
