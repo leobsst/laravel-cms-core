@@ -247,7 +247,7 @@ class insertDefaultSettings extends Seeder
                     'name' => $configuration['name'],
                 ], [
                     'value' => $configuration['value'],
-                    'default_value' => $configuration['default_value'] ?? $configuration['value'],
+                    'default_value' => array_key_exists('default_value', $configuration) ? $configuration['default_value'] : $configuration['value'], // @phpstan-ignore-line
                     'type' => $configuration['type'] ?? FieldTypeEnum::STRING,
                     'enabled' => $configuration['enabled'] ?? true,
                     'category' => $configuration['category'] ?? SettingCategoryEnum::GENERAL,

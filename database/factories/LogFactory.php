@@ -8,7 +8,7 @@ use Leobsst\LaravelCmsCore\Enums\LogType;
 use Leobsst\LaravelCmsCore\Models\User;
 
 /**
- * @extends Factory
+ * @extends Factory<\Leobsst\LaravelCmsCore\Models\Log>
  */
 class LogFactory extends Factory
 {
@@ -16,6 +16,7 @@ class LogFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     * @phpstan-ignore-next-line
      */
     public function definition(): array
     {
