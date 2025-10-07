@@ -2,9 +2,10 @@
 
 <h1 style="text-align: center;">My Laravel CMS core</h1>
 
-<p align="center">
-<a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="MIT Licensed"></a>
-</p>
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/leobsst/laravel-cms-core.svg?style=flat-square)](https://packagist.org/packages/leobsst/laravel-cms-core)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/leobsst/laravel-cms-core/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/leobsst/laravel-cms-core/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/leobsst/laravel-cms-core.svg?style=flat-square)](https://packagist.org/packages/leobsst/laravel-cms-core)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 
 

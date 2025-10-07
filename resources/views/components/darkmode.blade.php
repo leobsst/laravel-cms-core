@@ -14,7 +14,7 @@
             role="switch"
             aria-checked="false"
         >
-            <span class="sr-only">Dark mode toggle</span>
+            <span class="sr-only">Toggle Dark mode</span>
             <span
                 x-bind:class="darkMode ? 'translate-x-5 bg-gray-700' : 'translate-x-0 bg-white'"
                 class="pointer-events-none relative inline-block h-5 w-5
