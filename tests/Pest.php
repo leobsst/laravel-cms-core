@@ -11,7 +11,7 @@
 |
 */
 
-pest()->extend(Leobsst\LaravelCmsCore\Tests\TestCase::class)
+pest()->extend(Tests\TestCase::class)
     ->in('Feature');
 
 /*

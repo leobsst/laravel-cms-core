@@ -16,12 +16,16 @@
     },
     "autoload": {
         "psr-4": {
-            "Leobsst\\LaravelCmsCore\\Tests\\": "tests/",
             "Leobsst\\LaravelCmsCore\\": "src/"
         },
         "files": [
             "src/Support/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "authors": [
         {

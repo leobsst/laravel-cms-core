@@ -1,6 +1,6 @@
 <?php
 
-namespace Leobsst\LaravelCmsCore\Tests;
+namespace Tests;
 
 use Leobsst\LaravelCmsCore\Providers\LaravelCmsCoreServiceProvider;
 use Livewire\LivewireServiceProvider;
