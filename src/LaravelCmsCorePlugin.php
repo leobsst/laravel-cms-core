@@ -13,6 +13,7 @@ use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -82,7 +83,11 @@ class LaravelCmsCorePlugin implements Plugin
             ->spa()
             ->globalSearch()
             ->viteTheme('resources/css/filament/core/theme.css')
-            ->navigationItems($this->registerNavigationItems());
+            ->navigationItems($this->registerNavigationItems())
+            ->renderHook(
+                PanelsRenderHook::SIDEBAR_FOOTER,
+                fn () => view('laravel-cms-core::filament.hooks.fix-sidebar-position')
+            );
     }
 
     /**
