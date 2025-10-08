@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.1.3 - 2025-10-08
+
+Fixed the position of the sidebar when switching tabs in the admin panel.
+
+**Full Changelog**: https://github.com/leobsst/laravel-cms-core/compare/v1.1.2...v1.1.3
+
 ## v1.1.2 - 2025-10-07
 
 - Cleaned project
