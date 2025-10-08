@@ -1,8 +1,0 @@
-includes:
-    - phpstan.neon.dist
-
-parameters:
-    ignoreErrors:
-        # GitHub Actions specific errors - view-string type issues
-        - '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-        - '#^Property .+::\$view \(view\-string\) does not accept default value of type string\.$#'

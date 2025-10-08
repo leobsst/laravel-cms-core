@@ -1,5 +1,7 @@
 parameters:
 	ignoreErrors:
+		- '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+		- '#^Property .+::\$view \(view\-string\) does not accept default value of type string\.$#'
 		-
 			message: '#^Strict comparison using \=\=\= between \(array\<string\>\|string\) and null will always evaluate to false\.$#'
 			identifier: identical.alwaysFalse
