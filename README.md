@@ -48,6 +48,7 @@ If you've found a bug regarding security please mail [contact@leobsst.fr](mailto
 ## Credits
 
 - [LEOBSST](https://github.com/LEOBSST)
+- [B.L.A.M. PRODUCTION](https://linksly.fr/BLAM-PRODUCTION)
 
 ## License
 
